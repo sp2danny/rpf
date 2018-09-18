@@ -12,6 +12,7 @@ struct xx ## Operator final : Operator                                 \
 	virtual void MatchDir   ( File&, FileMatchStack ) override;        \
 	virtual void MatchFile  ( File&, FileMatchStack ) override;        \
 	virtual void MatchLines ( File&, LineMatchStack ) override;        \
+	virtual void Register   (                       ) override;        \
 };
 
 MAKE_OPER( File );

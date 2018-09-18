@@ -1,30 +1,35 @@
 
-/*
-struct Operator
+#include "../operators.h"
+
+void FileOperator::Register()
 {
+	auto maker = [](std::string s) -> clone_ptr<Operator>
+	{
+		auto fo = clone_ptr<FileOperator>(FileOperator{s});
+		return clone_ptr<Operator>(fo);
+	};
+	Operator::Register( MyChar() , +maker );
+}
 
-	virtual char MyChar() = 0;
-	virtual void Create(std::string) = 0;
-
-	static void Register(char, OperatorMaker);
-	static clone_ptr<Operator> DispatchCreate(std::string);
-
-	virtual void MatchDir   ( File&, FileMatchStack ) = 0;
-	virtual void MatchFile  ( File&, FileMatchStack ) = 0;
-	virtual void MatchLines ( File&, LineMatchStack ) = 0;
-
-private:
-	static std::map<char, OperatorMaker> createMap;
-
-};
-*/
-
-struct FileOperator final : Operator
+char FileOperator::MyChar()
 {
-	virtual char MyChar     (                       ) override;
-	virtual void Create     ( std::string           ) override;
-	virtual void MatchDir   ( File&, FileMatchStack ) override;
-	virtual void MatchFile  ( File&, FileMatchStack ) override;
-	virtual void MatchLines ( File&, LineMatchStack ) override;
-};
+	return 'f';
+}
+
+void FileOperator::Create ( std::string str )
+{
+}
+
+void FileOperator::MatchDir ( File&, FileMatchStack )
+{
+}
+
+void FileOperator::MatchFile ( File&, FileMatchStack )
+{
+}
+
+void FileOperator::MatchLines ( File&, LineMatchStack )
+{
+}
+
 

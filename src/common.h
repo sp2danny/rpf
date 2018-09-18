@@ -74,7 +74,7 @@ typedef std::vector<FileMatch> FileMatchStack;
 
 struct Operator;
 
-typedef clone_ptr<Operator> (*OperatorMaker)();
+typedef clone_ptr<Operator> (*OperatorMaker)(std::string);
 
 struct File;
 
@@ -87,6 +87,8 @@ struct Operator
 
 	static void Register(char, OperatorMaker);
 	static clone_ptr<Operator> DispatchCreate(std::string);
+
+	virtual void Register() = 0;
 
 	virtual void MatchDir   ( File&, FileMatchStack ) = 0;
 	virtual void MatchFile  ( File&, FileMatchStack ) = 0;

@@ -33,60 +33,106 @@ std::time_t get_modification_time_from_file(std::string fn)
 
 struct RDE::PIMPL
 {
-	std::string   path;
-	DIR*          dir;
-	optional<RDE> next;
+	std::string path;
+	DIR*        dir = nullptr;
+	UPIMPL      next;
 	PIMPL(std::string path) : path(path), dir(opendir(path.c_str())) {}
-	~PIMPL() { closedir(dir); }
+	~PIMPL()
+	{
+		if (dir)
+			closedir(dir);
+	}
+	// immobile only type
 	PIMPL(const PIMPL&) = delete;
 	PIMPL& operator=(const PIMPL&) = delete;
-	PIMPL(PIMPL&&)                 = default;
-	PIMPL& operator=(PIMPL&&) = default;
+
+	clone_ptr<RDE_Item> getNext();
+	void                skipDir();
+
+private:
+	PIMPL() = default;
 };
+
+clone_ptr<RDE_Item> RDE::getNext()
+{
+	if (!pimpl)
+		return {};
+	return pimpl->getNext();
+}
+
+void RDE::skipDir()
+{
+	if (pimpl)
+		pimpl->skipDir();
+}
 
 RDE::RDE(std::string dir)
 {
-	pimpl = std::make_unique<PIMPL>(dir);
+	pimpl = std::make_unique<PIMPL>(dir); // new PIMPL(dir);
 	if (!pimpl)
 		throw "failed to open "s + dir;
 	if (!pimpl->dir)
 		throw "failed to open "s + dir;
 }
 
-optional<RDE_Item> RDE::getNext()
+RDE::~RDE() = default;
+
+void RDE::PIMPL::skipDir()
 {
-	if (!pimpl)
-		return {};
-	if (pimpl->next)
+	PIMPL* lst = nullptr;
+	PIMPL* ptr = this;
+	while (true)
 	{
-		auto ret = pimpl->next->getNext();
+		if (ptr->next)
+		{
+			lst = ptr;
+			ptr = ptr->next.get();
+		} else
+		{
+			break;
+		}
+	}
+	if (!lst)
+	{
+		if (dir)
+			closedir(dir);
+		dir = nullptr;
+	} else
+	{
+		lst->next = nullptr;
+	}
+}
+
+clone_ptr<RDE_Item> RDE::PIMPL::getNext()
+{
+	if (next)
+	{
+		auto ret = next->getNext();
 		if (ret)
 			return ret;
-		pimpl->next = nullopt;
+		next = nullptr;
 		// pimpl->next.reset();
 	}
-	if (!pimpl->dir)
+	if (!dir)
 		return {};
-	dirent* ent = readdir(pimpl->dir);
+	dirent* ent = readdir(dir);
 	if (!ent)
 		return {};
 	if (ent->d_type == DT_DIR)
 	{
 		if (ent->d_name[0] != '.')
-			pimpl->next.emplace(pimpl->path + "/"s + ent->d_name);
+			next = std::make_unique<PIMPL>(path + "/"s + ent->d_name);
 		return getNext();
 	} else if (ent->d_type != DT_REG)
 	{
 		return getNext();
 	} else
 	{
-		optional<RDE_Item> ret;
-		ret = RDE_Item{pimpl->path, ent->d_name};
+		clone_ptr<RDE_Item> ret;
+		ret = RDE_Item{path, ent->d_name};
 		return ret;
 	}
 }
-
-RDE::~RDE() = default;
 
 #include "Windows.h"
 

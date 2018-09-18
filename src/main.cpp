@@ -8,6 +8,16 @@
 
 std::map<char, OperatorMaker> Operator::createMap;
 
+void Operator::Register(char c, OperatorMaker opm)
+{
+	createMap[c] = opm;
+}
+
+clone_ptr<Operator> Operator::DispatchCreate(std::string str)
+{
+	assert(!str.empty());
+	return createMap[str[0]](str);
+}
 
 bool LineMatch::match() const
 {

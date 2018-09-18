@@ -55,7 +55,6 @@ struct RDE::PIMPL
 	clone_ptr<RDE_Item> getNext();
 	void skipDir();
 
-
 private:
 	PIMPL() = default;
 };
