@@ -5,8 +5,8 @@ void FileOperator::Register()
 {
 	auto maker = [](std::string s) -> clone_ptr<Operator>
 	{
-		auto fo = clone_ptr<FileOperator>(FileOperator{s});
-		return clone_ptr<Operator>(fo);
+		auto o = clone_ptr<FileOperator>(FileOperator{s});
+		return clone_ptr<Operator>(o);
 	};
 	Operator::Register( MyChar() , +maker );
 }

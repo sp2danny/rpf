@@ -1,4 +1,6 @@
 
+/*
+
 #include "common.h"
 #include "execute.h"
 
@@ -428,3 +430,4 @@ bool Execute_Mod(Results& res, const Operator& op)
 	return true;
 }
 
+*/

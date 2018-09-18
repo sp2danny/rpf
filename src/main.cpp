@@ -308,6 +308,8 @@ void doall(std::string path)
 
 void add_op(OperatorStack& ops, std::string arg)
 {
+	ops.push_back( Operator::DispatchCreate(arg) );
+	/*
 	assert(!arg.empty());
 	char c = arg[0];
 	switch (c)
@@ -318,6 +320,7 @@ void add_op(OperatorStack& ops, std::string arg)
 		default:
 			throw "Unrecognized operand";
 	}
+	*/
 }
 
 int main(int argc, char** argv)

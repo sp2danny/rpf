@@ -2,6 +2,8 @@
 *.log
 *.tlog
 *.lastbuildstate
+*.ilk
+*.pdb
 
 # Prerequisites
 *.d
