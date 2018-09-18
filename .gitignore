@@ -4,6 +4,9 @@
 *.lastbuildstate
 *.ilk
 *.pdb
+Debug
+Release
+obj
 
 # Prerequisites
 *.d
