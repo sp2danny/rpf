@@ -1,0 +1,403 @@
+
+#include "common.h"
+
+#include "purgecomment.h"
+#include "execute.h"
+
+#include "operators.h"
+
+std::map<char, OperatorMaker> Operator::createMap;
+
+
+bool LineMatch::match() const
+{
+	return m_match;
+}
+
+void LineMatch::match(bool m)
+{
+	m_match = m;
+	if (!m)
+		m_lines.clear();
+}
+
+const Lines& LineMatch::lines() const
+{
+	return m_lines;
+}
+
+Lines& LineMatch::modifiable_lines()
+{
+	return m_lines;
+}
+
+void LineMatch::add_simple_match(UL l)
+{
+	m_match = true;
+	m_lines[l];
+}
+
+void LineMatch::add_full_match(UL l, UL b, UL e)
+{
+	m_match = true;
+	m_lines[l].push_back({b,e});
+}
+
+void LineMatch::add_full_match(UL l, MIP mip)
+{
+	m_match = true;
+	m_lines[l].push_back(mip);
+}
+
+void LineMatch::add_full_match(LIter li, UL b, UL e)
+{
+	m_match = true;
+	li->second.push_back({b,e});
+}
+
+void LineMatch::add_full_match(LIter li, MIP mip)
+{
+	m_match = true;
+	li->second.push_back(mip);
+}
+
+bool LineMatch::have_line(UL l) const
+{
+	return m_lines.count(l) != 0;
+}
+
+bool LineMatch::have_char(LCIter li, UL idx) const
+{
+	for (auto&& mip : li->second)
+	{
+		if ((idx >= mip.first) && (idx < mip.second))
+			return true;
+	}
+	return false;
+}
+
+bool LineMatch::have_char(UL l, UL idx) const
+{
+	auto itr = m_lines.find(l);
+	if (itr == m_lines.end())
+		return false;
+	else
+		return have_char(itr, idx);
+}
+
+namespace runstate
+{
+	unsigned long long ml = 0, mf = 0, cf=0, sf=0, sl=0;
+	bool colorize, statistic = true, sparse = true;
+}
+
+OperatorStack opStack;
+
+std::string unparan(std::string str)
+{
+	auto sz = str.size();
+	assert( sz > 3 );
+	assert( str[1] == '(' );
+	assert( str.back() == ')' );
+	return str.substr(2, sz-3);
+}
+
+int getparam(std::string str, int def)
+{
+	str = str.substr(1);
+	if (str.empty()) return def;
+	return std::atoi(str.c_str());
+}
+
+
+std::vector<std::string> readfile(std::istream& in)
+{
+	std::vector<std::string> lines;
+	std::string line;
+	while (std::getline(in, line))
+	{
+		lines.push_back(line);
+	}
+	return lines;
+}
+
+std::vector<std::string>& File::lines()
+{
+	if (!m_loaded)
+	{
+		std::ifstream ifs{path + "/" + name};
+		m_lines = readfile(ifs);
+		m_loaded = true;
+		runstate::sf += 1;
+		runstate::sl += m_lines.size();
+	}
+	if (cpponly)
+	{
+		if (m_stripped.empty())
+		{
+			m_stripped = m_lines;
+			purge_comment(path + "/" + name, m_stripped);
+		}
+		return m_stripped;
+	}
+	return m_lines;
+}
+
+void Usage(std::ostream& out)
+{
+	out << "rpf: Usage:\n"
+	    << "\trpf                           - usage\n"
+	    << "\trpf --help                    - brief help\n"
+	    << "\trpf --version                 - print version\n"
+	    << "\trpf <dir> [options] |terms|   - search dir using terms\n"
+	;
+}
+
+void Help(std::ostream& out) // print help to stdout
+{
+	#define bold  std::flush; MakeHighlight(); out
+	#define reset std::flush; MakeNormal(); out
+
+	out << "Reverse Polish Find : Summary Help\n"
+
+	    << "\n    1a. File Operands (operands produce results)\n"
+	    << "\tf(expr)" "\t" << bold << "f" << reset << "ilename matches expr using *? matching, case insensitive\n"
+	    << "\t+(expr)" "\t" "like file match above, but c" << bold << "++" << reset << " only, removes line/block\n\t\tcomments and string/character literals from search text\n"
+	    << "\td(expr)" "\t" << bold << "d" << reset << "irectory matches expr using *? matching, case insensitive\n"
+	    << "\tm(expr)" "\t" "file " << bold << "m" << reset << "odified at or after 'expr', formated as 'YYYY-MM-DD'\n"
+
+	    << "\n    1b. Text Operands (produce results, and populates match-lines)\n"
+	    << "\tl(expr)" "\t" "whole " << bold << "l" << reset << "ine matches expr using *? matching, case sensitive\n"
+	    << "\tL(expr)" "\t" "whole " << bold << "l" << reset << "ine matches expr using *? matching, case insensitive\n"
+	    << "\ti(expr)" "\t" "tokenizes line, expr matches one " << bold << "i" << reset << "dentifier exactly\n"
+	    << "\tI(expr)" "\t" "tokenizes line, expr matches one " << bold << "i" << reset << "dentifier case insensitive\n"
+	    << "\tr(expr)" "\t" "part of line matches expr using " << bold << "r" << reset << "egex matching\n"
+	    << "\tb(expr)" "\t" "part of line matches expr using " << bold << "B" << reset << "oyerMoore matching, no *?\n\t\tmatching\n"
+	    << "\tB(expr)" "\t" "part of line matches expr using " << bold << "B" << reset << "oyerMoore matching, no *?\n\t\tmatching, case insesitive\n"
+
+	    << "\n    2. Operators (operators combine results)\n"
+	    << "\ta"       "\t" << bold << "a" << reset << "nd's 2 results, merges match-lines\n"
+	    << "\to"       "\t" << bold << "o" << reset << "r's 2 results, merges match-lines\n"
+	    << "\tn"       "\t" << bold << "n" << reset << "ear, ie and's 2 results, remove match-lines that are more\n\t\tapart than 5 lines\n"
+	    << "\tnN"      "\t" << bold << "n" << reset << "ear, ie and's 2 results, remove match-lines that are more\n\t\tapart than N lines\n"
+	    << "\t!"       "\t" "negates's 1 results, purge match-lines\n"
+	    << "\t-"       "\t" "subtracts later match-lines from former\n"
+	    << "\t~"       "\t" "inverts match-lines from result\n"
+
+	    << "\n    3. Misc\n"
+	    << "\tt"       "\t" "always " << bold << "t" << reset << "rue, does not populate match-lines\n"
+	    << "\tq"       "\t" << bold << "q" << reset << "uick " << bold << "q" << reset << "uit, bypasses remainder of tests if top result is false\n"
+	    << "\tp"       "\t" << bold << "p" << reset << "op, purges one result from result stack\n"
+	    << "\t2"       "\t" "duplicates top result on result stack\n"
+	    << "\tc"       "\t" << bold << "c" << reset << "lears result stack\n"
+	    << "\ts"       "\t" << bold << "s" << reset << "wap, swaps top and 2:nd top item on result stack\n"
+	    << "\tsN"      "\t" << bold << "s" << reset << "wap, swaps top and N:th top item on result stack\n"
+
+	    << "\n    4. Options (specify with --option-on or --option-off)\n"
+	    << "\tsparse"  "\tproduce output without separating blank lines.\n\t\tdefault on\n"
+	    << "\tcolor"   "\tproduce output with colorcoded matches.\n\t\tdefault on if output is a tty\n"
+	    << "\tstats"   "\tsummary statistic printed.\n\t\tdefault on\n"
+
+	    << "\n    Notes\n"
+	    << "\tOnly l, i, r and b (and uppercase variants) loads the file-content\n"
+	    << "\tMany operators and operands need to be escaped or quoted\n"
+	;
+
+	#undef bold
+	#undef reset
+}
+
+void out_err(std::string err)
+{
+	std::cerr << "error: " << err << std::endl;
+}
+/*
+void doall(std::string path)
+{
+	RDE rde(path);
+
+	while (auto de = rde.getNext())
+	{
+		runstate::cf += 1;
+		File ff;
+		ff.path = de->dir_name;
+		ff.name = de->file_name;
+		ff.cpponly = false;
+		Results r { std::move(ff), {} };
+		TriBool ok = ExecuteAllDir();
+		if (ok == tb_false)
+		{
+			rde.skipDir();
+			continue;
+		}
+		if (r.matches.size() != 1)
+			throw "operator / operand count error";
+		auto& mm = r.matches.front();
+		if (mm.match())
+		{
+			runstate::mf += 1;
+			runstate::ml += mm.lines().size();
+			if (!runstate::sparse) std::cout << std::endl;
+			std::cout << r.file.path + "/" + r.file.name << std::endl;
+			r.file.cpponly = false;
+			UL lastline;
+			bool first = true;
+			for (auto&& ln : mm.lines())
+			{
+				if (!runstate::sparse)
+				{
+					if (first)
+					{
+						std::cout << std::endl;
+						first = false;
+					}
+					else if (ln.first != (lastline+1))
+					{
+						std::cout << std::endl;
+					}
+					lastline = ln.first;
+				}
+				std::cout << "\t" << (ln.first+1) << "\t";
+				const auto& l = r.file.lines()[ln.first];
+				UL i, n = l.size();
+				if (runstate::colorize)
+				{
+					bool ingr = false;
+					for (i=0; i<n; ++i)
+					{
+						bool hc = mm.have_char(ln.first, i);
+						if (hc)
+						{
+							if (!ingr)
+							{
+								ingr = true;
+								MakeGreen();
+							}
+						} else {
+							if (ingr)
+							{
+								ingr = false;
+								MakeNormal();
+							}
+						}
+						std::cout << l[i];
+					}
+					if (ingr)
+						MakeNormal();
+				} else {
+					std::cout << l;
+				}
+				std::cout << std::endl;
+			}
+			if (!runstate::sparse) std::cout << std::endl;
+		}
+	}
+}
+
+*/
+
+void add_op(OperatorStack& ops, std::string arg)
+{
+	assert(!arg.empty());
+	char c = arg[0];
+	switch (c)
+	{
+		case 'f' : ops.emplace_back( FileOperator{arg} ); return;
+		case 'l' : ops.emplace_back( LineOperator{arg} ); return;
+		case 'a' : ops.emplace_back(  AndOperator{arg} ); return;
+		default:
+			throw "Unrecognized operand";
+	}
+}
+
+int main(int argc, char** argv)
+{
+
+	runstate::colorize = stdout_isatty();
+
+	if (argc<=1)
+	{
+		Usage(std::cout);
+	}
+	else if ((argc==2) && (argv[1]=="--help"s))
+	{
+		Help(std::cout);
+	}
+	else if ((argc==2) && (argv[1]=="--version"s))
+	{
+		std::cout << "Reverse Polish Find v0.29" << std::endl;
+	}
+	else try
+	{
+		std::string path;
+		bool have_path = false;
+		for (int i=1; i<argc; ++i)
+		{
+			std::string arg = argv[i];
+			if (arg.substr(0,2) == "--")
+			{
+				arg = arg.substr(2);
+				/**/ if (arg == "color-on")
+					runstate::colorize = true;
+				else if (arg == "color-off")
+					runstate::colorize = false;
+				else if (arg == "stats-on")
+					runstate::statistic = true;
+				else if (arg == "stats-off")
+					runstate::statistic = false;
+				else if (arg == "sparse-on")
+					runstate::sparse = true;
+				else if (arg == "sparse-off")
+					runstate::sparse = false;
+				else
+					throw "Unknown argument "s + arg;
+			}
+			else
+			{
+				if (have_path)
+				{
+					add_op(opStack, arg);
+				} else {
+					have_path = true;
+					path = arg;
+				}
+			}
+		}
+		if (!have_path)
+			throw "nothing to do";
+		//create_tree();
+		//doall(path);
+		if (runstate::statistic)
+		{
+			if (runstate::sparse) std::cout << std::endl;
+			std::cout << "Files Matched    : " << runstate::mf << std::endl;
+			std::cout << "Lines Matched    : " << runstate::ml << std::endl;
+			std::cout << "Considered Files : " << runstate::cf << std::endl;
+			std::cout << "Searched Files   : " << runstate::sf << std::endl;
+			std::cout << "Searched Lines   : " << runstate::sl << std::endl;
+		}
+	}
+	catch (const std::string& err)
+	{
+		out_err(err);
+		return -1;
+	}
+	catch (const char* err)
+	{
+		out_err(err);
+		return -1;
+	}
+	catch (const std::exception& err)
+	{
+		out_err(err.what());
+		return -1;
+	}
+	catch (...)
+	{
+		out_err("unknown exception");
+		return -1;
+	}
+}
+
+
+
