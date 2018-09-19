@@ -16,83 +16,11 @@ void Operator::Register(char c, OperatorMaker opm)
 clone_ptr<Operator> Operator::DispatchCreate(std::string str)
 {
 	assert(!str.empty());
-	return createMap[str[0]](str);
-}
-
-bool LineMatch::match() const
-{
-	return m_match;
-}
-
-void LineMatch::match(bool m)
-{
-	m_match = m;
-	if (!m)
-		m_lines.clear();
-}
-
-const Lines& LineMatch::lines() const
-{
-	return m_lines;
-}
-
-Lines& LineMatch::modifiable_lines()
-{
-	return m_lines;
-}
-
-void LineMatch::add_simple_match(UL l)
-{
-	m_match = true;
-	m_lines[l];
-}
-
-void LineMatch::add_full_match(UL l, UL b, UL e)
-{
-	m_match = true;
-	m_lines[l].push_back({b,e});
-}
-
-void LineMatch::add_full_match(UL l, MIP mip)
-{
-	m_match = true;
-	m_lines[l].push_back(mip);
-}
-
-void LineMatch::add_full_match(LIter li, UL b, UL e)
-{
-	m_match = true;
-	li->second.push_back({b,e});
-}
-
-void LineMatch::add_full_match(LIter li, MIP mip)
-{
-	m_match = true;
-	li->second.push_back(mip);
-}
-
-bool LineMatch::have_line(UL l) const
-{
-	return m_lines.count(l) != 0;
-}
-
-bool LineMatch::have_char(LCIter li, UL idx) const
-{
-	for (auto&& mip : li->second)
-	{
-		if ((idx >= mip.first) && (idx < mip.second))
-			return true;
-	}
-	return false;
-}
-
-bool LineMatch::have_char(UL l, UL idx) const
-{
-	auto itr = m_lines.find(l);
-	if (itr == m_lines.end())
-		return false;
-	else
-		return have_char(itr, idx);
+	char c = str[0];
+	auto iter = createMap.find(c);
+	if (iter == createMap.end())
+		throw "unrecognized operator";
+	return iter->second(str);
 }
 
 namespace runstate
@@ -103,32 +31,42 @@ namespace runstate
 
 OperatorStack opStack;
 
-std::string unparan(std::string str)
+bool do_all_dir(File& f)
 {
-	auto sz = str.size();
-	assert( sz > 3 );
-	assert( str[1] == '(' );
-	assert( str.back() == ')' );
-	return str.substr(2, sz-3);
-}
-
-int getparam(std::string str, int def)
-{
-	str = str.substr(1);
-	if (str.empty()) return def;
-	return std::atoi(str.c_str());
-}
-
-
-std::vector<std::string> readfile(std::istream& in)
-{
-	std::vector<std::string> lines;
-	std::string line;
-	while (std::getline(in, line))
+	FileMatchStack m;
+	for (auto&& op : opStack)
 	{
-		lines.push_back(line);
+		op->MatchDir(f, m);
 	}
-	return lines;
+	if (m.size() != 1)
+		throw "operator / operand count error";
+	auto res = m.front();
+	return res != tb_false;
+}
+
+bool do_all_file(File& f)
+{
+	FileMatchStack m;
+	for (auto&& op : opStack)
+	{
+		op->MatchFile(f, m);
+	}
+	if (m.size() != 1)
+		throw "operator / operand count error";
+	auto res = m.front();
+	return res != tb_false;
+}
+
+LineMatch do_all_line(File& f)
+{
+	LineMatchStack m;
+	for (auto&& op : opStack)
+	{
+		op->MatchLines(f, m);
+	}
+	if (m.size() != 1)
+		throw "operator / operand count error";
+	return m.front();
 }
 
 std::vector<std::string>& File::lines()
@@ -221,28 +159,29 @@ void out_err(std::string err)
 {
 	std::cerr << "error: " << err << std::endl;
 }
-/*
+
 void doall(std::string path)
 {
 	RDE rde(path);
 
 	while (auto de = rde.getNext())
 	{
-		runstate::cf += 1;
 		File ff;
 		ff.path = de->dir_name;
 		ff.name = de->file_name;
 		ff.cpponly = false;
 		Results r { std::move(ff), {} };
-		TriBool ok = ExecuteAllDir();
-		if (ok == tb_false)
+		if (!do_all_dir(ff))
 		{
 			rde.skipDir();
 			continue;
 		}
-		if (r.matches.size() != 1)
-			throw "operator / operand count error";
-		auto& mm = r.matches.front();
+		runstate::cf += 1;
+		if (do_all_file(ff))
+		{
+			continue;
+		}
+		auto mm = do_all_line(ff);
 		if (mm.match())
 		{
 			runstate::mf += 1;
@@ -304,27 +243,14 @@ void doall(std::string path)
 	}
 }
 
-*/
-
 void add_op(OperatorStack& ops, std::string arg)
 {
 	ops.push_back( Operator::DispatchCreate(arg) );
-	/*
-	assert(!arg.empty());
-	char c = arg[0];
-	switch (c)
-	{
-		case 'f' : ops.emplace_back( FileOperator{arg} ); return;
-		case 'l' : ops.emplace_back( LineOperator{arg} ); return;
-		case 'a' : ops.emplace_back(  AndOperator{arg} ); return;
-		default:
-			throw "Unrecognized operand";
-	}
-	*/
 }
 
 int main(int argc, char** argv)
 {
+	register_all();
 
 	runstate::colorize = stdout_isatty();
 
@@ -378,8 +304,7 @@ int main(int argc, char** argv)
 		}
 		if (!have_path)
 			throw "nothing to do";
-		//create_tree();
-		//doall(path);
+		doall(path);
 		if (runstate::statistic)
 		{
 			if (runstate::sparse) std::cout << std::endl;

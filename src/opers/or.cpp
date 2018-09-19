@@ -5,27 +5,27 @@
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;
 
-void AndOperator::Register()
+void OrOperator::Register()
 {
 	auto maker = [](std::string s) -> clone_ptr<Operator>
 	{
-		auto o = clone_ptr<AndOperator>(AndOperator{s});
+		auto o = clone_ptr<OrOperator>(OrOperator{s});
 		return clone_ptr<Operator>(o);
 	};
 	Operator::Register( MyChar() , +maker );
 }
 
-Operator* AndOperator::clone()
+Operator* OrOperator::clone()
 {
-	return new AndOperator(*this);
+	return new OrOperator(*this);
 };
 
-char AndOperator::MyChar()
+char OrOperator::MyChar()
 {
-	return 'a';
+	return 'o';
 }
 
-void AndOperator::Create ( std::string str )
+void OrOperator::Create ( std::string str )
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -33,40 +33,46 @@ void AndOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void AndOperator::MatchDir ( File&, FileMatchStack& m )
+// enum TriBool { tb_false, tb_true, tb_maybe };
+
+void OrOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 2)
 	{
-		throw "operator and: not enough operands";
+		throw "operator or: not enough operands";
 	}
 	TriBool m1 = m.back(); m.pop_back();
 	TriBool m2 = m.back(); m.pop_back();
 	TriBool res;
 	switch (m1)
 	{
-	case tb_false:
-		res = tb_false;
+	case tb_true:
+		res = tb_true;
 		break;
 	case tb_maybe:
-		res = (m2==tb_false) ? tb_false : tb_maybe;
+		res = (m2==tb_true) ? tb_true : tb_maybe;
 		break;
-	case tb_true:
+	case tb_false:
 		res = m2;
 		break;
 	}
 	m.push_back(res);
 }
 
-void AndOperator::MatchFile ( File& f, FileMatchStack& m )
+void OrOperator::MatchFile ( File& f, FileMatchStack& m )
 {
 	MatchDir(f, m);
 }
 
-void AndOperator::MatchLines ( File& , LineMatchStack& m )
+void OrOperator::MatchLines ( File& , LineMatchStack& m )
 {
+	if (m.size() < 2)
+	{
+		throw "operator or: not enough operands";
+	}
 	auto m2 = std::move(m.back()); m.pop_back();
 	auto m1 = std::move(m.back()); m.pop_back();
-	if (m1.match() && m2.match())
+	if (m1.match() || m2.match())
 	{
 		LineMatch res;
 		res.match(true);
@@ -84,12 +90,6 @@ void AndOperator::MatchLines ( File& , LineMatchStack& m )
 		m.emplace_back();
 	}
 }
-
-
-
-
-
-
 
 
 
