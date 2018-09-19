@@ -22,7 +22,7 @@ Operator* DirOperator::clone()
 
 char DirOperator::MyChar()
 {
-	return 'f';
+	return 'd';
 }
 
 void DirOperator::Create ( std::string str )

@@ -50,7 +50,7 @@ void NotOperator::MatchDir ( File&, FileMatchStack& m )
 		res = tb_maybe;
 		break;
 	case tb_false:
-		res = tb_false;
+		res = tb_true;
 		break;
 	}
 	m.push_back(res);

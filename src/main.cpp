@@ -2,7 +2,6 @@
 #include "common.h"
 
 #include "purgecomment.h"
-#include "execute.h"
 
 #include "operators.h"
 
@@ -170,14 +169,13 @@ void doall(std::string path)
 		ff.path = de->dir_name;
 		ff.name = de->file_name;
 		ff.cpponly = false;
-		Results r { std::move(ff), {} };
 		if (!do_all_dir(ff))
 		{
 			rde.skipDir();
 			continue;
 		}
 		runstate::cf += 1;
-		if (do_all_file(ff))
+		if (!do_all_file(ff))
 		{
 			continue;
 		}
@@ -187,8 +185,8 @@ void doall(std::string path)
 			runstate::mf += 1;
 			runstate::ml += mm.lines().size();
 			if (!runstate::sparse) std::cout << std::endl;
-			std::cout << r.file.path + "/" + r.file.name << std::endl;
-			r.file.cpponly = false;
+			std::cout << ff.path + "/" + ff.name << std::endl;
+			ff.cpponly = false;
 			UL lastline;
 			bool first = true;
 			for (auto&& ln : mm.lines())
@@ -207,7 +205,7 @@ void doall(std::string path)
 					lastline = ln.first;
 				}
 				std::cout << "\t" << (ln.first+1) << "\t";
-				const auto& l = r.file.lines()[ln.first];
+				const auto& l = ff.lines()[ln.first];
 				UL i, n = l.size();
 				if (runstate::colorize)
 				{

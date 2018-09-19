@@ -113,18 +113,11 @@ private:
 	bool m_loaded = false;
 };
 
-struct Results
-{
-	File file;
-	std::vector<LineMatch> matches;
-};
-
 namespace runstate
 {
 	extern unsigned long long ml, mf, cf, sf, sl;
 	extern bool colorize, statistic, sparse;
 }
-
 
 extern std::string unparan(std::string str);
 extern int getparam(std::string str, int def);

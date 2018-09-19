@@ -129,7 +129,6 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\execute.cpp" />
     <ClCompile Include="src\linux.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
@@ -166,7 +165,6 @@
     <ClInclude Include="src\clone_ptr.hpp" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\dirent.h" />
-    <ClInclude Include="src\execute.h" />
     <ClInclude Include="src\operators.h" />
     <ClInclude Include="src\purgecomment.h" />
     <ClInclude Include="src\stringtools.h" />

@@ -11,14 +11,11 @@ clean:
 src/common.h: src/stringtools.h
 	touch src/common.h
 
-obj/main.o: Makefile src/main.cpp src/common.h src/stringtools.h src/purgecomment.h src/execute.h src/operators.h
+obj/main.o: Makefile src/main.cpp src/common.h src/stringtools.h src/purgecomment.h src/operators.h
 	$(CC) $(CFLAGS) -c src/main.cpp -o obj/main.o
 
 obj/linux.o: Makefile src/linux.cpp src/common.h
 	$(CC) $(CFLAGS) -c src/linux.cpp -o obj/linux.o
-
-obj/execute.o: Makefile src/execute.cpp src/common.h src/execute.h
-	$(CC) $(CFLAGS) -c src/execute.cpp -o obj/execute.o
 
 obj/match.o: Makefile src/match.cpp src/common.h
 	$(CC) $(CFLAGS) -c src/match.cpp -o obj/match.o
@@ -46,10 +43,8 @@ obj/not.o: Makefile src/common.h src/operators.h src/opers/not.cpp
 obj/dir.o: Makefile src/common.h src/operators.h src/opers/dir.cpp
 	$(CC) $(CFLAGS) -c src/opers/dir.cpp -o obj/dir.o
 
-
-OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o \
-obj/execute.o obj/match.o obj/misc.o obj/and.o obj/file.o obj/line.o \
-obj/or.o obj/not.o obj/dir.o
+OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o obj/match.o obj/misc.o \
+obj/and.o obj/file.o obj/line.o obj/or.o obj/not.o obj/dir.o
 
 rpf2: Makefile $(OBJS)
 	$(CC) -o rpf2 -static-libstdc++ -static-libgcc $(OBJS) $(LINK)
