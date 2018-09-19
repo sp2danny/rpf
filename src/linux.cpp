@@ -52,14 +52,14 @@ struct RDE::PIMPL
 	PIMPL(const PIMPL&) = delete;
 	PIMPL& operator=(const PIMPL&) = delete;
 
-	clone_ptr<RDE_Item> getNext();
+	std::unique_ptr<RDE_Item> getNext();
 	void skipDir();
 
 private:
 	PIMPL() = default;
 };
 
-clone_ptr<RDE_Item> RDE::getNext()
+std::unique_ptr<RDE_Item> RDE::getNext()
 {
 	if (!pimpl)
 		return {};
@@ -111,7 +111,7 @@ void RDE::PIMPL::skipDir()
 	}
 }
 
-clone_ptr<RDE_Item> RDE::PIMPL::getNext()
+std::unique_ptr<RDE_Item> RDE::PIMPL::getNext()
 {
 	if (next)
 	{
@@ -119,7 +119,6 @@ clone_ptr<RDE_Item> RDE::PIMPL::getNext()
 		if (ret)
 			return ret;
 		next = nullptr;
-		// pimpl->next.reset();
 	}
 	if (!dir)
 		return {};
@@ -138,9 +137,7 @@ clone_ptr<RDE_Item> RDE::PIMPL::getNext()
 	}
 	else
 	{
-		clone_ptr<RDE_Item> ret;
-		ret = RDE_Item{path, ent->d_name};
-		return ret;
+		return std::make_unique<RDE_Item>(RDE_Item{path, ent->d_name});
 	}
 }
 

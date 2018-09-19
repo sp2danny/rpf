@@ -65,12 +65,7 @@ private:
 
 typedef std::vector<LineMatch> LineMatchStack;
 
-struct FileMatch
-{
-	TriBool match;
-};
-
-typedef std::vector<FileMatch> FileMatchStack;
+typedef std::vector<TriBool> FileMatchStack;
 
 struct Operator;
 
@@ -84,15 +79,16 @@ struct Operator
 	virtual ~Operator() = default;
 	virtual char MyChar() = 0;
 	virtual void Create(std::string) = 0;
+	virtual Operator* clone() =0;
 
 	static void Register(char, OperatorMaker);
 	static clone_ptr<Operator> DispatchCreate(std::string);
 
 	virtual void Register() = 0;
 
-	virtual void MatchDir   ( File&, FileMatchStack ) = 0;
-	virtual void MatchFile  ( File&, FileMatchStack ) = 0;
-	virtual void MatchLines ( File&, LineMatchStack ) = 0;
+	virtual void MatchDir   ( File&, FileMatchStack& ) = 0;
+	virtual void MatchFile  ( File&, FileMatchStack& ) = 0;
+	virtual void MatchLines ( File&, LineMatchStack& ) = 0;
 
 private:
 	static std::map<char, OperatorMaker> createMap;
@@ -159,7 +155,7 @@ struct RDE
 
 	void swap(RDE& other) noexcept { pimpl.swap(other.pimpl); }
 
-	clone_ptr<RDE_Item> getNext();
+	std::unique_ptr<RDE_Item> getNext();
 	void skipDir();
 
 private:

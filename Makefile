@@ -11,7 +11,7 @@ clean:
 src/common.h: src/stringtools.h
 	touch src/common.h
 
-obj/main.o: Makefile src/main.cpp src/common.h src/stringtools.h src/purgecomment.h src/execute.h
+obj/main.o: Makefile src/main.cpp src/common.h src/stringtools.h src/purgecomment.h src/execute.h src/operators.h
 	$(CC) $(CFLAGS) -c src/main.cpp -o obj/main.o
 
 obj/linux.o: Makefile src/linux.cpp src/common.h
@@ -32,8 +32,11 @@ obj/stringtools.o: Makefile src/stringtools.cpp src/stringtools.h
 obj/purgecomment.o: Makefile src/purgecomment.cpp src/purgecomment.h
 	$(CC) $(CFLAGS) -c src/purgecomment.cpp -o obj/purgecomment.o
 
+obj/opers.o: Makefile src/common.h src/operators.h src/opers/and.cpp src/opers/file.cpp src/opers/line.cpp
+	cat src/opers/and.cpp src/opers/file.cpp src/opers/line.cpp | $(CC) $(CFLAGS) -x c++ -c - -o obj/opers.o
+
 OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o \
-obj/execute.o obj/match.o obj/misc.o
+obj/execute.o obj/match.o obj/misc.o obj/opers.o
 
 rpf2: Makefile $(OBJS)
 	$(CC) -o rpf2 -static-libstdc++ -static-libgcc $(OBJS) $(LINK)
