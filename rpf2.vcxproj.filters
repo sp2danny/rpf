@@ -45,6 +45,21 @@
     <ClCompile Include="src\opers\line.cpp">
       <Filter>Source Files\opers</Filter>
     </ClCompile>
+    <ClCompile Include="src\opers\dir.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\not.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\or.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\match.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\misc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">

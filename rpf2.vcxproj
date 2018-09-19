@@ -137,9 +137,14 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\match.cpp" />
+    <ClCompile Include="src\misc.cpp" />
     <ClCompile Include="src\opers\and.cpp" />
+    <ClCompile Include="src\opers\dir.cpp" />
     <ClCompile Include="src\opers\file.cpp" />
     <ClCompile Include="src\opers\line.cpp" />
+    <ClCompile Include="src\opers\not.cpp" />
+    <ClCompile Include="src\opers\or.cpp" />
     <ClCompile Include="src\purgecomment.cpp" />
     <ClCompile Include="src\stringtools.cpp" />
     <ClCompile Include="src\windows.cpp">
