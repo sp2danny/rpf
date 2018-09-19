@@ -20,13 +20,20 @@ obj/linux.o: Makefile src/linux.cpp src/common.h
 obj/execute.o: Makefile src/execute.cpp src/common.h src/execute.h
 	$(CC) $(CFLAGS) -c src/execute.cpp -o obj/execute.o
 
+obj/match.o: Makefile src/match.cpp src/common.h
+	$(CC) $(CFLAGS) -c src/match.cpp -o obj/match.o
+
+obj/misc.o: Makefile src/misc.cpp src/common.h
+	$(CC) $(CFLAGS) -c src/misc.cpp -o obj/misc.o
+
 obj/stringtools.o: Makefile src/stringtools.cpp src/stringtools.h
 	$(CC) $(CFLAGS) -c src/stringtools.cpp -o obj/stringtools.o
 
 obj/purgecomment.o: Makefile src/purgecomment.cpp src/purgecomment.h
 	$(CC) $(CFLAGS) -c src/purgecomment.cpp -o obj/purgecomment.o
 
-OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o obj/execute.o
+OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o \
+obj/execute.o obj/match.o obj/misc.o
 
 rpf2: Makefile $(OBJS)
 	$(CC) -o rpf2 -static-libstdc++ -static-libgcc $(OBJS) $(LINK)

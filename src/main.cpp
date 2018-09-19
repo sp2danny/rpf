@@ -19,82 +19,6 @@ clone_ptr<Operator> Operator::DispatchCreate(std::string str)
 	return createMap[str[0]](str);
 }
 
-bool LineMatch::match() const
-{
-	return m_match;
-}
-
-void LineMatch::match(bool m)
-{
-	m_match = m;
-	if (!m)
-		m_lines.clear();
-}
-
-const Lines& LineMatch::lines() const
-{
-	return m_lines;
-}
-
-Lines& LineMatch::modifiable_lines()
-{
-	return m_lines;
-}
-
-void LineMatch::add_simple_match(UL l)
-{
-	m_match = true;
-	m_lines[l];
-}
-
-void LineMatch::add_full_match(UL l, UL b, UL e)
-{
-	m_match = true;
-	m_lines[l].push_back({b,e});
-}
-
-void LineMatch::add_full_match(UL l, MIP mip)
-{
-	m_match = true;
-	m_lines[l].push_back(mip);
-}
-
-void LineMatch::add_full_match(LIter li, UL b, UL e)
-{
-	m_match = true;
-	li->second.push_back({b,e});
-}
-
-void LineMatch::add_full_match(LIter li, MIP mip)
-{
-	m_match = true;
-	li->second.push_back(mip);
-}
-
-bool LineMatch::have_line(UL l) const
-{
-	return m_lines.count(l) != 0;
-}
-
-bool LineMatch::have_char(LCIter li, UL idx) const
-{
-	for (auto&& mip : li->second)
-	{
-		if ((idx >= mip.first) && (idx < mip.second))
-			return true;
-	}
-	return false;
-}
-
-bool LineMatch::have_char(UL l, UL idx) const
-{
-	auto itr = m_lines.find(l);
-	if (itr == m_lines.end())
-		return false;
-	else
-		return have_char(itr, idx);
-}
-
 namespace runstate
 {
 	unsigned long long ml = 0, mf = 0, cf=0, sf=0, sl=0;
@@ -102,34 +26,6 @@ namespace runstate
 }
 
 OperatorStack opStack;
-
-std::string unparan(std::string str)
-{
-	auto sz = str.size();
-	assert( sz > 3 );
-	assert( str[1] == '(' );
-	assert( str.back() == ')' );
-	return str.substr(2, sz-3);
-}
-
-int getparam(std::string str, int def)
-{
-	str = str.substr(1);
-	if (str.empty()) return def;
-	return std::atoi(str.c_str());
-}
-
-
-std::vector<std::string> readfile(std::istream& in)
-{
-	std::vector<std::string> lines;
-	std::string line;
-	while (std::getline(in, line))
-	{
-		lines.push_back(line);
-	}
-	return lines;
-}
 
 std::vector<std::string>& File::lines()
 {
