@@ -14,7 +14,9 @@ struct xx ## Operator final : Operator                                  \
 	virtual void MatchLines ( File&, LineMatchStack& ) override;        \
 	virtual void Register   (                        ) override;        \
 	virtual Operator* clone (                        ) override;        \
-private:
+private:                                                                \
+	xx ## Operator() = default;                                         \
+	friend void register_all();
 
 
 MAKE_OPER( File )     std::string name; };
@@ -22,6 +24,7 @@ MAKE_OPER( Dir  )     std::string name; };
 MAKE_OPER( Line )     std::string expr; };
 MAKE_OPER( And  )                       };
 MAKE_OPER( Or   )                       };
+MAKE_OPER( Not  )                       };
 
 
 #undef MAKE_OPER

@@ -42,10 +42,57 @@ void LineOperator::MatchFile ( File& , FileMatchStack& m )
 	m.push_back(tb_maybe);
 }
 
-void LineOperator::MatchLines ( File& , LineMatchStack& m )
+void LineOperator::MatchLines ( File& f, LineMatchStack& m )
 {
-	m.push_back({false, {}});
+	LineMatch res;
+	UL ln = 0;
+	for (auto&& l : f.lines())
+	{
+		if (str_pat_mat(l, expr))
+		{
+			auto vzzp = str_pat_mat_special(l, expr);
+			if (vzzp.empty())
+				res.add_simple_match(ln);
+			else
+				for(auto&& zzp : vzzp)
+					res.add_full_match(ln, zzp.first, zzp.second);
+		}
+		++ln;
+	}
+	m.push_back(std::move(res));
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

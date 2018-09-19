@@ -27,6 +27,44 @@ namespace runstate
 
 OperatorStack opStack;
 
+bool do_all_dir(File& f)
+{
+	FileMatchStack m;
+	for (auto&& op : opStack)
+	{
+		op->MatchDir(f, m);
+	}
+	if (m.size() != 1)
+		throw "operator / operand count error";
+	auto res = m.front();
+	return res != tb_false;
+}
+
+bool do_all_file(File& f)
+{
+	FileMatchStack m;
+	for (auto&& op : opStack)
+	{
+		op->MatchFile(f, m);
+	}
+	if (m.size() != 1)
+		throw "operator / operand count error";
+	auto res = m.front();
+	return res != tb_false;
+}
+
+LineMatch do_all_line(File& f)
+{
+	LineMatchStack m;
+	for (auto&& op : opStack)
+	{
+		op->MatchLines(f, m);
+	}
+	if (m.size() != 1)
+		throw "operator / operand count error";
+	return m.front();
+}
+
 std::vector<std::string>& File::lines()
 {
 	if (!m_loaded)
@@ -117,28 +155,29 @@ void out_err(std::string err)
 {
 	std::cerr << "error: " << err << std::endl;
 }
-/*
+
 void doall(std::string path)
 {
 	RDE rde(path);
 
 	while (auto de = rde.getNext())
 	{
-		runstate::cf += 1;
 		File ff;
 		ff.path = de->dir_name;
 		ff.name = de->file_name;
 		ff.cpponly = false;
 		Results r { std::move(ff), {} };
-		TriBool ok = ExecuteAllDir();
-		if (ok == tb_false)
+		if (!do_all_dir(ff))
 		{
 			rde.skipDir();
 			continue;
 		}
-		if (r.matches.size() != 1)
-			throw "operator / operand count error";
-		auto& mm = r.matches.front();
+		runstate::cf += 1;
+		if (do_all_file(ff))
+		{
+			continue;
+		}
+		auto mm = do_all_line(ff);
 		if (mm.match())
 		{
 			runstate::mf += 1;
@@ -200,27 +239,14 @@ void doall(std::string path)
 	}
 }
 
-*/
-
 void add_op(OperatorStack& ops, std::string arg)
 {
 	ops.push_back( Operator::DispatchCreate(arg) );
-	/*
-	assert(!arg.empty());
-	char c = arg[0];
-	switch (c)
-	{
-		case 'f' : ops.emplace_back( FileOperator{arg} ); return;
-		case 'l' : ops.emplace_back( LineOperator{arg} ); return;
-		case 'a' : ops.emplace_back(  AndOperator{arg} ); return;
-		default:
-			throw "Unrecognized operand";
-	}
-	*/
 }
 
 int main(int argc, char** argv)
 {
+	register_all();
 
 	runstate::colorize = stdout_isatty();
 
@@ -274,8 +300,7 @@ int main(int argc, char** argv)
 		}
 		if (!have_path)
 			throw "nothing to do";
-		//create_tree();
-		//doall(path);
+		doall(path);
 		if (runstate::statistic)
 		{
 			if (runstate::sparse) std::cout << std::endl;

@@ -32,8 +32,11 @@ obj/stringtools.o: Makefile src/stringtools.cpp src/stringtools.h
 obj/purgecomment.o: Makefile src/purgecomment.cpp src/purgecomment.h
 	$(CC) $(CFLAGS) -c src/purgecomment.cpp -o obj/purgecomment.o
 
-obj/opers.o: Makefile src/common.h src/operators.h src/opers/and.cpp src/opers/file.cpp src/opers/line.cpp
-	cat src/opers/and.cpp src/opers/file.cpp src/opers/line.cpp | $(CC) $(CFLAGS) -x c++ -c - -o obj/opers.o
+OPERS = src/opers/and.cpp src/opers/file.cpp src/opers/line.cpp src/opers/or.cpp \
+src/opers/not.cpp src/opers/dir.cpp
+
+obj/opers.o: Makefile src/common.h src/operators.h $(OPERS)
+	cat $(OPERS) | $(CC) $(CFLAGS) -x c++ -c - -o obj/opers.o
 
 OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o \
 obj/execute.o obj/match.o obj/misc.o obj/opers.o

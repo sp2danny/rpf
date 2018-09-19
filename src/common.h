@@ -130,6 +130,7 @@ extern std::string unparan(std::string str);
 extern int getparam(std::string str, int def);
 extern std::vector<std::string> readfile(std::istream&);
 
+extern void register_all();
 
 // platform stuff
 

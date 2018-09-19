@@ -28,3 +28,20 @@ std::vector<std::string> readfile(std::istream& in)
 	}
 	return lines;
 }
+
+#include "operators.h"
+
+#define REG( xx ) xx ## Operator{}.Register()
+
+void register_all()
+{
+	REG(And);
+	REG(Dir);
+	REG(File);
+	REG(Line);
+	REG(Not);
+	REG(Or);
+}
+
+#undef REG
+

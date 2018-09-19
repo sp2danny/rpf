@@ -5,49 +5,49 @@
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;
 
-void FileOperator::Register()
+void DirOperator::Register()
 {
 	auto maker = [](std::string s) -> clone_ptr<Operator>
 	{
-		auto o = clone_ptr<FileOperator>(FileOperator{s});
+		auto o = clone_ptr<DirOperator>(DirOperator{s});
 		return clone_ptr<Operator>(o);
 	};
 	Operator::Register( MyChar() , +maker );
 }
 
-Operator* FileOperator::clone()
+Operator* DirOperator::clone()
 {
-	return new FileOperator(*this);
+	return new DirOperator(*this);
 };
 
-char FileOperator::MyChar()
+char DirOperator::MyChar()
 {
 	return 'f';
 }
 
-void FileOperator::Create ( std::string str )
+void DirOperator::Create ( std::string str )
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	name = to_lower_copy(unparan(str));
 }
 
-void FileOperator::MatchDir ( File&, FileMatchStack& m )
+void DirOperator::MatchDir ( File& f, FileMatchStack& m )
 {
-	m.push_back(tb_maybe);
-}
-
-void FileOperator::MatchFile ( File& f, FileMatchStack& m )
-{
-	if (str_pat_mat(to_lower_copy(f.name), name))
+	if (str_pat_mat(to_lower_copy(f.path), name))
 		m.push_back(tb_true);
 	else
 		m.push_back(tb_false);
 }
 
-void FileOperator::MatchLines ( File& f, LineMatchStack& m )
+void DirOperator::MatchFile ( File& f, FileMatchStack& m )
 {
-	if (str_pat_mat(to_lower_copy(f.name), name))
+	return MatchDir(f, m);
+}
+
+void DirOperator::MatchLines ( File& f, LineMatchStack& m )
+{
+	if (str_pat_mat(to_lower_copy(f.path), name))
 		m.emplace_back(true, Lines{});
 	else
 		m.emplace_back(false, Lines{});
