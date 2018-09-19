@@ -16,7 +16,11 @@ void Operator::Register(char c, OperatorMaker opm)
 clone_ptr<Operator> Operator::DispatchCreate(std::string str)
 {
 	assert(!str.empty());
-	return createMap[str[0]](str);
+	char c = str[0];
+	auto iter = createMap.find(c);
+	if (iter == createMap.end())
+		throw "unrecognized operator";
+	return iter->second(str);
 }
 
 namespace runstate

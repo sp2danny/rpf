@@ -33,8 +33,6 @@ void AndOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-// enum TriBool { tb_false, tb_true, tb_maybe };
-
 void AndOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 2)
@@ -86,6 +84,8 @@ void AndOperator::MatchLines ( File& , LineMatchStack& m )
 		m.emplace_back();
 	}
 }
+
+
 
 
 
