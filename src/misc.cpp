@@ -48,10 +48,11 @@ void register_all()
 	REG(BM_CI);
 	REG(Regex);
 	REG(Sub);
+	REG(True);
+	REG(Inv);
 }
 
 #undef REG
-
 
 TriBool And(TriBool lhs, TriBool rhs)
 {

@@ -38,6 +38,8 @@ MAKE_OPER( BM      )     pBM bm; UL sz;    };
 MAKE_OPER( BM_CI   )     pBMCI bm; UL sz;  };
 MAKE_OPER( Regex   )     pRE re;           };
 MAKE_OPER( Sub     )                       };
+MAKE_OPER( True    )                       };
+MAKE_OPER( Inv     )                       };
 
 #undef MAKE_OPER
 
