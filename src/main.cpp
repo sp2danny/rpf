@@ -9,6 +9,9 @@ std::map<char, OperatorMaker> Operator::createMap;
 
 void Operator::Register(char c, OperatorMaker opm)
 {
+	auto n = createMap.count(c);
+	if (n)
+		throw "internal error: duplicate operator symbol";
 	createMap[c] = opm;
 }
 
@@ -130,8 +133,6 @@ void Help(std::ostream& out) // print help to stdout
 	    << "\n    1b. Text Operands (produce results, and populates match-lines)\n"
 	    << "\tl(expr)" "\t" "whole " << bold << "l" << reset << "ine matches expr using *? matching, case sensitive\n"
 	    << "\tL(expr)" "\t" "whole " << bold << "l" << reset << "ine matches expr using *? matching, case insensitive\n"
-	    << "\ti(expr)" "\t" "tokenizes line, expr matches one " << bold << "i" << reset << "dentifier exactly\n"
-	    << "\tI(expr)" "\t" "tokenizes line, expr matches one " << bold << "i" << reset << "dentifier case insensitive\n"
 	    << "\tr(expr)" "\t" "part of line matches expr using " << bold << "r" << reset << "egex matching\n"
 	    << "\tb(expr)" "\t" "part of line matches expr using " << bold << "B" << reset << "oyerMoore matching, no *?\n\t\tmatching\n"
 	    << "\tB(expr)" "\t" "part of line matches expr using " << bold << "B" << reset << "oyerMoore matching, no *?\n\t\tmatching, case insesitive\n"
@@ -147,12 +148,6 @@ void Help(std::ostream& out) // print help to stdout
 
 	    << "\n    3. Misc\n"
 	    << "\tt"       "\t" "always " << bold << "t" << reset << "rue, does not populate match-lines\n"
-	    << "\tq"       "\t" << bold << "q" << reset << "uick " << bold << "q" << reset << "uit, bypasses remainder of tests if top result is false\n"
-	    << "\tp"       "\t" << bold << "p" << reset << "op, purges one result from result stack\n"
-	    << "\t2"       "\t" "duplicates top result on result stack\n"
-	    << "\tc"       "\t" << bold << "c" << reset << "lears result stack\n"
-	    << "\ts"       "\t" << bold << "s" << reset << "wap, swaps top and 2:nd top item on result stack\n"
-	    << "\tsN"      "\t" << bold << "s" << reset << "wap, swaps top and N:th top item on result stack\n"
 
 	    << "\n    4. Options (specify with --option-on or --option-off)\n"
 	    << "\tsparse"  "\tproduce output without separating blank lines.\n\t\tdefault on\n"
@@ -160,7 +155,7 @@ void Help(std::ostream& out) // print help to stdout
 	    << "\tstats"   "\tsummary statistic printed.\n\t\tdefault on\n"
 
 	    << "\n    Notes\n"
-	    << "\tOnly l, i, r and b (and uppercase variants) loads the file-content\n"
+	    << "\tOnly l, r and b (and uppercase variants) loads the file-content\n"
 	    << "\tMany operators and operands need to be escaped or quoted\n"
 	;
 
@@ -276,7 +271,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find II v0.01" << std::endl;
+		std::cout << "Reverse Polish Find v1.01" << std::endl;
 	}
 	else try
 	{
