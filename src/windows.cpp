@@ -134,7 +134,7 @@ std::unique_ptr<RDE_Item> RDE::PIMPL::getNext()
 
 #include "Windows.h"
 
-HANDLE                     hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 CONSOLE_SCREEN_BUFFER_INFO csbi;
 
 void getinit()

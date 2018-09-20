@@ -57,6 +57,27 @@
     <ClCompile Include="src\misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\opers\bm.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\inv.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\near.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\regex.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\sub.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\true.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\opers\mod.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">
