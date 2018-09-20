@@ -50,6 +50,7 @@ void register_all()
 	REG(Sub);
 	REG(True);
 	REG(Inv);
+	REG(Mod);
 }
 
 #undef REG

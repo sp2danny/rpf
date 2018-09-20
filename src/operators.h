@@ -40,6 +40,7 @@ MAKE_OPER( Regex   )     pRE re;           };
 MAKE_OPER( Sub     )                       };
 MAKE_OPER( True    )                       };
 MAKE_OPER( Inv     )                       };
+MAKE_OPER( Mod     )     std::time_t md;   };
 
 #undef MAKE_OPER
 
