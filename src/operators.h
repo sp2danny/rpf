@@ -37,6 +37,7 @@ MAKE_OPER( Near    )     UL n;             };
 MAKE_OPER( BM      )     pBM bm; UL sz;    };
 MAKE_OPER( BM_CI   )     pBMCI bm; UL sz;  };
 MAKE_OPER( Regex   )     pRE re;           };
+MAKE_OPER( Sub     )                       };
 
 #undef MAKE_OPER
 

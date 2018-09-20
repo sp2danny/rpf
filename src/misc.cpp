@@ -47,6 +47,7 @@ void register_all()
 	REG(BM);
 	REG(BM_CI);
 	REG(Regex);
+	REG(Sub);
 }
 
 #undef REG
