@@ -19,15 +19,24 @@ private:                                                                \
 	friend void register_all();
 
 
-MAKE_OPER( File )     std::string name; };
-MAKE_OPER( Dir  )     std::string name; };
-MAKE_OPER( Line )     std::string expr; };
-MAKE_OPER( And  )                       };
-MAKE_OPER( Or   )                       };
-MAKE_OPER( Not  )                       };
+typedef clone_ptr<boyer_moore> pBM;
 
-MAKE_OPER( Near )    UL n;              };
+typedef clone_ptr<boyer_moore_ci> pBMCI;
 
+typedef clone_ptr<std::regex> pRE;
+
+MAKE_OPER( File    )     std::string name; };
+MAKE_OPER( CppOnly )     std::string name; };
+MAKE_OPER( Dir     )     std::string name; };
+MAKE_OPER( Line    )     std::string expr; };
+MAKE_OPER( LineCI  )     std::string expr; };
+MAKE_OPER( And     )                       };
+MAKE_OPER( Or      )                       };
+MAKE_OPER( Not     )                       };
+MAKE_OPER( Near    )     UL n;             };
+MAKE_OPER( BM      )     pBM bm; UL sz;    };
+MAKE_OPER( BM_CI   )     pBMCI bm; UL sz;  };
+MAKE_OPER( Regex   )     pRE re;           };
 
 #undef MAKE_OPER
 

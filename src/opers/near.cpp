@@ -79,16 +79,3 @@ void NearOperator::MatchLines ( File& , LineMatchStack& m )
 	}
 	m.push_back(std::move(res));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

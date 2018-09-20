@@ -38,11 +38,15 @@ void register_all()
 	REG(And);
 	REG(Dir);
 	REG(File);
+	REG(CppOnly);
 	REG(Line);
+	REG(LineCI);
 	REG(Not);
 	REG(Or);
-	
 	REG(Near);
+	REG(BM);
+	REG(BM_CI);
+	REG(Regex);
 }
 
 #undef REG

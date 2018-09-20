@@ -41,8 +41,7 @@ void AndOperator::MatchDir ( File&, FileMatchStack& m )
 	}
 	TriBool m1 = m.back(); m.pop_back();
 	TriBool m2 = m.back(); m.pop_back();
-	TriBool res = And(m1, m2);
-	m.push_back(res);
+	TriBool res = And(m1, m2);	m.push_back(res);
 }
 
 void AndOperator::MatchFile ( File& f, FileMatchStack& m )
@@ -72,16 +71,3 @@ void AndOperator::MatchLines ( File& , LineMatchStack& m )
 		m.emplace_back();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
