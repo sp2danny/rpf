@@ -51,6 +51,10 @@ void AndOperator::MatchFile ( File& f, FileMatchStack& m )
 
 void AndOperator::MatchLines ( File& , LineMatchStack& m )
 {
+	if (m.size() < 2)
+	{
+		throw "operator and: not enough operands";
+	}
 	auto m2 = std::move(m.back()); m.pop_back();
 	auto m1 = std::move(m.back()); m.pop_back();
 	if (m1.match() && m2.match())

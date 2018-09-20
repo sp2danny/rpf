@@ -37,7 +37,7 @@ void SubOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 2)
 	{
-		throw "operator or: not enough operands";
+		throw "operator sub: not enough operands";
 	}
 	m.pop_back();
 }
@@ -51,7 +51,7 @@ void SubOperator::MatchLines ( File&, LineMatchStack& m )
 {
 	if (m.size() < 2)
 	{
-		throw "operator or: not enough operands";
+		throw "operator sub: not enough operands";
 	}
 	auto m2 = std::move(m.back()); m.pop_back();
 	auto m1 = std::move(m.back()); m.pop_back();

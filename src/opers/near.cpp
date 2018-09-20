@@ -36,7 +36,7 @@ void NearOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 2)
 	{
-		throw "operator and: not enough operands";
+		throw "operator near: not enough operands";
 	}
 	TriBool m1 = m.back(); m.pop_back();
 	TriBool m2 = m.back(); m.pop_back();
@@ -51,6 +51,11 @@ void NearOperator::MatchFile ( File& f, FileMatchStack& m )
 
 void NearOperator::MatchLines ( File& , LineMatchStack& m )
 {
+	if (m.size() < 2)
+	{
+		throw "operator near: not enough operands";
+	}
+
 	auto m2 = std::move(m.back()); m.pop_back();
 	auto m1 = std::move(m.back()); m.pop_back();
 
