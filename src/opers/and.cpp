@@ -41,19 +41,7 @@ void AndOperator::MatchDir ( File&, FileMatchStack& m )
 	}
 	TriBool m1 = m.back(); m.pop_back();
 	TriBool m2 = m.back(); m.pop_back();
-	TriBool res;
-	switch (m1)
-	{
-	case tb_false:
-		res = tb_false;
-		break;
-	case tb_maybe:
-		res = (m2==tb_false) ? tb_false : tb_maybe;
-		break;
-	case tb_true:
-		res = m2;
-		break;
-	}
+	TriBool res = And(m1, m2);
 	m.push_back(res);
 }
 

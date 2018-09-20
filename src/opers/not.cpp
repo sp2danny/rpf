@@ -40,19 +40,7 @@ void NotOperator::MatchDir ( File&, FileMatchStack& m )
 		throw "operator not: not enough operands";
 	}
 	TriBool m1 = m.back(); m.pop_back();
-	TriBool res;
-	switch (m1)
-	{
-	case tb_true:
-		res = tb_false;
-		break;
-	case tb_maybe:
-		res = tb_maybe;
-		break;
-	case tb_false:
-		res = tb_true;
-		break;
-	}
+	TriBool res = Not(m1);
 	m.push_back(res);
 }
 

@@ -58,14 +58,28 @@ bool do_all_file(File& f)
 
 LineMatch do_all_line(File& f)
 {
-	LineMatchStack m;
-	for (auto&& op : opStack)
+	LineMatchStack lm;
+	UL i, j, n = opStack.size();
+	for (i=0; i<n; ++i)
 	{
-		op->MatchLines(f, m);
+		auto&& opi = opStack[i];
+		opi->MatchLines(f, lm);
+		FileMatchStack fm;
+		for (auto&& lmi : lm)
+			fm.push_back(FromBool(lmi.match()));
+		for(j=i+1; j<n; ++j)
+		{
+			auto&& opj = opStack[j];
+			opj->MatchFile(f, fm);
+		}
+		if (fm.size() != 1)
+			throw "operator / operand count error";
+		if (fm.front() == tb_false)
+			return {false, {}};
 	}
-	if (m.size() != 1)
+	if (lm.size() != 1)
 		throw "operator / operand count error";
-	return m.front();
+	return lm.front();
 }
 
 std::vector<std::string>& File::lines()
@@ -262,7 +276,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find v0.29" << std::endl;
+		std::cout << "Reverse Polish Find II v0.01" << std::endl;
 	}
 	else try
 	{

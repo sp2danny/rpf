@@ -26,6 +26,8 @@ MAKE_OPER( And  )                       };
 MAKE_OPER( Or   )                       };
 MAKE_OPER( Not  )                       };
 
+MAKE_OPER( Near )    UL n;              };
+
 
 #undef MAKE_OPER
 

@@ -29,7 +29,7 @@ void LineOperator::Create ( std::string str )
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	expr = to_lower_copy(unparan(str));
+	expr = unparan(str);
 }
 
 void LineOperator::MatchDir ( File&, FileMatchStack& m )

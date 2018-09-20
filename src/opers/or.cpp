@@ -43,19 +43,7 @@ void OrOperator::MatchDir ( File&, FileMatchStack& m )
 	}
 	TriBool m1 = m.back(); m.pop_back();
 	TriBool m2 = m.back(); m.pop_back();
-	TriBool res;
-	switch (m1)
-	{
-	case tb_true:
-		res = tb_true;
-		break;
-	case tb_maybe:
-		res = (m2==tb_true) ? tb_true : tb_maybe;
-		break;
-	case tb_false:
-		res = m2;
-		break;
-	}
+	TriBool res = Or(m1, m2);
 	m.push_back(res);
 }
 

@@ -41,7 +41,55 @@ void register_all()
 	REG(Line);
 	REG(Not);
 	REG(Or);
+	
+	REG(Near);
 }
 
 #undef REG
+
+
+TriBool And(TriBool lhs, TriBool rhs)
+{
+	switch (lhs)
+	{
+	case tb_false:
+		return tb_false;
+	case tb_maybe:
+		return (rhs==tb_false) ? tb_false : tb_maybe;
+	case tb_true:
+		return rhs;
+	}
+}
+
+TriBool Or(TriBool lhs, TriBool rhs)
+{
+	switch (lhs)
+	{
+	case tb_true:
+		return tb_true;
+	case tb_maybe:
+		return (rhs==tb_true) ? tb_true : tb_maybe;
+	case tb_false:
+		return rhs;
+	}
+}
+
+TriBool Not(TriBool arg)
+{
+	switch (arg)
+	{
+	case tb_true:
+		return tb_false;
+	case tb_maybe:
+		return tb_maybe;
+	case tb_false:
+		return tb_true;
+	}
+}
+
+TriBool FromBool(bool b)
+{
+	return b ? tb_true : tb_false;
+}
+
 
