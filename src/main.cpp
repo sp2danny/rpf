@@ -133,6 +133,8 @@ void Help(std::ostream& out) // print help to stdout
 	    << "\n    1b. Text Operands (produce results, and populates match-lines)\n"
 	    << "\tl(expr)" "\t" "whole " << bold << "l" << reset << "ine matches expr using *? matching, case sensitive\n"
 	    << "\tL(expr)" "\t" "whole " << bold << "l" << reset << "ine matches expr using *? matching, case insensitive\n"
+	    << "\ti(expr)" "\t" "tokenizes line, expr matches one " << bold << "i" << reset << "dentifier exactly\n"
+	    << "\tI(expr)" "\t" "tokenizes line, expr matches one " << bold << "i" << reset << "dentifier case insensitive\n"
 	    << "\tr(expr)" "\t" "part of line matches expr using " << bold << "r" << reset << "egex matching\n"
 	    << "\tb(expr)" "\t" "part of line matches expr using " << bold << "B" << reset << "oyerMoore matching, no *?\n\t\tmatching\n"
 	    << "\tB(expr)" "\t" "part of line matches expr using " << bold << "B" << reset << "oyerMoore matching, no *?\n\t\tmatching, case insesitive\n"
@@ -155,7 +157,7 @@ void Help(std::ostream& out) // print help to stdout
 	    << "\tstats"   "\tsummary statistic printed.\n\t\tdefault on\n"
 
 	    << "\n    Notes\n"
-	    << "\tOnly l, r and b (and uppercase variants) loads the file-content\n"
+	    << "\tOnly l, r, i and b (and uppercase variants) loads the file-content\n"
 	    << "\tMany operators and operands need to be escaped or quoted\n"
 	;
 
@@ -271,7 +273,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find v1.01" << std::endl;
+		std::cout << "Reverse Polish Find v1.02" << std::endl;
 	}
 	else try
 	{

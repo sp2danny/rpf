@@ -54,9 +54,14 @@ obj/true.o: Makefile src/common.h src/operators.h src/opers/true.cpp
 	$(CC) $(CFLAGS) -c src/opers/true.cpp -o obj/true.o
 obj/inv.o: Makefile src/common.h src/operators.h src/opers/inv.cpp
 	$(CC) $(CFLAGS) -c src/opers/inv.cpp -o obj/inv.o
+obj/mod.o: Makefile src/common.h src/operators.h src/opers/mod.cpp
+	$(CC) $(CFLAGS) -c src/opers/mod.cpp -o obj/mod.o
+obj/ident.o: Makefile src/common.h src/operators.h src/opers/ident.cpp
+	$(CC) $(CFLAGS) -c src/opers/ident.cpp -o obj/ident.o
 
 OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o obj/match.o obj/misc.o \
-obj/and.o obj/file.o obj/line.o obj/or.o obj/not.o obj/dir.o obj/near.o obj/bm.o obj/regex.o obj/sub.o obj/true.o obj/inv.o
+obj/and.o obj/file.o obj/line.o obj/or.o obj/not.o obj/dir.o obj/near.o obj/bm.o \
+obj/regex.o obj/sub.o obj/true.o obj/inv.o obj/mod.o obj/ident.o
 
 rpf2: Makefile $(OBJS)
 	$(CC) -o rpf2 -static-libstdc++ -static-libgcc $(OBJS) $(LINK)

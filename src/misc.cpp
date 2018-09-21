@@ -51,6 +51,8 @@ void register_all()
 	REG(True);
 	REG(Inv);
 	REG(Mod);
+	REG(Ident);
+	REG(IdentCI);
 }
 
 #undef REG

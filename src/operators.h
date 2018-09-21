@@ -41,6 +41,8 @@ MAKE_OPER( Sub     )                       };
 MAKE_OPER( True    )                       };
 MAKE_OPER( Inv     )                       };
 MAKE_OPER( Mod     )     std::time_t md;   };
+MAKE_OPER( Ident   )     std::string id;   };
+MAKE_OPER( IdentCI )     std::string id;   };
 
 #undef MAKE_OPER
 
