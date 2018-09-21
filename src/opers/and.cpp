@@ -25,7 +25,7 @@ char AndOperator::MyChar()
 	return 'a';
 }
 
-void AndOperator::Create ( std::string str )
+void AndOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());

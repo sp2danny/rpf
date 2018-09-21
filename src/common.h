@@ -78,6 +78,12 @@ typedef clone_ptr<Operator> (*OperatorMaker)(std::string);
 
 struct File;
 
+struct opcat
+{
+	enum : unsigned char { term, oper } kind;
+	unsigned char npop, npush, prio;
+};
+
 struct Operator
 {
 	Operator() = default;
@@ -94,6 +100,13 @@ struct Operator
 	virtual void MatchDir   ( File&, FileMatchStack& ) = 0;
 	virtual void MatchFile  ( File&, FileMatchStack& ) = 0;
 	virtual void MatchLines ( File&, LineMatchStack& ) = 0;
+
+	virtual void DoCache (File&) {}
+	virtual opcat Category() { return {opcat::oper,2,1,1}; }
+
+protected:
+	LineMatch cached;
+	bool have_cache = false;
 
 private:
 	static std::map<char, OperatorMaker> createMap;
