@@ -142,6 +142,7 @@
     <ClCompile Include="src\opers\bm.cpp" />
     <ClCompile Include="src\opers\dir.cpp" />
     <ClCompile Include="src\opers\file.cpp" />
+    <ClCompile Include="src\opers\ident.cpp" />
     <ClCompile Include="src\opers\inv.cpp" />
     <ClCompile Include="src\opers\line.cpp" />
     <ClCompile Include="src\opers\mod.cpp" />

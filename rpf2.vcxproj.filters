@@ -78,6 +78,9 @@
     <ClCompile Include="src\opers\mod.cpp">
       <Filter>Source Files\opers</Filter>
     </ClCompile>
+    <ClCompile Include="src\opers\ident.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">
