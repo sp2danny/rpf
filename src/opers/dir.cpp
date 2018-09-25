@@ -32,17 +32,20 @@ void DirOperator::Create ( std::string str )
 	name = to_lower_copy(unparan(str));
 }
 
-void DirOperator::MatchDir ( File& f, FileMatchStack& m )
+/* void DirOperator::MatchDir ( File& f, FileMatchStack& m )
 {
 	if (str_pat_mat(to_lower_copy(f.path), name))
 		m.push_back(tb_true);
 	else
 		m.push_back(tb_false);
-}
+} */
 
 void DirOperator::MatchFile ( File& f, FileMatchStack& m )
 {
-	return MatchDir(f, m);
+	if (str_pat_mat(to_lower_copy(f.path), name))
+		m.push_back(tb_true);
+	else
+		m.push_back(tb_false);
 }
 
 void DirOperator::MatchLines ( File& f, LineMatchStack& m )

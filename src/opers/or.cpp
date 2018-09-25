@@ -37,7 +37,7 @@ void OrOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void OrOperator::MatchDir ( File&, FileMatchStack& m )
+/*void OrOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (!all)
 	{
@@ -60,11 +60,31 @@ void OrOperator::MatchDir ( File&, FileMatchStack& m )
 		}
 		m.push_back(res);
 	}
-}
+}*/
 
-void OrOperator::MatchFile ( File& f, FileMatchStack& m )
+void OrOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
-	MatchDir(f, m);
+	if (!all)
+	{
+		if (m.size() < 2)
+		{
+			throw "operator or: not enough operands";
+		}
+		TriBool m1 = m.back(); m.pop_back();
+		TriBool m2 = m.back(); m.pop_back();
+		TriBool res = Or(m1, m2);
+		m.push_back(res);
+	} else {
+		if (m.size() < 1)
+			throw "operator or: not enough operands";
+		TriBool res = m.back(); m.pop_back();
+		while (!m.empty())
+		{
+			TriBool m1 = m.back(); m.pop_back();
+			res = Or(res, m1);
+		}
+		m.push_back(res);
+	}
 }
 
 void OrOperator::MatchLines ( File& f, LineMatchStack& m )

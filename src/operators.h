@@ -9,7 +9,7 @@ struct xx ## Operator final : Operator                                  \
 	xx ## Operator          ( std::string str        ) { Create(str); } \
 	virtual char MyChar     (                        ) override;        \
 	virtual void Create     ( std::string            ) override;        \
-	virtual void MatchDir   ( File&, FileMatchStack& ) override;        \
+	/*virtual void MatchDir   ( File&, FileMatchStack& ) override;*/    \
 	virtual void MatchFile  ( File&, FileMatchStack& ) override;        \
 	virtual void MatchLines ( File&, LineMatchStack& ) override;        \
 	virtual void Register   (                        ) override;        \
@@ -43,6 +43,10 @@ MAKE_OPER( Inv     )                       };
 MAKE_OPER( Mod     )     std::time_t md;   };
 MAKE_OPER( Ident   )     std::string id;   };
 MAKE_OPER( IdentCI )     std::string id;   };
+
+MAKE_OPER( Dup     )                       };
+MAKE_OPER( Swap    )     UL pos;           };
+
 
 #undef MAKE_OPER
 

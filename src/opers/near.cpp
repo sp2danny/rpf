@@ -32,7 +32,7 @@ void NearOperator::Create ( std::string str )
 	n = getparam(str, 5);
 }
 
-void NearOperator::MatchDir ( File&, FileMatchStack& m )
+/*void NearOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 2)
 	{
@@ -42,11 +42,18 @@ void NearOperator::MatchDir ( File&, FileMatchStack& m )
 	TriBool m2 = m.back(); m.pop_back();
 	TriBool res = And(m1, m2);
 	m.push_back(res);
-}
+}*/
 
-void NearOperator::MatchFile ( File& f, FileMatchStack& m )
+void NearOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
-	MatchDir(f, m);
+	if (m.size() < 2)
+	{
+		throw "operator near: not enough operands";
+	}
+	TriBool m1 = m.back(); m.pop_back();
+	TriBool m2 = m.back(); m.pop_back();
+	TriBool res = And(m1, m2);
+	m.push_back(res);
 }
 
 void NearOperator::MatchLines ( File& , LineMatchStack& m )

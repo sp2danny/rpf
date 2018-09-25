@@ -53,6 +53,9 @@ void register_all()
 	REG(Mod);
 	REG(Ident);
 	REG(IdentCI);
+
+	REG(Dup);
+	REG(Swap);
 }
 
 #undef REG

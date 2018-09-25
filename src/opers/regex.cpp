@@ -34,10 +34,10 @@ void RegexOperator::Create ( std::string str )
 	re.emplace(str);
 }
 
-void RegexOperator::MatchDir ( File&, FileMatchStack& m )
+/*void RegexOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 void RegexOperator::MatchFile ( File& , FileMatchStack& m )
 {

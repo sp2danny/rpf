@@ -32,10 +32,10 @@ void ModOperator::Create ( std::string str )
 	md = parse_date_from_string(unparan(str));
 }
 
-void ModOperator::MatchDir ( File&, FileMatchStack& m )
+/*void ModOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 static bool do_mod(File& f, std::time_t md)
 {

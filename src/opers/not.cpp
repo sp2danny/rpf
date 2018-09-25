@@ -33,7 +33,7 @@ void NotOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void NotOperator::MatchDir ( File&, FileMatchStack& m )
+/*void NotOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 1)
 	{
@@ -42,11 +42,17 @@ void NotOperator::MatchDir ( File&, FileMatchStack& m )
 	TriBool m1 = m.back(); m.pop_back();
 	TriBool res = Not(m1);
 	m.push_back(res);
-}
+}*/
 
-void NotOperator::MatchFile ( File& f, FileMatchStack& m )
+void NotOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
-	MatchDir(f, m);
+	if (m.size() < 1)
+	{
+		throw "operator not: not enough operands";
+	}
+	TriBool m1 = m.back(); m.pop_back();
+	TriBool res = Not(m1);
+	m.push_back(res);
 }
 
 void NotOperator::MatchLines ( File& , LineMatchStack& m )

@@ -32,10 +32,10 @@ void LineOperator::Create ( std::string str )
 	expr = unparan(str);
 }
 
-void LineOperator::MatchDir ( File&, FileMatchStack& m )
+/*void LineOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 void LineOperator::MatchFile ( File& , FileMatchStack& m )
 {
@@ -91,10 +91,10 @@ void LineCIOperator::Create ( std::string str )
 	expr = to_lower_copy(unparan(str));
 }
 
-void LineCIOperator::MatchDir ( File&, FileMatchStack& m )
+/*void LineCIOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 void LineCIOperator::MatchFile ( File& , FileMatchStack& m )
 {
