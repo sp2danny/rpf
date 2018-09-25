@@ -44,6 +44,10 @@ MAKE_OPER( Mod     )     std::time_t md;   };
 MAKE_OPER( Ident   )     std::string id;   };
 MAKE_OPER( IdentCI )     std::string id;   };
 
+MAKE_OPER( Dup     )                       };
+MAKE_OPER( Swap    )     UL pos;           };
+
+
 #undef MAKE_OPER
 
 
