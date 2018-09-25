@@ -70,6 +70,8 @@ TriBool And(TriBool lhs, TriBool rhs)
 		return (rhs==tb_false) ? tb_false : tb_maybe;
 	case tb_true:
 		return rhs;
+	default:
+		throw "internal engine error";
 	}
 }
 
@@ -83,6 +85,8 @@ TriBool Or(TriBool lhs, TriBool rhs)
 		return (rhs==tb_true) ? tb_true : tb_maybe;
 	case tb_false:
 		return rhs;
+	default:
+		throw "internal engine error";
 	}
 }
 
@@ -96,6 +100,8 @@ TriBool Not(TriBool arg)
 		return tb_maybe;
 	case tb_false:
 		return tb_true;
+	default:
+		throw "internal engine error";
 	}
 }
 
