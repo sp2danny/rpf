@@ -135,6 +135,10 @@ namespace runstate
 {
 	extern unsigned long long ml, mf, cf, sf, sl;
 	extern bool colorize, statistic, sparse;
+	extern bool debug_considered;
+	extern bool debug_searched;
+	extern std::vector<std::string> debug_considered_list;
+	extern std::vector<std::string> debug_searched_list;
 }
 
 extern std::string unparan(std::string str);

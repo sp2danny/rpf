@@ -29,6 +29,10 @@ namespace runstate
 {
 	unsigned long long ml = 0, mf = 0, cf=0, sf=0, sl=0;
 	bool colorize, statistic = true, sparse = true;
+	bool debug_considered = false;
+	bool debug_searched = false;
+	std::vector<std::string> debug_considered_list;
+	std::vector<std::string> debug_searched_list;
 }
 
 OperatorStack opStack;
@@ -186,6 +190,8 @@ void doall(std::string path)
 			continue;
 		}
 		runstate::cf += 1;
+		if (runstate::debug_considered)
+			runstate::debug_considered_list.push_back(ff.path + "/"s + ff.name);
 		if (!do_all_file(ff))
 		{
 			continue;
@@ -194,6 +200,8 @@ void doall(std::string path)
 		if (mm.match())
 		{
 			runstate::mf += 1;
+			if (runstate::debug_searched)
+				runstate::debug_searched_list.push_back(ff.path + "/"s + ff.name);
 			runstate::ml += mm.lines().size();
 			if (!runstate::sparse) std::cout << std::endl;
 			std::cout << ff.path + "/" + ff.name << std::endl;
@@ -297,6 +305,10 @@ int main(int argc, char** argv)
 					runstate::sparse = true;
 				else if (arg == "sparse-off")
 					runstate::sparse = false;
+				else if (arg == "debug-considered")
+					runstate::debug_considered = true;
+				else if (arg == "debug-searched")
+					runstate::debug_searched = true;
 				else
 					throw "Unknown argument "s + arg;
 			}
@@ -323,6 +335,21 @@ int main(int argc, char** argv)
 			std::cout << "Searched Files   : " << runstate::sf << std::endl;
 			std::cout << "Searched Lines   : " << runstate::sl << std::endl;
 		}
+
+		if (runstate::debug_considered)
+		{
+			std::cout << "*** DEBUG *** CONSIDERED ***" << std::endl;
+			for (auto&& str : runstate::debug_considered_list)
+				std::cout << str << std::endl;
+		}
+
+		if (runstate::debug_searched)
+		{
+			std::cout << "*** DEBUG *** SEARCHED ***" << std::endl;
+			for (auto&& str : runstate::debug_searched_list)
+				std::cout << str << std::endl;
+		}
+
 	}
 	catch (const std::string& err)
 	{
