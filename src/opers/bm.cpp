@@ -35,10 +35,10 @@ void BMOperator::Create ( std::string str )
 	bm.emplace(str);
 }
 
-void BMOperator::MatchDir ( File&, FileMatchStack& m )
+/* void BMOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+} */
 
 void BMOperator::MatchFile ( File& , FileMatchStack& m )
 {
@@ -90,10 +90,10 @@ void BM_CIOperator::Create ( std::string str )
 	bm.emplace(str);
 }
 
-void BM_CIOperator::MatchDir ( File&, FileMatchStack& m )
+/* void BM_CIOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+} */
 
 void BM_CIOperator::MatchFile ( File& , FileMatchStack& m )
 {

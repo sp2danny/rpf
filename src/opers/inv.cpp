@@ -33,17 +33,21 @@ void InvOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void InvOperator::MatchDir ( File&, FileMatchStack& m )
+/*void InvOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 1)
 	{
 		throw "operator inv: not enough operands";
 	}
-}
+}*/
 
-void InvOperator::MatchFile ( File& f, FileMatchStack& m )
+void InvOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
-	MatchDir(f, m);
+	if (m.size() < 1)
+	{
+		throw "operator inv: not enough operands";
+	}
+	/* noop */
 }
 
 void InvOperator::MatchLines ( File& f, LineMatchStack& m )

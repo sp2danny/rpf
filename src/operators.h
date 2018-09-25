@@ -9,7 +9,7 @@ struct xx ## Operator final : Operator                                  \
 	xx ## Operator          ( std::string str        ) { Create(str); } \
 	virtual char MyChar     (                        ) override;        \
 	virtual void Create     ( std::string            ) override;        \
-	virtual void MatchDir   ( File&, FileMatchStack& ) override;        \
+	/*virtual void MatchDir   ( File&, FileMatchStack& ) override;*/    \
 	virtual void MatchFile  ( File&, FileMatchStack& ) override;        \
 	virtual void MatchLines ( File&, LineMatchStack& ) override;        \
 	virtual void Register   (                        ) override;        \

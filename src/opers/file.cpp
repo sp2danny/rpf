@@ -32,10 +32,10 @@ void FileOperator::Create ( std::string str )
 	name = to_lower_copy(unparan(str));
 }
 
-void FileOperator::MatchDir ( File&, FileMatchStack& m )
+/*void FileOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 void FileOperator::MatchFile ( File& f, FileMatchStack& m )
 {
@@ -82,10 +82,10 @@ void CppOnlyOperator::Create ( std::string str )
 	name = to_lower_copy(unparan(str));
 }
 
-void CppOnlyOperator::MatchDir ( File&, FileMatchStack& m )
+/*void CppOnlyOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 void CppOnlyOperator::MatchFile ( File& f, FileMatchStack& m )
 {

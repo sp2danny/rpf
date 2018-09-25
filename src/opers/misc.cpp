@@ -37,7 +37,7 @@ void DupOperator::Create ( [[maybe_unused]] std::string str )
 		throw "operator syntax error";
 }
 
-void DupOperator::MatchDir ( File&, FileMatchStack& m )
+void DupOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
 	if (m.size() < 1)
 	{
@@ -45,11 +45,6 @@ void DupOperator::MatchDir ( File&, FileMatchStack& m )
 	}
 	TriBool res = m.back();
 	m.push_back(res);
-}
-
-void DupOperator::MatchFile ( File& f, FileMatchStack& m )
-{
-	MatchDir(f, m);
 }
 
 void DupOperator::MatchLines ( File& , LineMatchStack& m )
@@ -97,7 +92,7 @@ void SwapOperator::Create ( [[maybe_unused]] std::string str )
 	pos = getparam(str, 2);
 }
 
-void SwapOperator::MatchDir ( File&, FileMatchStack& m )
+void SwapOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
 	if (m.size() < pos)
 	{
@@ -107,11 +102,6 @@ void SwapOperator::MatchDir ( File&, FileMatchStack& m )
 	auto& m2 = *(m.end()-pos);
 	using std::swap;
 	swap(m1, m2);
-}
-
-void SwapOperator::MatchFile ( File& f, FileMatchStack& m )
-{
-	MatchDir(f, m);
 }
 
 void SwapOperator::MatchLines ( File& , LineMatchStack& m )

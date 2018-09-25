@@ -33,18 +33,22 @@ void SubOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void SubOperator::MatchDir ( File&, FileMatchStack& m )
+/*void SubOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	if (m.size() < 2)
 	{
 		throw "operator sub: not enough operands";
 	}
 	m.pop_back();
-}
+}*/
 
-void SubOperator::MatchFile ( File& f, FileMatchStack& m )
+void SubOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
-	MatchDir(f, m);
+	if (m.size() < 2)
+	{
+		throw "operator sub: not enough operands";
+	}
+	m.pop_back();
 }
 
 void SubOperator::MatchLines ( File&, LineMatchStack& m )

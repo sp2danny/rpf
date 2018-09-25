@@ -98,7 +98,7 @@ struct Operator
 
 	virtual void Register() = 0;
 
-	virtual void MatchDir   ( File&, FileMatchStack& ) = 0;
+	//virtual void MatchDir   ( File&, FileMatchStack& ) = 0;
 	virtual void MatchFile  ( File&, FileMatchStack& ) = 0;
 	virtual void MatchLines ( File&, LineMatchStack& ) = 0;
 
@@ -115,7 +115,7 @@ private:
 
 typedef std::vector<clone_ptr<Operator>> OperatorStack;
 
-TriBool ExecuteAllDir  ( OperatorStack&, FileMatchStack& );
+//TriBool ExecuteAllDir  ( OperatorStack&, FileMatchStack& );
 TriBool ExecuteAllFile ( OperatorStack&, FileMatchStack& );
 bool    ExecuteAllLine ( OperatorStack&, LineMatchStack& );
 

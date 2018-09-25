@@ -32,10 +32,10 @@ void IdentOperator::Create ( std::string str )
 	id = unparan(str);
 }
 
-void IdentOperator::MatchDir ( File&, FileMatchStack& m )
+/*void IdentOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 void IdentOperator::MatchFile ( File& , FileMatchStack& m )
 {
@@ -91,10 +91,10 @@ void IdentCIOperator::Create ( std::string str )
 	id = to_lower_copy(unparan(str));
 }
 
-void IdentCIOperator::MatchDir ( File&, FileMatchStack& m )
+/*void IdentCIOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_maybe);
-}
+}*/
 
 void IdentCIOperator::MatchFile ( File& , FileMatchStack& m )
 {

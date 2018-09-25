@@ -33,10 +33,10 @@ void TrueOperator::Create ( [[maybe_unused]] std::string str )
 		throw "operator syntax error";
 }
 
-void TrueOperator::MatchDir ( File&, FileMatchStack& m )
+/*void TrueOperator::MatchDir ( File&, FileMatchStack& m )
 {
 	m.push_back(tb_true);
-}
+}*/
 
 void TrueOperator::MatchFile ( File& , FileMatchStack& m )
 {
