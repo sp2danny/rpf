@@ -22,6 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{5B5AB1F4-99C3-4DD1-BA32-E974E9A4DB4B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -64,9 +65,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)obj\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,6 +92,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <ConformanceMode>true</ConformanceMode>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\%(Filename).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -96,6 +110,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <ConformanceMode>true</ConformanceMode>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\%(Filename).obj</ObjectFileName>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -112,6 +127,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <ConformanceMode>true</ConformanceMode>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\%(Filename).obj</ObjectFileName>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -126,6 +142,7 @@
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <DisableLanguageExtensions>true</DisableLanguageExtensions>
       <ConformanceMode>true</ConformanceMode>
+      <ObjectFileName>$(IntDir)\%(RelativeDir)\%(Filename).obj</ObjectFileName>
     </ClCompile>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)"</Command>
@@ -148,6 +165,7 @@
     <ClCompile Include="src\opers\ident.cpp" />
     <ClCompile Include="src\opers\inv.cpp" />
     <ClCompile Include="src\opers\line.cpp" />
+    <ClCompile Include="src\opers\misc.cpp" />
     <ClCompile Include="src\opers\mod.cpp" />
     <ClCompile Include="src\opers\near.cpp" />
     <ClCompile Include="src\opers\not.cpp" />
