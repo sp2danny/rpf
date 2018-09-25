@@ -37,6 +37,7 @@ namespace runstate
 
 OperatorStack opStack;
 
+/*
 bool do_all_dir(File& f)
 {
 	FileMatchStack m;
@@ -49,6 +50,7 @@ bool do_all_dir(File& f)
 	auto res = m.front();
 	return res != tb_false;
 }
+*/
 
 bool do_all_file(File& f)
 {
@@ -184,11 +186,13 @@ void doall(std::string path)
 		ff.path = de->dir_name;
 		ff.name = de->file_name;
 		ff.cpponly = false;
+		/*
 		if (!do_all_dir(ff))
 		{
 			rde.skipDir();
 			continue;
 		}
+		*/
 		runstate::cf += 1;
 		if (runstate::debug_considered)
 			runstate::debug_considered_list.push_back(ff.path + "/"s + ff.name);
