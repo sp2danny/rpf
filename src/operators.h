@@ -42,6 +42,7 @@ struct xx ## Operator final : Operator                                  \
 	  Operator::Register( MyChar() , +maker ); }                        \
 	virtual Operator* clone (                        ) override         \
 	{ return new xx ## Operator(*this); }                               \
+            void UnCache    (                        );                 \
 private:                                                                \
 	xx ## Operator() = default;                                         \
 	friend void register_all();                                         \

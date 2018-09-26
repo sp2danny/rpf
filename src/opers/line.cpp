@@ -29,6 +29,7 @@ void LineOperator::MatchFile ( File& , FileMatchStack& m )
 
 void LineOperator::MatchLines ( File& f, LineMatchStack& m )
 {
+	UnCache();
 	LinesCache(f);
 	ExeCached(m);
 }
@@ -63,6 +64,12 @@ void LineOperator::ExeCached(LineMatchStack& lms)
 		lms.push_back(lm_cache);
 	else
 		lms.push_back({tb_maybe});
+}
+
+void LineOperator::UnCache()
+{
+	have_cache = false;
+	lm_cache = LineMatch{false,{}};
 }
 
 // ----------------------------------------------------------------------------

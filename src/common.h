@@ -83,7 +83,7 @@ struct File;
 struct opcat
 {
 	enum : unsigned char { term, oper } kind;
-	enum : unsigned char { ri_dir, ri_file, ri_line } runin;
+	enum : unsigned char { ri_file, ri_line } runin;
 	unsigned char npop, npush, prio;
 };
 
@@ -122,7 +122,6 @@ private:
 
 typedef std::vector<clone_ptr<Operator>> OperatorStack;
 
-//TriBool ExecuteAllDir  ( OperatorStack&, FileMatchStack& );
 TriBool ExecuteAllFile ( OperatorStack&, FileMatchStack& );
 bool    ExecuteAllLine ( OperatorStack&, LineMatchStack& );
 
