@@ -5,21 +5,6 @@
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;
 
-void LineOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<LineOperator>(LineOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* LineOperator::clone()
-{
-	return new LineOperator(*this);
-};
-
 char LineOperator::MyChar()
 {
 	return 'l';
@@ -44,7 +29,13 @@ void LineOperator::MatchFile ( File& , FileMatchStack& m )
 
 void LineOperator::MatchLines ( File& f, LineMatchStack& m )
 {
-	LineMatch res;
+	LinesCache(f);
+	ExeCached(m);
+}
+
+void LineOperator::LinesCache(File& f)
+{
+	if (have_cache) return;
 	UL ln = 0;
 	for (auto&& l : f.lines())
 	{
@@ -52,32 +43,29 @@ void LineOperator::MatchLines ( File& f, LineMatchStack& m )
 		{
 			auto vzzp = str_pat_mat_special(l, expr);
 			if (vzzp.empty())
-				res.add_simple_match(ln);
+				lm_cache.add_simple_match(ln);
 			else
 				for(auto&& zzp : vzzp)
-					res.add_full_match(ln, zzp.first, zzp.second);
+					lm_cache.add_full_match(ln, zzp.first, zzp.second);
 		}
 		++ln;
 	}
-	m.push_back(std::move(res));
+	have_cache = true;
+}
+
+bool LineOperator::IsCached() { return have_cache; }
+
+int LineOperator::MyPrio() { return 5; }
+
+void LineOperator::ExeCached(LineMatchStack& lms)
+{
+	if (have_cache)
+		lms.push_back(lm_cache);
+	else
+		lms.push_back({tb_maybe});
 }
 
 // ----------------------------------------------------------------------------
-
-void LineCIOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<LineCIOperator>(LineCIOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* LineCIOperator::clone()
-{
-	return new LineCIOperator(*this);
-};
 
 char LineCIOperator::MyChar()
 {
@@ -90,11 +78,6 @@ void LineCIOperator::Create ( std::string str )
 	assert(str[0] == MyChar());
 	expr = to_lower_copy(unparan(str));
 }
-
-/*void LineCIOperator::MatchDir ( File&, FileMatchStack& m )
-{
-	m.push_back(tb_maybe);
-}*/
 
 void LineCIOperator::MatchFile ( File& , FileMatchStack& m )
 {

@@ -3,12 +3,12 @@
 
 bool LineMatch::match() const
 {
-	return m_match;
+	return m_match == tb_true;
 }
 
 void LineMatch::match(bool m)
 {
-	m_match = m;
+	m_match = FromBool(m);
 	if (!m)
 		m_lines.clear();
 }
@@ -25,31 +25,31 @@ Lines& LineMatch::modifiable_lines()
 
 void LineMatch::add_simple_match(UL l)
 {
-	m_match = true;
+	m_match = tb_true;
 	m_lines[l];
 }
 
 void LineMatch::add_full_match(UL l, UL b, UL e)
 {
-	m_match = true;
+	m_match = tb_true;
 	m_lines[l].push_back({b,e});
 }
 
 void LineMatch::add_full_match(UL l, MIP mip)
 {
-	m_match = true;
+	m_match = tb_true;
 	m_lines[l].push_back(mip);
 }
 
 void LineMatch::add_full_match(LIter li, UL b, UL e)
 {
-	m_match = true;
+	m_match = tb_true;
 	li->second.push_back({b,e});
 }
 
 void LineMatch::add_full_match(LIter li, MIP mip)
 {
-	m_match = true;
+	m_match = tb_true;
 	li->second.push_back(mip);
 }
 

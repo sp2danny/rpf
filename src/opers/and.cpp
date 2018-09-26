@@ -5,21 +5,6 @@
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;
 
-void AndOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<AndOperator>(AndOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* AndOperator::clone()
-{
-	return new AndOperator(*this);
-};
-
 char AndOperator::MyChar()
 {
 	return 'a';
@@ -36,33 +21,6 @@ void AndOperator::Create(std::string str)
 	else
 		throw "operator syntax error";
 }
-
-/*
-void AndOperator::MatchDir ( File&, FileMatchStack& m )
-{
-	if (!all)
-	{
-		if (m.size() < 2)
-		{
-			throw "operator and: not enough operands";
-		}
-		TriBool m1 = m.back(); m.pop_back();
-		TriBool m2 = m.back(); m.pop_back();
-		TriBool res = And(m1, m2);
-		m.push_back(res);
-	} else {
-		if (m.size() < 1)
-			throw "operator and: not enough operands";
-		TriBool res = m.back(); m.pop_back();
-		while (!m.empty())
-		{
-			TriBool m1 = m.back(); m.pop_back();
-			res = And(res, m1);
-		}
-		m.push_back(res);
-	}
-}
-*/
 
 void AndOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {

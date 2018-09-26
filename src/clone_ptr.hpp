@@ -399,5 +399,11 @@ void clone_ptr<T>::clear()
 	cl.clear();
 }
 
+template<typename T, typename... Args>
+clone_ptr<T> make_cloned(Args&&... args)
+{
+	return clone_ptr<T>{ T{std::forward<Args>(args)...} };
+}
+
 
 

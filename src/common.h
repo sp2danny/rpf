@@ -49,9 +49,11 @@ typedef Lines::const_iterator LCIter;
 struct LineMatch
 {
 	LineMatch() = default;
-	LineMatch(bool m, const Lines& l) : m_match(m), m_lines(l) {}
-	LineMatch(bool m, Lines&& l) : m_match(m), m_lines(std::move(l)) {}
+	LineMatch(bool m, const Lines& l) : m_match(FromBool(m)), m_lines(l) {}
+	LineMatch(bool m, Lines&& l) : m_match(FromBool(m)), m_lines(std::move(l)) {}
+	LineMatch(TriBool m) : m_match(m) {}
 	bool match() const;
+	TriBool tri() const { return m_match; }
 	void match(bool);
 	const Lines& lines() const;
 	Lines& modifiable_lines();
@@ -64,7 +66,7 @@ struct LineMatch
 	bool have_char(UL,UL) const;
 	bool have_char(LCIter,UL) const;
 private:
-	bool m_match = false;
+	TriBool m_match = tb_false;
 	Lines m_lines;
 };
 
@@ -98,9 +100,13 @@ struct Operator
 
 	virtual void Register() = 0;
 
-	//virtual void MatchDir   ( File&, FileMatchStack& ) = 0;
 	virtual void MatchFile  ( File&, FileMatchStack& ) = 0;
 	virtual void MatchLines ( File&, LineMatchStack& ) = 0;
+
+	virtual void LinesCache ( File& f                ) { file = &f; }
+	virtual bool IsCached   (                        ) { return file; }
+	virtual int  MyPrio     (                        ) { return 1; };
+	virtual void ExeCached  ( LineMatchStack& lms    ) { MatchLines(*file, lms); }
 
 	virtual void DoCache (File&) {}
 	virtual opcat Category() { return {opcat::oper,opcat::ri_line,2,1,1}; }
@@ -108,6 +114,7 @@ struct Operator
 protected:
 	LineMatch cached;
 	bool have_cache = false;
+	File* file = nullptr;
 
 private:
 	static std::map<char, OperatorMaker> createMap;

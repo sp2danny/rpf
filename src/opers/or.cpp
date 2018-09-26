@@ -2,24 +2,6 @@
 #include "../operators.h"
 #include "../common.h"
 
-using boost::algorithm::to_lower_copy;
-using boost::algorithm::to_lower;
-
-void OrOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<OrOperator>(OrOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* OrOperator::clone()
-{
-	return new OrOperator(*this);
-};
-
 char OrOperator::MyChar()
 {
 	return 'o';
@@ -36,31 +18,6 @@ void OrOperator::Create ( std::string str )
 	else
 		throw "operator syntax error";
 }
-
-/*void OrOperator::MatchDir ( File&, FileMatchStack& m )
-{
-	if (!all)
-	{
-		if (m.size() < 2)
-		{
-			throw "operator or: not enough operands";
-		}
-		TriBool m1 = m.back(); m.pop_back();
-		TriBool m2 = m.back(); m.pop_back();
-		TriBool res = Or(m1, m2);
-		m.push_back(res);
-	} else {
-		if (m.size() < 1)
-			throw "operator or: not enough operands";
-		TriBool res = m.back(); m.pop_back();
-		while (!m.empty())
-		{
-			TriBool m1 = m.back(); m.pop_back();
-			res = Or(res, m1);
-		}
-		m.push_back(res);
-	}
-}*/
 
 void OrOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {

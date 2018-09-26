@@ -9,21 +9,6 @@ using boost::algorithm::to_lower;
 // *** Dup ***
 // ***********
 
-void DupOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<DupOperator>(DupOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* DupOperator::clone()
-{
-	return new DupOperator(*this);
-};
-
 char DupOperator::MyChar()
 {
 	return '2';
@@ -62,21 +47,6 @@ void DupOperator::MatchLines ( File& , LineMatchStack& m )
 // ************
 // *** Swap ***
 // ************
-
-void SwapOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<SwapOperator>(SwapOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* SwapOperator::clone()
-{
-	return new SwapOperator(*this);
-};
 
 char SwapOperator::MyChar()
 {

@@ -2,24 +2,6 @@
 #include "../operators.h"
 #include "../common.h"
 
-using boost::algorithm::to_lower_copy;
-using boost::algorithm::to_lower;
-
-void InvOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<InvOperator>(InvOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* InvOperator::clone()
-{
-	return new InvOperator(*this);
-};
-
 char InvOperator::MyChar()
 {
 	return '~';
@@ -32,14 +14,6 @@ void InvOperator::Create ( std::string str )
 	if (str.size() != 1)
 		throw "operator syntax error";
 }
-
-/*void InvOperator::MatchDir ( File&, FileMatchStack& m )
-{
-	if (m.size() < 1)
-	{
-		throw "operator inv: not enough operands";
-	}
-}*/
 
 void InvOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {

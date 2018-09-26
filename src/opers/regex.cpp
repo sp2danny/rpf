@@ -1,25 +1,6 @@
 
-
 #include "../operators.h"
 #include "../common.h"
-
-using boost::algorithm::to_lower_copy;
-using boost::algorithm::to_lower;
-
-void RegexOperator::Register()
-{
-	auto maker = [](std::string s) -> clone_ptr<Operator>
-	{
-		auto o = clone_ptr<RegexOperator>(RegexOperator{s});
-		return clone_ptr<Operator>(o);
-	};
-	Operator::Register( MyChar() , +maker );
-}
-
-Operator* RegexOperator::clone()
-{
-	return new RegexOperator(*this);
-};
 
 char RegexOperator::MyChar()
 {
@@ -33,11 +14,6 @@ void RegexOperator::Create ( std::string str )
 	str = unparan(str);
 	re.emplace(str);
 }
-
-/*void RegexOperator::MatchDir ( File&, FileMatchStack& m )
-{
-	m.push_back(tb_maybe);
-}*/
 
 void RegexOperator::MatchFile ( File& , FileMatchStack& m )
 {
