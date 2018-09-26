@@ -108,12 +108,12 @@ struct Operator
 	virtual int  MyPrio     (                        ) { return 1; };
 	virtual void ExeCached  ( LineMatchStack& lms    ) { MatchLines(*file, lms); }
 
-	virtual void DoCache (File&) {}
-	virtual opcat Category() { return {opcat::oper,opcat::ri_line,2,1,1}; }
+	//virtual void DoCache (File&) {}
+	//virtual opcat Category() { return {opcat::oper,opcat::ri_line,2,1,1}; }
 
 protected:
-	LineMatch cached;
-	bool have_cache = false;
+	//LineMatch cached;
+	//bool have_cache = false;
 	File* file = nullptr;
 
 private:
