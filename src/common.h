@@ -140,7 +140,7 @@ private:
 namespace runstate
 {
 	extern unsigned long long ml, mf, cf, sf, sl;
-	extern bool colorize, statistic, sparse;
+	extern bool colorize, statistic, sparse, warnings;
 	extern bool debug_considered;
 	extern bool debug_searched;
 	extern std::vector<std::string> debug_considered_list;

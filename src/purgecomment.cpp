@@ -8,6 +8,7 @@
 #include <boost/numeric/conversion/converter.hpp>
 
 #include "purgecomment.h"
+#include "common.h"
 
 using boost::numeric::converter;
 
@@ -66,7 +67,8 @@ void purge_comment(std::string fn, std::vector<std::string>& vs)
 				{
 					if (prev == '\\')
 						break;
-					std::cerr << "warning: string not teminated, " << fn << " : " << ln << std::endl;
+					if (runstate::warnings)
+						std::cerr << "warning: string not teminated, " << fn << " : " << ln << std::endl;
 					in_string = false;
 					break;
 				}
@@ -86,7 +88,8 @@ void purge_comment(std::string fn, std::vector<std::string>& vs)
 			{
 				if (i >= n)
 				{
-					std::cerr << "warning: char not teminated, " << fn << " : " << ln << std::endl;
+					if (runstate::warnings)
+						std::cerr << "warning: char not teminated, " << fn << " : " << ln << std::endl;
 					in_char = false;
 					break;
 				}

@@ -28,7 +28,7 @@ clone_ptr<Operator> Operator::DispatchCreate(std::string str)
 namespace runstate
 {
 	unsigned long long ml = 0, mf = 0, cf=0, sf=0, sl=0;
-	bool colorize, statistic = true, sparse = true;
+	bool colorize, statistic = true, sparse = true, warnings = true;
 	bool debug_considered = false;
 	bool debug_searched = false;
 	std::vector<std::string> debug_considered_list;
@@ -309,6 +309,10 @@ int main(int argc, char** argv)
 					runstate::sparse = true;
 				else if (arg == "sparse-off")
 					runstate::sparse = false;
+				else if (arg == "warnings-on")
+					runstate::warnings = true;
+				else if (arg == "warnings-off")
+					runstate::warnings = false;
 				else if (arg == "debug-considered")
 					runstate::debug_considered = true;
 				else if (arg == "debug-searched")
