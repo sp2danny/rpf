@@ -10,17 +10,21 @@ char LineOperator::MyChar()
 	return 'l';
 }
 
+static bool is_wild(char c)
+{
+	return (c=='*') || (c=='?');
+}
+
 void LineOperator::Create ( std::string str )
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	expr = unparan(str);
+	if (expr.empty() || !is_wild(expr[0]))
+		prio = 2;
+	else
+		prio = 15;
 }
-
-/*void LineOperator::MatchDir ( File&, FileMatchStack& m )
-{
-	m.push_back(tb_maybe);
-}*/
 
 void LineOperator::MatchFile ( File& , FileMatchStack& m )
 {
@@ -56,7 +60,7 @@ void LineOperator::LinesCache(File& f)
 
 bool LineOperator::IsCached() { return have_cache; }
 
-int LineOperator::MyPrio() { return 5; }
+int LineOperator::MyPrio() { return prio; }
 
 void LineOperator::ExeCached(LineMatchStack& lms)
 {
@@ -84,6 +88,10 @@ void LineCIOperator::Create ( std::string str )
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	expr = to_lower_copy(unparan(str));
+	if (expr.empty() || !is_wild(expr[0]))
+		prio = 3;
+	else
+		prio = 15;
 }
 
 void LineCIOperator::MatchFile ( File& , FileMatchStack& m )
@@ -91,9 +99,9 @@ void LineCIOperator::MatchFile ( File& , FileMatchStack& m )
 	m.push_back(tb_maybe);
 }
 
-void LineCIOperator::MatchLines ( File& f, LineMatchStack& m )
+void LineCIOperator::LinesCache(File& f)
 {
-	LineMatch res;
+	if (have_cache) return;
 	UL ln = 0;
 	for (auto&& l : f.lines())
 	{
@@ -102,12 +110,40 @@ void LineCIOperator::MatchLines ( File& f, LineMatchStack& m )
 		{
 			auto vzzp = str_pat_mat_special(lci, expr);
 			if (vzzp.empty())
-				res.add_simple_match(ln);
+				lm_cache.add_simple_match(ln);
 			else
 				for(auto&& zzp : vzzp)
-					res.add_full_match(ln, zzp.first, zzp.second);
+					lm_cache.add_full_match(ln, zzp.first, zzp.second);
 		}
 		++ln;
 	}
-	m.push_back(std::move(res));
+	have_cache = true;
 }
+
+void LineCIOperator::MatchLines ( File& f, LineMatchStack& m )
+{
+	UnCache();
+	LinesCache(f);
+	ExeCached(m);
+}
+
+bool LineCIOperator::IsCached() { return have_cache; }
+
+int LineCIOperator::MyPrio() { return prio; }
+
+void LineCIOperator::ExeCached(LineMatchStack& lms)
+{
+	if (have_cache)
+		lms.push_back(lm_cache);
+	else
+		lms.push_back({tb_maybe});
+}
+
+void LineCIOperator::UnCache()
+{
+	have_cache = false;
+	lm_cache = LineMatch{false,{}};
+}
+
+
+

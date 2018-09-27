@@ -14,53 +14,96 @@ void NearOperator::Create ( std::string str )
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	n = getparam(str, 5);
+	if (str == "n+")
+	{
+		n = 0; all = true;
+	}
+	else
+		n = getparam(str, 5);
 }
 
 void NearOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
-	if (m.size() < 2)
+	UL sz = m.size();
+
+	if (all)
 	{
-		throw "operator near: not enough operands";
+		if (sz < 1) throw "operator near: not enough operands";
+		while (sz >= 2)
+		{
+			TriBool m1 = m.back(); m.pop_back();
+			TriBool m2 = m.back(); m.pop_back();
+			TriBool res = And(m1, m2);
+			m.push_back(res);
+			--sz;
+		}
 	}
-	TriBool m1 = m.back(); m.pop_back();
-	TriBool m2 = m.back(); m.pop_back();
-	TriBool res = And(m1, m2);
-	m.push_back(res);
+	else
+	{
+		if (sz < 2) throw "operator near: not enough operands";
+		TriBool m1 = m.back(); m.pop_back();
+		TriBool m2 = m.back(); m.pop_back();
+		TriBool res = And(m1, m2);
+		m.push_back(res);
+	}
 }
 
 void NearOperator::MatchLines ( File& , LineMatchStack& m )
 {
-	if (m.size() < 2)
-	{
-		throw "operator near: not enough operands";
-	}
 
-	auto m2 = std::move(m.back()); m.pop_back();
-	auto m1 = std::move(m.back()); m.pop_back();
-
-	if ((!m1.match()) || (!m2.match()))
+	auto near = [](const LineMatch& m1, const LineMatch& m2, UL n) -> LineMatch
 	{
-		m.emplace_back();
-		return;
-	}
-
-	LineMatch res;
-	for (auto&& l1 : m1.lines())
-	{
-		for(auto&& l2 : m2.lines())
+		LineMatch res;
+		for (auto&& l1 : m1.lines())
 		{
-			auto diff = (l2.first>l1.first) ? l2.first-l1.first : l1.first-l2.first;
-			if (diff <= n)
+			for(auto&& l2 : m2.lines())
 			{
-				res.add_simple_match(l1.first);
-				res.add_simple_match(l2.first);
-				for (auto&& x : l1.second)
-					res.add_full_match(l1.first, x);
-				for (auto&& x : l2.second)
-					res.add_full_match(l2.first, x);
+				auto diff = (l2.first>l1.first) ? l2.first-l1.first : l1.first-l2.first;
+				if (diff <= n)
+				{
+					res.add_simple_match(l1.first);
+					res.add_simple_match(l2.first);
+					for (auto&& x : l1.second)
+						res.add_full_match(l1.first, x);
+					for (auto&& x : l2.second)
+						res.add_full_match(l2.first, x);
+				}
 			}
 		}
+		res.match(!res.lines().empty());
+		return res;
+	};
+
+	UL sz = m.size();
+	if (all)
+	{
+		if (sz < 1) throw "operator near: not enough operands";
+		while (sz >= 2)
+		{
+			auto m2 = std::move(m.back()); m.pop_back();
+			auto m1 = std::move(m.back()); m.pop_back();
+			auto tb1 = m1.tri();
+			auto tb2 = m2.tri();
+			if ((tb1==tb_false) || (tb2==tb_false))
+				m.push_back({tb_false});
+			else if ((tb1==tb_maybe) || (tb2==tb_maybe))
+				m.push_back({tb_maybe});
+			else if (m1.lines().empty())
+				m.push_back(std::move(m2));
+			else if (m2.lines().empty())
+				m.push_back(std::move(m1));
+			else
+				m.push_back(near(m1, m2, n));
+			--sz;
+		}
 	}
-	m.push_back(std::move(res));
+	else
+	{
+		if (sz < 2) throw "operator near: not enough operands";
+		auto m2 = std::move(m.back()); m.pop_back();
+		auto m1 = std::move(m.back()); m.pop_back();
+		m.push_back( near(m1,m2,n) );
+	}
 }
+
+

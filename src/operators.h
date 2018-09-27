@@ -42,7 +42,9 @@ struct xx ## Operator final : Operator                                  \
 	  Operator::Register( MyChar() , +maker ); }                        \
 	virtual Operator* clone (                        ) override         \
 	{ return new xx ## Operator(*this); }                               \
-            void UnCache    (                        );                 \
+    virtual void UnCache    (                        ) override;        \
+	virtual bool NeedFile   (                        ) override         \
+	{ return true; }                                                    \
 private:                                                                \
 	xx ## Operator() = default;                                         \
 	friend void register_all();                                         \
@@ -55,26 +57,27 @@ typedef clone_ptr<boyer_moore_ci> pBMCI;
 
 typedef clone_ptr<std::regex> pRE;
 
-MAKE_OPER_NORM( File    )     std::string name; };
-MAKE_OPER_NORM( CppOnly )     std::string name; };
-MAKE_OPER_NORM( Dir     )     std::string name; };
-MAKE_OPER_FILE( Line    )     std::string expr; };
-MAKE_OPER_NORM( LineCI  )     std::string expr; };
-MAKE_OPER_NORM( And     )     bool all;         };
-MAKE_OPER_NORM( Or      )     bool all;         };
-MAKE_OPER_NORM( Not     )                       };
-MAKE_OPER_NORM( Near    )     UL n;             };
-MAKE_OPER_NORM( BM      )     pBM bm; UL sz;    };
-MAKE_OPER_NORM( BM_CI   )     pBMCI bm; UL sz;  };
-MAKE_OPER_NORM( Regex   )     pRE re;           };
-MAKE_OPER_NORM( Sub     )                       };
-MAKE_OPER_NORM( True    )                       };
-MAKE_OPER_NORM( Inv     )                       };
-MAKE_OPER_NORM( Mod     )     std::time_t md;   };
-MAKE_OPER_NORM( Ident   )     std::string id;   };
-MAKE_OPER_NORM( IdentCI )     std::string id;   };
-MAKE_OPER_NORM( Dup     )                       };
-MAKE_OPER_NORM( Swap    )     UL pos;           };
+MAKE_OPER_NORM( File    )     std::string name;                };
+MAKE_OPER_NORM( CppOnly )     std::string name;                };
+MAKE_OPER_NORM( Dir     )     std::string name;                };
+MAKE_OPER_FILE( Line    )     std::string expr; int prio;      };
+MAKE_OPER_FILE( LineCI  )     std::string expr; int prio;      };
+MAKE_OPER_NORM( And     )     bool all;                        };
+MAKE_OPER_NORM( Or      )     bool all;                        };
+MAKE_OPER_NORM( Not     )                                      };
+MAKE_OPER_NORM( Near    )     UL n; bool all = false;          };
+MAKE_OPER_NORM( BM      )     pBM bm; UL sz;                   };
+MAKE_OPER_NORM( BM_CI   )     pBMCI bm; UL sz;                 };
+MAKE_OPER_NORM( Regex   )     pRE re;                          };
+MAKE_OPER_NORM( Sub     )                                      };
+MAKE_OPER_NORM( True    )                                      };
+MAKE_OPER_NORM( Inv     )                                      };
+MAKE_OPER_NORM( Mod     )     std::time_t md;                  };
+MAKE_OPER_FILE( Ident   )     std::string id;                  };
+MAKE_OPER_FILE( IdentCI )     std::string id;                  };
+MAKE_OPER_NORM( Dup     )                                      };
+MAKE_OPER_NORM( Swap    )     UL pos;                          };
+
 
 
 #undef MAKE_OPER

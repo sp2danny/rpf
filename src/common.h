@@ -104,16 +104,13 @@ struct Operator
 	virtual void MatchLines ( File&, LineMatchStack& ) = 0;
 
 	virtual void LinesCache ( File& f                ) { file = &f; }
-	virtual bool IsCached   (                        ) { return file; }
+	virtual bool IsCached   (                        ) { return file != nullptr; }
 	virtual int  MyPrio     (                        ) { return 1; };
 	virtual void ExeCached  ( LineMatchStack& lms    ) { MatchLines(*file, lms); }
-
-	//virtual void DoCache (File&) {}
-	//virtual opcat Category() { return {opcat::oper,opcat::ri_line,2,1,1}; }
+	virtual void UnCache    (                        ) { file = nullptr; }
+	virtual bool NeedFile   (                        ) { return false; }
 
 protected:
-	//LineMatch cached;
-	//bool have_cache = false;
 	File* file = nullptr;
 
 private:
@@ -143,6 +140,7 @@ namespace runstate
 	extern bool colorize, statistic, sparse, warnings;
 	extern bool debug_considered;
 	extern bool debug_searched;
+	extern bool debug_general;
 	extern std::vector<std::string> debug_considered_list;
 	extern std::vector<std::string> debug_searched_list;
 }

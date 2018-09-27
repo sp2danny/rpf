@@ -24,7 +24,14 @@ void IdentOperator::MatchFile ( File& , FileMatchStack& m )
 
 void IdentOperator::MatchLines ( File& f, LineMatchStack& m )
 {
-	LineMatch res;
+	UnCache();
+	LinesCache(f);
+	ExeCached(m);
+}
+
+void IdentOperator::LinesCache(File& f)
+{
+	if (have_cache) return;
 	UL ln = 0;
 	UL sz = id.size();
 	for (auto&& l : f.lines())
@@ -34,12 +41,30 @@ void IdentOperator::MatchLines ( File& f, LineMatchStack& m )
 		{
 			if (t.first == id)
 			{
-				res.add_full_match(ln, t.second, t.second+sz);
+				lm_cache.add_full_match(ln, t.second, t.second+sz);
 			}
 		}
 		++ln;
 	}
-	m.push_back(std::move(res));
+	have_cache = true;
+}
+
+bool IdentOperator::IsCached() { return have_cache; }
+
+int IdentOperator::MyPrio() { return 20; }
+
+void IdentOperator::ExeCached(LineMatchStack& lms)
+{
+	if (have_cache)
+		lms.push_back(lm_cache);
+	else
+		lms.push_back({tb_maybe});
+}
+
+void IdentOperator::UnCache()
+{
+	have_cache = false;
+	lm_cache = LineMatch{false,{}};
 }
 
 // ----------------------------------------------------------------------------
@@ -63,7 +88,14 @@ void IdentCIOperator::MatchFile ( File& , FileMatchStack& m )
 
 void IdentCIOperator::MatchLines ( File& f, LineMatchStack& m )
 {
-	LineMatch res;
+	UnCache();
+	LinesCache(f);
+	ExeCached(m);
+}
+
+void IdentCIOperator::LinesCache(File& f)
+{
+	if (have_cache) return;
 	UL ln = 0;
 	UL sz = id.size();
 	for (auto&& l : f.lines())
@@ -73,10 +105,30 @@ void IdentCIOperator::MatchLines ( File& f, LineMatchStack& m )
 		{
 			if (to_lower_copy(t.first) == id)
 			{
-				res.add_full_match(ln, t.second, t.second+sz);
+				lm_cache.add_full_match(ln, t.second, t.second+sz);
 			}
 		}
 		++ln;
 	}
-	m.push_back(std::move(res));
+	have_cache = true;
 }
+
+bool IdentCIOperator::IsCached() { return have_cache; }
+
+int IdentCIOperator::MyPrio() { return 25; }
+
+void IdentCIOperator::ExeCached(LineMatchStack& lms)
+{
+	if (have_cache)
+		lms.push_back(lm_cache);
+	else
+		lms.push_back({tb_maybe});
+}
+
+void IdentCIOperator::UnCache()
+{
+	have_cache = false;
+	lm_cache = LineMatch{false,{}};
+}
+
+

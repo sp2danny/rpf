@@ -31,6 +31,7 @@ namespace runstate
 	bool colorize, statistic = true, sparse = true, warnings = true;
 	bool debug_considered = false;
 	bool debug_searched = false;
+	bool debug_general = false;
 	std::vector<std::string> debug_considered_list;
 	std::vector<std::string> debug_searched_list;
 }
@@ -176,6 +177,8 @@ void out_err(std::string err)
 	std::cerr << "error: " << err << std::endl;
 }
 
+LineMatch do_all_prio(File&);
+
 void doall(std::string path)
 {
 	RDE rde(path);
@@ -186,13 +189,7 @@ void doall(std::string path)
 		ff.path = de->dir_name;
 		ff.name = de->file_name;
 		ff.cpponly = false;
-		/*
-		if (!do_all_dir(ff))
-		{
-			rde.skipDir();
-			continue;
-		}
-		*/
+
 		runstate::cf += 1;
 		if (runstate::debug_considered)
 			runstate::debug_considered_list.push_back(ff.path + "/"s + ff.name);
@@ -200,12 +197,12 @@ void doall(std::string path)
 		{
 			continue;
 		}
-		auto mm = do_all_line(ff);
+		if (runstate::debug_searched)
+			runstate::debug_searched_list.push_back(ff.path + "/"s + ff.name);
+		auto mm = do_all_prio(ff); // do_all_line(ff);
 		if (mm.match())
 		{
 			runstate::mf += 1;
-			if (runstate::debug_searched)
-				runstate::debug_searched_list.push_back(ff.path + "/"s + ff.name);
 			runstate::ml += mm.lines().size();
 			if (!runstate::sparse) std::cout << std::endl;
 			std::cout << ff.path + "/" + ff.name << std::endl;
@@ -264,6 +261,59 @@ void doall(std::string path)
 	}
 }
 
+void debug_listing()
+{
+	std::list<int> opsp;
+	for (auto&& op : opStack)
+	{
+		opsp.push_back(op->MyPrio());
+	}
+	std::cout << "ops : ";
+	for (int i : opsp)
+		std::cout << i << " ";
+	std::cout << std::endl << "ops : ";
+	opsp.sort(); opsp.unique();
+	for (int i : opsp)
+		std::cout << i << " ";
+	std::cout << std::endl;
+}
+
+#include "container_operations.hpp"
+
+LineMatch do_all_prio(File& f)
+{
+	std::vector<int> opsp;
+	for (auto&& op : opStack)
+	{
+		op->UnCache();
+		opsp.push_back(op->MyPrio());
+	}
+	sort(opsp); unique(opsp);
+	if (opsp.empty())
+		throw "nothing to do";
+	LineMatchStack lm;
+	for (auto p : opsp)
+	{
+		for (auto&& op : opStack)
+		{
+			if (op->MyPrio() == p)
+				op->LinesCache(f);
+		}
+		lm.clear();
+		for (auto&& op : opStack)
+		{
+			op->ExeCached(lm);
+		}
+		if (lm.size() != 1)
+			throw "operator / operand count error";
+		if (lm.front().tri() == tb_false)
+			return {false, {}};
+	}
+	if (lm.front().tri() == tb_maybe)
+		throw "internal engine error";
+	return std::move(lm.front());
+}
+
 void add_op(OperatorStack& ops, std::string arg)
 {
 	ops.push_back( Operator::DispatchCreate(arg) );
@@ -317,6 +367,8 @@ int main(int argc, char** argv)
 					runstate::debug_considered = true;
 				else if (arg == "debug-searched")
 					runstate::debug_searched = true;
+				else if (arg == "debug")
+					runstate::debug_general = runstate::debug_searched = runstate::debug_considered = true;
 				else
 					throw "Unknown argument "s + arg;
 			}
@@ -333,6 +385,8 @@ int main(int argc, char** argv)
 		}
 		if (!have_path)
 			throw "nothing to do";
+		if (runstate::debug_general)
+			debug_listing();
 		doall(path);
 		if (runstate::statistic)
 		{
