@@ -22,7 +22,14 @@ void RegexOperator::MatchFile ( File& , FileMatchStack& m )
 
 void RegexOperator::MatchLines ( File& f, LineMatchStack& m )
 {
-	LineMatch res;
+	UnCache();
+	LinesCache(f);
+	ExeCached(m);
+}
+
+void RegexOperator::LinesCache(File& f)
+{
+	if (have_cache) return;
 	UL ln = 0;
 	typedef std::string::const_iterator SCI;
 	for (auto&& l : f.lines())
@@ -30,19 +37,39 @@ void RegexOperator::MatchLines ( File& f, LineMatchStack& m )
 		SCI lb = l.cbegin();
 		SCI le = l.cend();
 		std::smatch sm;
-		while (regex_search(lb, le, sm, *re))
+		SCI iter = lb;
+		while (regex_search(iter, le, sm, *re))
 		{
 			if (sm[0].matched)
 			{
 				SCI beg = sm[0].first;
 				SCI end = sm[0].second;
-				res.add_full_match(ln, beg-lb, end-lb);
-				lb = std::next(beg);
+				lm_cache.add_full_match(ln, beg-lb, end-lb);
+				iter = std::next(beg);
 			}
 			else
 				break;
 		}
 		++ln;
 	}
-	m.push_back(std::move(res));
+	have_cache = true;
 }
+
+bool RegexOperator::IsCached() { return have_cache; }
+
+int RegexOperator::MyPrio() { return 5; }
+
+void RegexOperator::ExeCached(LineMatchStack& lms)
+{
+	if (have_cache)
+		lms.push_back(lm_cache);
+	else
+		lms.push_back({tb_maybe});
+}
+
+void RegexOperator::UnCache()
+{
+	have_cache = false;
+	lm_cache = LineMatch{false,{}};
+}
+

@@ -84,7 +84,7 @@ void NearOperator::MatchLines ( File& , LineMatchStack& m )
 			auto m1 = std::move(m.back()); m.pop_back();
 			auto tb1 = m1.tri();
 			auto tb2 = m2.tri();
-			if ((tb1==tb_false) || (tb2==tb_false))
+			/**/ if ((tb1==tb_false) || (tb2==tb_false))
 				m.push_back({tb_false});
 			else if ((tb1==tb_maybe) || (tb2==tb_maybe))
 				m.push_back({tb_maybe});
@@ -102,7 +102,7 @@ void NearOperator::MatchLines ( File& , LineMatchStack& m )
 		if (sz < 2) throw "operator near: not enough operands";
 		auto m2 = std::move(m.back()); m.pop_back();
 		auto m1 = std::move(m.back()); m.pop_back();
-		m.push_back( near(m1,m2,n) );
+		m.push_back(near(m1, m2, n));
 	}
 }
 

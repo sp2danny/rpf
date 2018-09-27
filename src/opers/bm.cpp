@@ -27,16 +27,41 @@ void BMOperator::MatchFile ( File& , FileMatchStack& m )
 
 void BMOperator::MatchLines ( File& f, LineMatchStack& m )
 {
-	LineMatch res;
+	UnCache();
+	LinesCache(f);
+	ExeCached(m);
+}
+
+void BMOperator::LinesCache(File& f)
+{
+	if (have_cache) return;
 	UL ln = 0;
 	for (auto&& l : f.lines())
 	{
 		auto lst = bm->match_all(l);
 		for (auto&& p : lst)
-			res.add_full_match(ln, p, p+sz);
+			lm_cache.add_full_match(ln, p, p+sz);
 		++ln;
 	}
-	m.push_back(std::move(res));
+	have_cache = true;
+}
+
+bool BMOperator::IsCached() { return have_cache; }
+
+int BMOperator::MyPrio() { return 3; }
+
+void BMOperator::ExeCached(LineMatchStack& lms)
+{
+	if (have_cache)
+		lms.push_back(lm_cache);
+	else
+		lms.push_back({tb_maybe});
+}
+
+void BMOperator::UnCache()
+{
+	have_cache = false;
+	lm_cache = LineMatch{false,{}};
 }
 
 // ----------------------------------------------------------------------------
@@ -62,14 +87,40 @@ void BM_CIOperator::MatchFile ( File& , FileMatchStack& m )
 
 void BM_CIOperator::MatchLines ( File& f, LineMatchStack& m )
 {
-	LineMatch res;
+	UnCache();
+	LinesCache(f);
+	ExeCached(m);
+}
+
+void BM_CIOperator::LinesCache(File& f)
+{
+	if (have_cache) return;
 	UL ln = 0;
 	for (auto&& l : f.lines())
 	{
 		auto lst = bm->match_all(l);
 		for (auto&& p : lst)
-			res.add_full_match(ln, p, p+sz);
+			lm_cache.add_full_match(ln, p, p+sz);
 		++ln;
 	}
-	m.push_back(std::move(res));
+	have_cache = true;
 }
+
+bool BM_CIOperator::IsCached() { return have_cache; }
+
+int BM_CIOperator::MyPrio() { return 4; }
+
+void BM_CIOperator::ExeCached(LineMatchStack& lms)
+{
+	if (have_cache)
+		lms.push_back(lm_cache);
+	else
+		lms.push_back({tb_maybe});
+}
+
+void BM_CIOperator::UnCache()
+{
+	have_cache = false;
+	lm_cache = LineMatch{false,{}};
+}
+

@@ -12,7 +12,7 @@ clean:
 src/common.h: src/stringtools.h
 	touch src/common.h
 
-obj/main.o: Makefile src/main.cpp src/common.h src/stringtools.h src/purgecomment.h src/operators.h
+obj/main.o: Makefile src/main.cpp src/common.h src/stringtools.h src/purgecomment.h 
 	$(CC) $(CFLAGS) -c src/main.cpp -o obj/main.o
 
 obj/linux.o: Makefile src/linux.cpp src/common.h

@@ -3,7 +3,8 @@
 
 #include "purgecomment.h"
 
-#include "operators.h"
+//#include "operators.h"
+#include "container_operations.hpp"
 
 std::map<char, OperatorMaker> Operator::createMap;
 
@@ -277,8 +278,6 @@ void debug_listing()
 		std::cout << i << " ";
 	std::cout << std::endl;
 }
-
-#include "container_operations.hpp"
 
 LineMatch do_all_prio(File& f)
 {
