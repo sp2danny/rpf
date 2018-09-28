@@ -53,6 +53,14 @@ void LineMatch::add_full_match(LIter li, MIP mip)
 	li->second.push_back(mip);
 }
 
+void LineMatch::add_all_matches(UL l, const MMIP& mmip)
+{
+	m_match = tb_true;
+	for (const auto& mip : mmip)
+		m_lines[l].push_back(mip);
+}
+
+
 bool LineMatch::have_line(UL l) const
 {
 	return m_lines.count(l) != 0;

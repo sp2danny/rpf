@@ -3,7 +3,6 @@
 
 #include "purgecomment.h"
 
-//#include "operators.h"
 #include "container_operations.hpp"
 
 std::map<char, OperatorMaker> Operator::createMap;
@@ -39,21 +38,6 @@ namespace runstate
 }
 
 OperatorStack opStack;
-
-/*
-bool do_all_dir(File& f)
-{
-	FileMatchStack m;
-	for (auto&& op : opStack)
-	{
-		op->MatchDir(f, m);
-	}
-	if (m.size() != 1)
-		throw "operator / operand count error";
-	auto res = m.front();
-	return res != tb_false;
-}
-*/
 
 bool do_all_file(File& f)
 {

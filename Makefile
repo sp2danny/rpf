@@ -59,12 +59,15 @@ obj/mod.o: Makefile src/common.h src/operators.h src/opers/mod.cpp
 	$(CC) $(CFLAGS) -c src/opers/mod.cpp -o obj/mod.o
 obj/ident.o: Makefile src/common.h src/operators.h src/opers/ident.cpp
 	$(CC) $(CFLAGS) -c src/opers/ident.cpp -o obj/ident.o
+obj/range.o: Makefile src/common.h src/operators.h src/opers/range.cpp
+	$(CC) $(CFLAGS) -c src/opers/range.cpp -o obj/range.o
 obj/misc_oper.o: Makefile src/common.h src/operators.h src/opers/misc.cpp
 	$(CC) $(CFLAGS) -c src/opers/misc.cpp -o obj/misc_oper.o
 
 OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o obj/match.o obj/misc.o \
 obj/and.o obj/file.o obj/line.o obj/or.o obj/not.o obj/dir.o obj/near.o obj/bm.o \
-obj/regex.o obj/sub.o obj/true.o obj/inv.o obj/mod.o obj/ident.o obj/misc_oper.o
+obj/regex.o obj/sub.o obj/true.o obj/inv.o obj/mod.o obj/ident.o obj/misc_oper.o \
+obj/range.o
 
 rpf: Makefile $(OBJS)
 	$(CC) -o rpf -static-libstdc++ -static-libgcc $(OBJS) $(LINK)

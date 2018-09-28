@@ -53,7 +53,7 @@ void register_all()
 	REG(Mod);
 	REG(Ident);
 	REG(IdentCI);
-
+	REG(Range);
 	REG(Dup);
 	REG(Swap);
 }

@@ -62,6 +62,7 @@ struct LineMatch
 	void add_full_match(UL l, MIP mip);
 	void add_full_match(LIter li, UL b, UL e);
 	void add_full_match(LIter li, MIP mip);
+	void add_all_matches(UL l, const MMIP&);
 	bool have_line(UL) const;
 	bool have_char(UL,UL) const;
 	bool have_char(LCIter,UL) const;

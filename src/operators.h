@@ -77,6 +77,7 @@ MAKE_OPER_FILE( Ident   )     std::string id;                  };
 MAKE_OPER_FILE( IdentCI )     std::string id;                  };
 MAKE_OPER_NORM( Dup     )                                      };
 MAKE_OPER_NORM( Swap    )     UL pos;                          };
+MAKE_OPER_NORM( Range   )                                      };
 
 
 
