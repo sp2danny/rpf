@@ -31,6 +31,11 @@ std::time_t get_modification_time_from_file(std::string fn)
 	return buff.st_mtime;
 }
 
+void clear_screen()
+{
+	std::system("clear");
+}
+
 struct RDE::PIMPL
 {
 	std::string path;

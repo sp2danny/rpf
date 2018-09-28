@@ -33,6 +33,7 @@ namespace runstate
 	bool debug_considered = false;
 	bool debug_searched = false;
 	bool debug_general = false;
+	bool want_clear = false;
 	std::vector<std::string> debug_considered_list;
 	std::vector<std::string> debug_searched_list;
 }
@@ -183,6 +184,9 @@ LineMatch do_all_prio(File&);
 void doall(std::string path)
 {
 	RDE rde(path);
+	
+	if (runstate::want_clear)
+		clear_screen();
 
 	while (auto de = rde.getNext())
 	{
@@ -368,6 +372,8 @@ int main(int argc, char** argv)
 					runstate::debug_searched = true;
 				else if (arg == "debug")
 					runstate::debug_general = runstate::debug_searched = runstate::debug_considered = true;
+				else if ((arg == "reset") || (arg == "clear"))
+					runstate::want_clear = true;
 				else
 					throw "Unknown argument "s + arg;
 			}

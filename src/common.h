@@ -180,6 +180,6 @@ private:
 extern std::time_t parse_date_from_string(std::string);
 extern std::time_t get_modification_time_from_file(std::string);
 extern bool        stdout_isatty();
-
+extern void        clear_screen();
 
 

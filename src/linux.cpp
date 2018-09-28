@@ -33,6 +33,11 @@ const std::string green = "\033[0;32m";
 const std::string reset = "\033[0m";
 const std::string bold  = "\033[1;37m";
 
+void clear_screen()
+{
+	std::cout << "\033[2J\033[1;1H";
+}
+
 void MakeHighlight() { std::cout << bold; }
 
 void MakeNormal() { std::cout << reset; }
