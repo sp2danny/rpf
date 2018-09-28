@@ -4,8 +4,6 @@
 *.lastbuildstate
 *.ilk
 *.pdb
-Debug
-Release
 obj
 
 # Prerequisites
@@ -40,4 +38,4 @@ obj
 *.exe
 *.out
 *.app
-rpf2
+rpf
