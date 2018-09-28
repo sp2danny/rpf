@@ -80,13 +80,6 @@ typedef clone_ptr<Operator> (*OperatorMaker)(std::string);
 
 struct File;
 
-struct opcat
-{
-	enum : unsigned char { term, oper } kind;
-	enum : unsigned char { ri_file, ri_line } runin;
-	unsigned char npop, npush, prio;
-};
-
 struct Operator
 {
 	Operator() = default;

@@ -33,9 +33,9 @@ void SubOperator::MatchLines ( File&, LineMatchStack& m )
 	auto m2 = std::move(m.back()); m.pop_back();
 	auto m1 = std::move(m.back()); m.pop_back();
 
-	if (m1.lines().empty() || !m1.match())
+	if (m1.lines().empty())
 	{
-		m.push_back({false,{}});
+		m.push_back(m1);
 		return;
 	}
 

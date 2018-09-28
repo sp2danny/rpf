@@ -22,7 +22,7 @@ clone_ptr<Operator> Operator::DispatchCreate(std::string str)
 	char c = str[0];
 	auto iter = createMap.find(c);
 	if (iter == createMap.end())
-		throw "unrecognized operator";
+		throw "unrecognized operator "s + c;
 	return iter->second(str);
 }
 

@@ -54,23 +54,30 @@ void NearOperator::MatchLines ( File& , LineMatchStack& m )
 	auto near = [](const LineMatch& m1, const LineMatch& m2, UL n) -> LineMatch
 	{
 		LineMatch res;
-		for (auto&& l1 : m1.lines())
+		if (m1.match() && m2.match())
 		{
-			for(auto&& l2 : m2.lines())
+			for (auto&& l1 : m1.lines())
 			{
-				auto diff = (l2.first>l1.first) ? l2.first-l1.first : l1.first-l2.first;
-				if (diff <= n)
+				for(auto&& l2 : m2.lines())
 				{
-					res.add_simple_match(l1.first);
-					res.add_simple_match(l2.first);
-					for (auto&& x : l1.second)
-						res.add_full_match(l1.first, x);
-					for (auto&& x : l2.second)
-						res.add_full_match(l2.first, x);
+					auto diff = (l2.first>l1.first) ? l2.first-l1.first : l1.first-l2.first;
+					if (diff <= n)
+					{
+						res.add_simple_match(l1.first);
+						res.add_simple_match(l2.first);
+						for (auto&& x : l1.second)
+							res.add_full_match(l1.first, x);
+						for (auto&& x : l2.second)
+							res.add_full_match(l2.first, x);
+					}
 				}
 			}
+			res.match(!res.lines().empty());
 		}
-		res.match(!res.lines().empty());
+		else
+		{
+			res = LineMatch{And(m1.tri(), m2.tri())};
+		}
 		return res;
 	};
 

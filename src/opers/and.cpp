@@ -73,9 +73,8 @@ void AndOperator::MatchLines ( File& f, LineMatchStack& m )
 		}
 		m.push_back(std::move(res));
 	} else {
-		m.emplace_back();
+		m.emplace_back( And(m1.tri(), m2.tri()) );
 	}
 	if (all)
 		MatchLines(f, m);
 }
-

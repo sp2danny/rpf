@@ -33,6 +33,6 @@ void NotOperator::MatchLines ( File& , LineMatchStack& m )
 		throw "operator not: not enough operands";
 	}
 	auto& m1 = m.back();
-	m1.match(!m1.match());
+	m1 = LineMatch{Not(m1.tri())};
 	m1.modifiable_lines().clear();
 }

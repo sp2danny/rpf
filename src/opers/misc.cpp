@@ -39,7 +39,7 @@ void DupOperator::MatchLines ( File& , LineMatchStack& m )
 		throw "operator dup: not enough operands";
 	}
 	auto res = m.back();
-	m.push_back(res);
+	m.push_back(std::move(res));
 }
 
 // ----------------------------------------------------------------------------

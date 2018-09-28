@@ -34,7 +34,7 @@ void InvOperator::MatchLines ( File& f, LineMatchStack& m )
 
 	if (!m1.match())
 	{
-		m.push_back({false,{}});
+		m.push_back(std::move(m1));
 		return;
 	}
 
