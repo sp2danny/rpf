@@ -33,6 +33,7 @@ namespace runstate
 	bool debug_searched = false;
 	bool debug_general = false;
 	bool want_clear = false;
+	std::string tab = "\t";
 	std::vector<std::string> debug_considered_list;
 	std::vector<std::string> debug_searched_list;
 }
@@ -213,7 +214,7 @@ void doall(std::string path)
 					}
 					lastline = ln.first;
 				}
-				std::cout << "\t" << (ln.first+1) << "\t";
+				std::cout << runstate::tab << (ln.first+1) << runstate::tab;
 				const auto& l = ff.lines()[ln.first];
 				UL i, n = l.size();
 				if (runstate::colorize)
@@ -236,12 +237,19 @@ void doall(std::string path)
 								MakeNormal();
 							}
 						}
-						std::cout << l[i];
+						if (l[i] == '\t')
+							std::cout << runstate::tab;
+						else
+							std::cout << l[i];
 					}
 					if (ingr)
 						MakeNormal();
 				} else {
-					std::cout << l;
+					for (i=0; i<n; ++i)
+						if (l[i] == '\t')
+							std::cout << runstate::tab;
+						else
+							std::cout << l[i];
 				}
 				std::cout << std::endl;
 			}
@@ -306,6 +314,14 @@ void add_op(OperatorStack& ops, std::string arg)
 	ops.push_back( Operator::DispatchCreate(arg) );
 }
 
+std::string maketabs(std::string s)
+{
+	int i, n = std::stoi(s);
+	std::string ret;
+	for(i=0;i<n;++i) ret += " ";
+	return ret;
+}
+
 int main(int argc, char** argv)
 {
 	register_all();
@@ -358,6 +374,8 @@ int main(int argc, char** argv)
 					runstate::debug_general = runstate::debug_searched = runstate::debug_considered = true;
 				else if ((arg == "reset") || (arg == "clear"))
 					runstate::want_clear = true;
+				else if (arg.substr(0,5) == "tabs-")
+					runstate::tab = maketabs(arg.substr(5));
 				else
 					throw "Unknown argument "s + arg;
 			}
