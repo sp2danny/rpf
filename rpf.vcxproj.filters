@@ -84,6 +84,9 @@
     <ClCompile Include="src\opers\misc.cpp">
       <Filter>Source Files\opers</Filter>
     </ClCompile>
+    <ClCompile Include="src\opers\range.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">

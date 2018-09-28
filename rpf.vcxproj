@@ -170,6 +170,7 @@
     <ClCompile Include="src\opers\near.cpp" />
     <ClCompile Include="src\opers\not.cpp" />
     <ClCompile Include="src\opers\or.cpp" />
+    <ClCompile Include="src\opers\range.cpp" />
     <ClCompile Include="src\opers\regex.cpp" />
     <ClCompile Include="src\opers\sub.cpp" />
     <ClCompile Include="src\opers\true.cpp" />
