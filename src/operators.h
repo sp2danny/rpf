@@ -2,6 +2,7 @@
 #pragma once
 
 #include "common.h"
+#include "OFM.h"
 
 #define MAKE_OPER_NORM( xx )                                            \
 struct xx ## Operator final : Operator                                  \

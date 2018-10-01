@@ -1,6 +1,5 @@
 
 #include "../operators.h"
-#include "../common.h"
 
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;

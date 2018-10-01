@@ -1,5 +1,6 @@
 
 #include "common.h"
+#include "OFM.h"
 
 bool LineMatch::match() const
 {

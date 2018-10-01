@@ -1,8 +1,8 @@
 
 #include "common.h"
-
+#include "platform.h"
+#include "OFM.h"
 #include "purgecomment.h"
-
 #include "container_operations.hpp"
 
 std::map<char, OperatorMaker> Operator::createMap;
@@ -338,7 +338,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find v1.04" << std::endl;
+		std::cout << "Reverse Polish Find v1.05" << std::endl;
 	}
 	else try
 	{
@@ -441,6 +441,3 @@ int main(int argc, char** argv)
 		return -1;
 	}
 }
-
-
-
