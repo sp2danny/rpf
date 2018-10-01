@@ -33,7 +33,7 @@ namespace runstate
 	bool debug_searched = false;
 	bool debug_general = false;
 	bool want_clear = false;
-	UL tab = 8;
+	UL tab = 8, trunc = 999;
 	std::vector<std::string> debug_considered_list;
 	std::vector<std::string> debug_searched_list;
 }
@@ -362,6 +362,8 @@ int main(int argc, char** argv)
 					runstate::want_clear = true;
 				else if (arg.substr(0,5) == "tabs-")
 					runstate::tab = std::stoi(arg.substr(5));
+				else if (arg.substr(0,5) == "trunc-")
+					runstate::trunc = std::stoi(arg.substr(6));
 				else
 					throw "Unknown argument "s + arg;
 			}

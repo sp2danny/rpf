@@ -34,7 +34,7 @@ std::time_t get_modification_time_from_file(std::string fn)
 
 void clear_screen()
 {
-	std::system("clear");
+	std::system("cls");
 }
 
 struct RDE::PIMPL

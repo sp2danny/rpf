@@ -195,7 +195,9 @@
     <ClInclude Include="src\clone_ptr.hpp" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\dirent.h" />
+    <ClInclude Include="src\OFM.h" />
     <ClInclude Include="src\operators.h" />
+    <ClInclude Include="src\platform.h" />
     <ClInclude Include="src\purgecomment.h" />
     <ClInclude Include="src\stringtools.h" />
     <ClInclude Include="src\value_ptr.hpp" />
