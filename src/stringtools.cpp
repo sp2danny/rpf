@@ -337,7 +337,7 @@ extern void MakeHighlight();
 extern void MakeNormal();
 */
 
-const auto fmt = { "%b%", "%g%", "%r%", "%n%" };
+const std::vector<std::string> fmt = { "%b%", "%g%", "%r%", "%n%" };
 
 std::pair<bool, std::size_t> is_formatter(std::string str)
 {
@@ -399,6 +399,45 @@ std::size_t decolorize_length(std::string str)
 	return str.length();
 }
 
+std::string tabify_string(const std::string& str, std::size_t tabs)
+{
+	std::string ret;
+	std::size_t i=0, l=0, n = str.length();
+	while (i<n)
+	{
+		char c = str[i];
+		if (c=='%')
+		{
+			auto cut = str.substr(i,3);
+			auto [ok, idx] = is_formatter(cut);
+			if (ok)
+			{
+				i += 3;
+				ret += fmt[idx];
+			}
+			else
+			{
+				ret += c;
+				i += 1; l += 1;
+			}
+		}
+		else if (c=='\t')
+		{
+			ret += ' '; l += 1;
+			while ((l%tabs) != 0)
+			{
+				ret += ' '; l += 1;
+			}
+			i += 1;
+		}
+		else
+		{
+			ret += c;
+			i += 1; l += 1;
+		}
+	}
+	return ret;
+}
 
 void OutputFormatter::OutAndClear(bool colorize, std::ostream& out)
 {
@@ -421,21 +460,19 @@ void OutputFormatter::OutAndClear(bool colorize, std::ostream& out)
 	{
 		auto sz = line.size();
 		if (sz == 0) { out << std::endl; continue; }
-		if (sz == 1) { colorize_out(colorize, line.back(), out); continue; }
+		if (sz == 1) { colorize_out(colorize, tabify_string(line.back(), ts), out); continue; }
 		std::string outstr;
 		for (auto j=0ul; j<cm; ++j) outstr += " ";
-		for (auto i=0ul; i<sz; ++i)
+		for (auto i=0ul; i<(sz-1); ++i)
 		{
 			auto&& str = line[i];
 			auto lsz = decolorize_length(str);
-			outstr += str;
-			//if (i)
-			{
-				if (col_stops.size() > i)
-					for (auto j=lsz; j<col_stops[i]; ++j)
-						outstr += " ";
-			}
+			outstr += tabify_string(str, 1);
+			if (col_stops.size() > i)
+				for (auto j=lsz; j<col_stops[i]; ++j)
+					outstr += " ";
 		}
+		outstr += tabify_string(line.back(), ts);
 		colorize_out(colorize, outstr, out);
 	}
 

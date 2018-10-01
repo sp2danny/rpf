@@ -33,7 +33,7 @@ namespace runstate
 	bool debug_searched = false;
 	bool debug_general = false;
 	bool want_clear = false;
-	std::string tab = "\t";
+	UL tab = 8;
 	std::vector<std::string> debug_considered_list;
 	std::vector<std::string> debug_searched_list;
 }
@@ -192,7 +192,7 @@ void doall(std::string path)
 		auto mm = do_all_prio(ff); // do_all_line(ff);
 		if (mm.match())
 		{
-			OutputFormatter of(2, 4);
+			OutputFormatter of(2, runstate::tab);
 			runstate::mf += 1;
 			runstate::ml += mm.lines().size();
 			if (!runstate::sparse) std::cout << std::endl;
@@ -308,13 +308,13 @@ void add_op(OperatorStack& ops, std::string arg)
 	ops.push_back( Operator::DispatchCreate(arg) );
 }
 
-std::string maketabs(std::string s)
+/*std::string maketabs(std::string s)
 {
 	int i, n = std::stoi(s);
 	std::string ret;
 	for(i=0;i<n;++i) ret += " ";
 	return ret;
-}
+}*/
 
 int main(int argc, char** argv)
 {
@@ -369,7 +369,7 @@ int main(int argc, char** argv)
 				else if ((arg == "reset") || (arg == "clear"))
 					runstate::want_clear = true;
 				else if (arg.substr(0,5) == "tabs-")
-					runstate::tab = maketabs(arg.substr(5));
+					runstate::tab = std::stoi(arg.substr(5));
 				else
 					throw "Unknown argument "s + arg;
 			}

@@ -47,7 +47,7 @@ namespace runstate
 	extern bool debug_considered;
 	extern bool debug_searched;
 	extern bool debug_general;
-	extern std::string tab;
+	extern UL tab;
 	extern std::vector<std::string> debug_considered_list;
 	extern std::vector<std::string> debug_searched_list;
 }
