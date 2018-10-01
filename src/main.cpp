@@ -308,14 +308,6 @@ void add_op(OperatorStack& ops, std::string arg)
 	ops.push_back( Operator::DispatchCreate(arg) );
 }
 
-/*std::string maketabs(std::string s)
-{
-	int i, n = std::stoi(s);
-	std::string ret;
-	for(i=0;i<n;++i) ret += " ";
-	return ret;
-}*/
-
 int main(int argc, char** argv)
 {
 	register_all();
