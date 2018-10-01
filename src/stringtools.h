@@ -105,7 +105,7 @@ std::pair<bool, std::size_t> boyer_moore_advanced<Ch,Str,eq>::match_next(const S
 		if (found) return {true,i+1-n};
 		++i;
 	}
-	return {false,0};
+	return {false, 0};
 }
 
 template<typename Ch, typename Str, ChEqP<Ch> eq>
@@ -122,4 +122,43 @@ std::vector<std::size_t> boyer_moore_advanced<Ch,Str,eq>::match_all(const Str& s
 	}
 	return res;
 }
+
+// formatters:
+// %b% bold
+// %g% green
+// %r% red
+// %n% normal
+
+class OutputFormatter
+{
+public:
+	OutputFormatter(std::size_t colmarg = 2, std::size_t tabs = 8);
+	void LineOut(std::string);
+	void ColumnsOut(std::vector<std::string>);
+	template<typename... Args>
+	void ColumnsOut(Args&&... args);
+	void SetColmarg(std::size_t);
+	void SetTabstop(std::size_t);
+	void OutAndClear(bool colorize, std::ostream&);
+private:
+	std::size_t cm, ts;
+	std::vector<std::vector<std::string>> lines;
+};
+
+inline void app(std::vector<std::string>&) {}
+template<typename T, typename... Args>
+void app(std::vector<std::string>& ret, T&& t, Args&&... args)
+{
+	ret.push_back( std::forward<T>(t) );
+	app(ret, std::forward<Args>(args)...);
+}
+
+template<typename... Args>
+void OutputFormatter::ColumnsOut(Args&&... args)
+{
+	std::vector<std::string> ret;
+	app(ret, std::forward<Args>(args)...);
+	ColumnsOut(ret);
+}
+
 

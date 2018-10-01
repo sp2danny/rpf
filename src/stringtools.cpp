@@ -292,3 +292,157 @@ std::vector<std::size_t> boyer_moore::match_all(const std::string& searching_in)
 	return res;
 }
 
+// ----------------------------------------------------------------------------
+
+#include "platform.h"
+
+OutputFormatter::OutputFormatter(std::size_t colmarg, std::size_t tabs)
+{
+	SetColmarg(colmarg);
+	SetTabstop(tabs);
+}
+
+void OutputFormatter::LineOut(std::string s)
+{
+	lines.emplace_back();
+	lines.back().push_back( std::move(s) );
+}
+
+void OutputFormatter::ColumnsOut(std::vector<std::string> vs)
+{
+	lines.push_back( std::move(vs) );
+}
+
+void OutputFormatter::SetColmarg(std::size_t colmarg)
+{
+	cm = colmarg;
+}
+
+void OutputFormatter::SetTabstop(std::size_t tabs)
+{
+	ts = tabs;
+}
+
+
+// formatters:
+// %b% bold
+// %g% green
+// %r% red
+// %n% normal
+
+/*
+extern void MakeRed();
+extern void MakeGreen();
+extern void MakeHighlight();
+extern void MakeNormal();
+*/
+
+const auto fmt = { "%b%", "%g%", "%r%", "%n%" };
+
+std::pair<bool, std::size_t> is_formatter(std::string str)
+{
+	if (str.length() != 3) return {false, 0};
+	std::size_t i = 0;
+	for (auto&& f : fmt)
+	{
+		if (str == f) return {true, i};
+		++i;
+	}
+	return {false, 0};
+}
+
+void colorize_out(bool colorize, const std::string& str, std::ostream& out)
+{
+	std::size_t i=0, sz = str.length();
+	while (i < sz)
+	{
+		char c = str[i];
+		if (c=='%')
+		{
+			auto cut = str.substr(i,3);
+			auto [ok, idx] = is_formatter(cut);
+			if (!ok)
+			{
+				out << c;
+				i += 1;
+			} else {
+				if (colorize) switch (idx)
+				{
+					case 0: MakeHighlight(); break;
+					case 1: MakeGreen(); break;
+					case 2: MakeRed(); break;
+					case 3: MakeNormal(); break;
+				}
+				i += 3;
+			}
+		}
+		else
+		{
+			out << c;
+			i += 1;
+		}
+	}
+	out << std::endl;
+}
+
+std::size_t decolorize_length(std::string str)
+{
+	for (auto&& f : fmt)
+	{
+		while (true)
+		{
+			auto p = str.find(f);
+			if (p==std::string::npos) break;
+			str.replace(p, 3, "");
+		}
+	}
+	return str.length();
+}
+
+
+void OutputFormatter::OutAndClear(bool colorize, std::ostream& out)
+{
+	std::vector<std::size_t> col_stops;
+
+	for (auto&& line : lines)
+	{
+		std::size_t i, n=line.size();
+		for (i=0; i<(n-1); ++i)
+		{
+			auto len = decolorize_length(line[i]) + cm;
+			while (i >= col_stops.size())
+				col_stops.push_back(cm);
+			if (col_stops[i] < len)
+				col_stops[i] = len;
+		}
+	}
+
+	for (auto&& line : lines)
+	{
+		auto sz = line.size();
+		if (sz == 0) { out << std::endl; continue; }
+		if (sz == 1) { colorize_out(colorize, line.back(), out); continue; }
+		std::string outstr;
+		for (auto j=0ul; j<cm; ++j) outstr += " ";
+		for (auto i=0ul; i<sz; ++i)
+		{
+			auto&& str = line[i];
+			auto lsz = decolorize_length(str);
+			outstr += str;
+			//if (i)
+			{
+				if (col_stops.size() > i)
+					for (auto j=lsz; j<col_stops[i]; ++j)
+						outstr += " ";
+			}
+		}
+		colorize_out(colorize, outstr, out);
+	}
+
+	lines.clear();
+}
+
+
+
+
+

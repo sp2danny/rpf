@@ -192,10 +192,12 @@ void doall(std::string path)
 		auto mm = do_all_prio(ff); // do_all_line(ff);
 		if (mm.match())
 		{
+			OutputFormatter of(2, 4);
 			runstate::mf += 1;
 			runstate::ml += mm.lines().size();
 			if (!runstate::sparse) std::cout << std::endl;
-			std::cout << ff.path + "/" + ff.name << std::endl;
+			of.LineOut(ff.path + "/" + ff.name);
+			//std::cout << ff.path + "/" + ff.name << std::endl;
 			ff.cpponly = false;
 			UL lastline;
 			bool first = true;
@@ -205,19 +207,19 @@ void doall(std::string path)
 				{
 					if (first)
 					{
-						std::cout << std::endl;
+						of.LineOut("");
 						first = false;
 					}
 					else if (ln.first != (lastline+1))
 					{
-						std::cout << std::endl;
+						of.LineOut("");
 					}
 					lastline = ln.first;
 				}
-				std::cout << runstate::tab << (ln.first+1) << runstate::tab;
+				//std::cout << runstate::tab << (ln.first+1) << runstate::tab;
 				const auto& l = ff.lines()[ln.first];
 				UL i, n = l.size();
-				if (runstate::colorize)
+				std::string ss;
 				{
 					bool ingr = false;
 					for (i=0; i<n; ++i)
@@ -228,32 +230,24 @@ void doall(std::string path)
 							if (!ingr)
 							{
 								ingr = true;
-								MakeGreen();
+								ss += "%g%";
 							}
 						} else {
 							if (ingr)
 							{
 								ingr = false;
-								MakeNormal();
+								ss += "%n%";
 							}
 						}
-						if (l[i] == '\t')
-							std::cout << runstate::tab;
-						else
-							std::cout << l[i];
+						ss += l[i];
 					}
 					if (ingr)
-						MakeNormal();
-				} else {
-					for (i=0; i<n; ++i)
-						if (l[i] == '\t')
-							std::cout << runstate::tab;
-						else
-							std::cout << l[i];
+						ss += "%n%";
 				}
-				std::cout << std::endl;
+				of.ColumnsOut( std::to_string(ln.first+1), ss );
 			}
-			if (!runstate::sparse) std::cout << std::endl;
+			if (!runstate::sparse) of.LineOut("");
+			of.OutAndClear(runstate::colorize, std::cout);
 		}
 	}
 }
@@ -338,7 +332,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find v1.05" << std::endl;
+		std::cout << "Reverse Polish Find v1.06" << std::endl;
 	}
 	else try
 	{
