@@ -1,8 +1,9 @@
 
 CC = clang++ -std=c++17 -stdlib=libstdc++ -Wall -Wextra -Wpedantic -Werror -ferror-limit=3 -static
-LINK = -lpthread -s
-CFLAGS = -DNDEBUG -O3
-#CFLAGS = -D_DEBUG -g
+LINK = -lpthread
+# -s
+#CFLAGS = -DNDEBUG -O3
+CFLAGS = -D_DEBUG -g
 
 compile: rpf
 

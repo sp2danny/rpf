@@ -18,7 +18,6 @@ int getparam(std::string str, int def)
 	return std::atoi(str.c_str());
 }
 
-
 std::vector<std::string> readfile(std::istream& in)
 {
 	std::vector<std::string> lines;

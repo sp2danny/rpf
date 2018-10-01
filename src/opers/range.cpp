@@ -11,6 +11,7 @@ void RangeOperator::Create ( [[maybe_unused]] std::string str )
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
+	max = getparam(str, 5);
 }
 
 void RangeOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
@@ -35,21 +36,48 @@ void RangeOperator::MatchLines ( File& , LineMatchStack& m )
 	LineMatch res;
 	if (m1.match() && m2.match())
 	{
-		for (auto&& l1 : m1.lines())
+		auto i1 = m1.lines().begin();
+		auto e1 = m1.lines().end();
+		while (i1 != e1)
 		{
-			for(auto&& l2 : m2.lines())
+			auto i2 = m2.lines().begin();
+			auto e2 = m2.lines().end();
+			while (i2 != e2)
 			{
-				auto ln1 = l1.first;
-				auto ln2 = l2.first;
+				auto ln1 = i1->first;
+				auto ln2 = i2->first;
 				if (ln2 >= ln1)
 				{
-					res.add_all_matches(ln1, l1.second);
-					res.add_all_matches(ln2, l2.second);
-					for (auto ln = ln1; ln <= ln2; ++ln)
-						res.add_simple_match(ln);
-					continue;
+					while (true)
+					{
+						auto ii = i1; ++ii;
+						if (ii == e1) break;
+						if (ii->first <= ln2)
+						{
+							i1 = ii;
+							ln1 = i1->first;
+							continue;
+						}
+						else
+						{
+							break;
+						}
+					}
+					if ((ln2 - ln1) <= max)
+					{
+						res.add_all_matches(ln1, i1->second);
+						res.add_all_matches(ln2, i2->second);
+						for (auto ln = ln1; ln <= ln2; ++ln)
+							res.add_simple_match(ln);
+					}
+					break;
+				}
+				else
+				{
+					++i2;
 				}
 			}
+			++i1;
 		}
 		res.match(!res.lines().empty());
 	}
