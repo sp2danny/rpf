@@ -280,7 +280,7 @@ std::pair<bool, std::size_t> boyer_moore::match_next(const std::string& searchin
 		if (found) return {true, i+1-n};
 		++i;
 	}
-	return {false,0};
+	return {false, 0};
 }
 
 std::vector<std::size_t> boyer_moore::match_all(const std::string& searching_in)
@@ -357,9 +357,9 @@ void colorize_out(bool colorize, const std::string& str, std::ostream& out, UL t
 				if (colorize) switch (idx)
 				{
 					case 0: MakeHighlight(); break;
-					case 1: MakeGreen(); break;
-					case 2: MakeRed(); break;
-					case 3: MakeNormal(); break;
+					case 1: MakeGreen();     break;
+					case 2: MakeRed();       break;
+					case 3: MakeNormal();    break;
 				}
 				i += 3;
 			}
@@ -381,7 +381,7 @@ std::size_t decolorize_length(std::string str)
 		while (true)
 		{
 			auto p = str.find(f);
-			if (p==std::string::npos) break;
+			if (p == std::string::npos) break;
 			str.replace(p, 3, "");
 		}
 	}

@@ -178,6 +178,14 @@ struct clone_ptr
 	template<typename U>
 	friend struct clone_ptr;
 
+	int operator<=>(const clone_ptr& other) const
+	{
+		if (!ptr) return (other.ptr ? -1 : 0);
+		if (!other.ptr) return +1;
+		return (*ptr) <=> (*other.ptr);
+	}
+
+
 private:
 	cloner<T> cl;
 	T* ptr = nullptr;
