@@ -178,13 +178,14 @@ struct clone_ptr
 	template<typename U>
 	friend struct clone_ptr;
 
+	/*
 	int operator<=>(const clone_ptr& other) const
 	{
 		if (!ptr) return (other.ptr ? -1 : 0);
 		if (!other.ptr) return +1;
 		return (*ptr) <=> (*other.ptr);
 	}
-
+	*/
 
 private:
 	cloner<T> cl;
@@ -318,6 +319,7 @@ template<typename U>
 auto clone_ptr<T>::operator=(const clone_ptr<U>& other) -> clone_ptr&
 {
 	static_assert( std::is_base_of<T, U>::value );
+
 	if (ptr)
 		cl.destroy(ptr);
 	if (other.ptr)
@@ -341,6 +343,7 @@ clone_ptr<T>::clone_ptr(const clone_ptr<U>& other)
 	: clone_ptr()
 {
 	static_assert( std::is_base_of<T, U>::value );
+
 	if (other.ptr)
 	{
 		auto oth_cl = other.cl;
@@ -356,6 +359,7 @@ clone_ptr<T>::clone_ptr(clone_ptr<U>&& other)
 	: clone_ptr()
 {
 	static_assert( std::is_base_of<T, U>::value );
+
 	if (other.ptr)
 	{
 		auto oth_cl = other.cl;
@@ -371,6 +375,7 @@ template<typename U>
 auto clone_ptr<T>::operator=(const U& other) -> clone_ptr&
 {
 	static_assert( std::is_base_of<T, U>::value );
+
 	if (ptr)
 		cl.destroy(ptr);
 
@@ -388,16 +393,14 @@ template<typename U>
 clone_ptr<T>::clone_ptr(const U& other) 
 {
 	static_assert( std::is_base_of<T, U>::value );
-	static_assert( typeid(other) == typeid(U) );
+	assert( typeid(other) == typeid(U) );
 
 	auto oth_cl = make_cloner<U>();
 	cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };
 	cl.destroy = [oth_cl](T* t) -> void { oth_cl.destroy((U*)t); };
 
 	ptr = cl.clone(&other);
-
 }
-
 
 template<typename T>
 void clone_ptr<T>::clear()
