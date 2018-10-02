@@ -363,7 +363,7 @@ int main(int argc, char** argv)
 					runstate::want_clear = true;
 				else if (arg.substr(0,5) == "tabs-")
 					runstate::tab = std::stoi(arg.substr(5));
-				else if (arg.substr(0,5) == "trunc-")
+				else if (arg.substr(0,6) == "trunc-")
 					runstate::trunc = std::stoi(arg.substr(6));
 				else
 					throw "Unknown argument "s + arg;

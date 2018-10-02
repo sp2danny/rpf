@@ -342,7 +342,7 @@ void colorize_out(bool colorize, const std::string& str, std::ostream& out, UL t
 	std::size_t l=0, i=0, sz = str.length();
 	while (i < sz)
 	{
-		if (l >= trunc) { out << '\\'; break; }
+		if (l == trunc) { out << '\\'; ++l; }
 		char c = str[i];
 		if (c=='%')
 		{
@@ -350,7 +350,8 @@ void colorize_out(bool colorize, const std::string& str, std::ostream& out, UL t
 			auto [ok, idx] = is_formatter(cut);
 			if (!ok)
 			{
-				out << c;
+				if (l < trunc)
+					out << c;
 				++i; ++l;
 			} else {
 				if (colorize) switch (idx)
@@ -365,7 +366,8 @@ void colorize_out(bool colorize, const std::string& str, std::ostream& out, UL t
 		}
 		else
 		{
-			out << c;
+			if (l < trunc)
+				out << c;
 			++i; ++l;
 		}
 	}
