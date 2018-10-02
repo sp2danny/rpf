@@ -4,6 +4,7 @@
 #pragma once
 
 #include "common.h"
+#include "clone_ptr.hpp"
 
 typedef std::pair<UL, UL> MIP;
 typedef std::vector<MIP> MMIP;
@@ -52,7 +53,7 @@ struct Operator
 	virtual ~Operator() = default;
 	virtual char MyChar() = 0;
 	virtual void Create(std::string) = 0;
-	virtual Operator* clone() =0;
+	virtual Operator* clone() = 0;
 
 	static void Register(char, OperatorMaker);
 	static clone_ptr<Operator> DispatchCreate(std::string);

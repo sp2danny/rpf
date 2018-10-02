@@ -23,10 +23,6 @@
 
 #include <boost/algorithm/string.hpp>
 
-#include "clone_ptr.hpp"
-
-#include "stringtools.h"
-
 using namespace std::string_literals;
 
 enum TriBool { tb_false, tb_true, tb_maybe };
@@ -35,8 +31,6 @@ extern TriBool And(TriBool, TriBool);
 extern TriBool Or(TriBool, TriBool);
 extern TriBool Not(TriBool);
 extern TriBool FromBool(bool);
-
-typedef boyer_moore_advanced<char, std::string, isEqualNoCase> boyer_moore_ci;
 
 typedef std::size_t UL;
 

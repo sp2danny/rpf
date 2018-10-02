@@ -4,6 +4,7 @@
 #include "OFM.h"
 #include "purgecomment.h"
 #include "container_operations.hpp"
+#include "stringtools.h"
 
 std::map<char, OperatorMaker> Operator::createMap;
 
@@ -192,7 +193,7 @@ void doall(std::string path)
 		auto mm = do_all_prio(ff); // do_all_line(ff);
 		if (mm.match())
 		{
-			OutputFormatter of(2, runstate::tab);
+			OutputFormatter of(2, runstate::tab, runstate::trunc);
 			runstate::mf += 1;
 			runstate::ml += mm.lines().size();
 			if (!runstate::sparse) std::cout << std::endl;

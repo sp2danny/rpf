@@ -9,6 +9,11 @@
 #include <cstring>
 #include <cctype>
 
+#include <boost/algorithm/string.hpp>
+
+using boost::algorithm::to_lower_copy;
+using boost::algorithm::to_lower;
+
 extern bool str_pat_mat(const char* str, const char* pat);
 extern bool str_pat_mat(const std::string& str, const std::string& pat);
 
@@ -33,10 +38,7 @@ private:
 template<typename Ch>
 using ChEqP = bool (*)(Ch, Ch);
 
-static inline auto isEqualNoCase(char c1, char c2) -> bool
-{
-	return std::tolower(c1) == std::tolower(c2);
-}
+extern bool isEqualNoCase(char c1, char c2);
 
 template<typename Ch = char, typename Str = std::basic_string<Ch>, ChEqP<Ch> eq = std::equal_to<Ch>{}.operator() >
 struct boyer_moore_advanced
@@ -123,25 +125,22 @@ std::vector<std::size_t> boyer_moore_advanced<Ch,Str,eq>::match_all(const Str& s
 	return res;
 }
 
-// formatters:
-// %b% bold
-// %g% green
-// %r% red
-// %n% normal
+typedef boyer_moore_advanced<char, std::string, isEqualNoCase> boyer_moore_ci;
 
 class OutputFormatter
 {
 public:
-	OutputFormatter(std::size_t colmarg = 2, std::size_t tabs = 8);
+	OutputFormatter(std::size_t colmarg = 2, std::size_t tabs = 8, std::size_t trunc = 999);
 	void LineOut(std::string);
 	void ColumnsOut(std::vector<std::string>);
 	template<typename... Args>
 	void ColumnsOut(Args&&... args);
 	void SetColmarg(std::size_t);
 	void SetTabstop(std::size_t);
+	void SetTruncate(std::size_t);
 	void OutAndClear(bool colorize, std::ostream&);
 private:
-	std::size_t cm, ts;
+	std::size_t cm, ts, tr;
 	std::vector<std::vector<std::string>> lines;
 };
 

@@ -8,6 +8,11 @@
 
 using namespace std::string_literals;
 
+bool isEqualNoCase(char c1, char c2)
+{
+	return std::tolower(c1) == std::tolower(c2);
+}
+
 bool str_pat_mat(const char* str, const char* pat)
 {
 	bool se = (str[0] == 0);
@@ -296,10 +301,11 @@ std::vector<std::size_t> boyer_moore::match_all(const std::string& searching_in)
 
 #include "platform.h"
 
-OutputFormatter::OutputFormatter(std::size_t colmarg, std::size_t tabs)
+OutputFormatter::OutputFormatter(std::size_t colmarg, std::size_t tabs, std::size_t trunc)
 {
 	SetColmarg(colmarg);
 	SetTabstop(tabs);
+	SetTruncate(trunc);
 }
 
 void OutputFormatter::LineOut(std::string s)
@@ -313,29 +319,9 @@ void OutputFormatter::ColumnsOut(std::vector<std::string> vs)
 	lines.push_back( std::move(vs) );
 }
 
-void OutputFormatter::SetColmarg(std::size_t colmarg)
-{
-	cm = colmarg;
-}
-
-void OutputFormatter::SetTabstop(std::size_t tabs)
-{
-	ts = tabs;
-}
-
-
-// formatters:
-// %b% bold
-// %g% green
-// %r% red
-// %n% normal
-
-/*
-extern void MakeRed();
-extern void MakeGreen();
-extern void MakeHighlight();
-extern void MakeNormal();
-*/
+void OutputFormatter::SetColmarg  (std::size_t colmarg) { cm = colmarg; }
+void OutputFormatter::SetTabstop  (std::size_t tabs   ) { ts = tabs;    }
+void OutputFormatter::SetTruncate (std::size_t trunc  ) { tr = trunc;   }
 
 const std::vector<std::string> fmt = { "%b%", "%g%", "%r%", "%n%" };
 
@@ -351,11 +337,12 @@ std::pair<bool, std::size_t> is_formatter(std::string str)
 	return {false, 0};
 }
 
-void colorize_out(bool colorize, const std::string& str, std::ostream& out)
+void colorize_out(bool colorize, const std::string& str, std::ostream& out, UL trunc)
 {
-	std::size_t i=0, sz = str.length();
+	std::size_t l=0, i=0, sz = str.length();
 	while (i < sz)
 	{
+		if (l >= trunc) { out << '\\'; break; }
 		char c = str[i];
 		if (c=='%')
 		{
@@ -364,7 +351,7 @@ void colorize_out(bool colorize, const std::string& str, std::ostream& out)
 			if (!ok)
 			{
 				out << c;
-				i += 1;
+				++i; ++l;
 			} else {
 				if (colorize) switch (idx)
 				{
@@ -379,7 +366,7 @@ void colorize_out(bool colorize, const std::string& str, std::ostream& out)
 		else
 		{
 			out << c;
-			i += 1;
+			++i; ++l;
 		}
 	}
 	out << std::endl;
@@ -460,7 +447,7 @@ void OutputFormatter::OutAndClear(bool colorize, std::ostream& out)
 	{
 		auto sz = line.size();
 		if (sz == 0) { out << std::endl; continue; }
-		if (sz == 1) { colorize_out(colorize, tabify_string(line.back(), ts), out); continue; }
+		if (sz == 1) { colorize_out(colorize, tabify_string(line.back(), ts), out, tr); continue; }
 		std::string outstr;
 		for (auto j=0ul; j<cm; ++j) outstr += " ";
 		for (auto i=0ul; i<(sz-1); ++i)
@@ -473,7 +460,7 @@ void OutputFormatter::OutAndClear(bool colorize, std::ostream& out)
 					outstr += " ";
 		}
 		outstr += tabify_string(line.back(), ts);
-		colorize_out(colorize, outstr, out);
+		colorize_out(colorize, outstr, out, tr);
 	}
 
 	lines.clear();

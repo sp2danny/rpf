@@ -9,8 +9,12 @@ compile: rpf
 clean:
 	rm obj/*.o
 
-src/common.h: src/stringtools.h src/clone_ptr.hpp
-	touch src/common.h
+
+src/OFM.h: src/common.h src/clone_ptr.hpp
+#	touch src/OFM.h
+
+src/operators.h: src/common.h src/OFM.h
+# src/stringtools.h
 
 obj/main.o: src/main.cpp src/common.h src/purgecomment.h src/platform.h src/OFM.h src/container_operations.hpp
 	$(CC) $(CFLAGS) -c src/main.cpp -o obj/main.o
@@ -35,19 +39,19 @@ OPERDEP = src/common.h src/operators.h src/OFM.h
 # opers
 obj/and.o: $(OPERDEP) src/opers/and.cpp
 	$(CC) $(CFLAGS) -c src/opers/and.cpp -o obj/and.o
-obj/file.o: $(OPERDEP) src/opers/file.cpp
+obj/file.o: $(OPERDEP) src/opers/file.cpp src/stringtools.h
 	$(CC) $(CFLAGS) -c src/opers/file.cpp -o obj/file.o
-obj/line.o: $(OPERDEP) src/opers/line.cpp
+obj/line.o: $(OPERDEP) src/opers/line.cpp src/stringtools.h
 	$(CC) $(CFLAGS) -c src/opers/line.cpp -o obj/line.o
 obj/or.o: $(OPERDEP) src/opers/or.cpp
 	$(CC) $(CFLAGS) -c src/opers/or.cpp -o obj/or.o
 obj/not.o: $(OPERDEP) src/opers/not.cpp
 	$(CC) $(CFLAGS) -c src/opers/not.cpp -o obj/not.o
-obj/dir.o: $(OPERDEP) src/opers/dir.cpp
+obj/dir.o: $(OPERDEP) src/opers/dir.cpp src/stringtools.h
 	$(CC) $(CFLAGS) -c src/opers/dir.cpp -o obj/dir.o
 obj/near.o: $(OPERDEP) src/opers/near.cpp
 	$(CC) $(CFLAGS) -c src/opers/near.cpp -o obj/near.o
-obj/bm.o: $(OPERDEP) src/opers/bm.cpp
+obj/bm.o: $(OPERDEP) src/opers/bm.cpp src/stringtools.h
 	$(CC) $(CFLAGS) -c src/opers/bm.cpp -o obj/bm.o
 obj/regex.o: $(OPERDEP) src/opers/regex.cpp
 	$(CC) $(CFLAGS) -c src/opers/regex.cpp -o obj/regex.o
@@ -59,7 +63,7 @@ obj/inv.o: $(OPERDEP) src/opers/inv.cpp
 	$(CC) $(CFLAGS) -c src/opers/inv.cpp -o obj/inv.o
 obj/mod.o: $(OPERDEP) src/opers/mod.cpp src/platform.h
 	$(CC) $(CFLAGS) -c src/opers/mod.cpp -o obj/mod.o
-obj/ident.o: $(OPERDEP) src/opers/ident.cpp
+obj/ident.o: $(OPERDEP) src/opers/ident.cpp src/stringtools.h
 	$(CC) $(CFLAGS) -c src/opers/ident.cpp -o obj/ident.o
 obj/range.o: $(OPERDEP) src/opers/range.cpp
 	$(CC) $(CFLAGS) -c src/opers/range.cpp -o obj/range.o
