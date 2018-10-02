@@ -388,6 +388,7 @@ template<typename U>
 clone_ptr<T>::clone_ptr(const U& other) 
 {
 	static_assert( std::is_base_of<T, U>::value );
+	static_assert( typeid(other) == typeid(U) );
 
 	auto oth_cl = make_cloner<U>();
 	cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };

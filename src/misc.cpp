@@ -13,6 +13,7 @@ std::string unparan(std::string str)
 
 int getparam(std::string str, int def)
 {
+	//[[expects: (def>=0)]]
 	str = str.substr(1);
 	if (str.empty()) return def;
 	return std::atoi(str.c_str());

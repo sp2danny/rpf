@@ -11,10 +11,10 @@ clean:
 
 
 src/OFM.h: src/common.h src/clone_ptr.hpp
-#	touch src/OFM.h
+	touch src/OFM.h
 
 src/operators.h: src/common.h src/OFM.h
-# src/stringtools.h
+	touch src/operators.h
 
 obj/main.o: src/main.cpp src/common.h src/purgecomment.h src/platform.h src/OFM.h src/container_operations.hpp
 	$(CC) $(CFLAGS) -c src/main.cpp -o obj/main.o
