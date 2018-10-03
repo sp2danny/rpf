@@ -1,6 +1,7 @@
 
-CC = clang++ -std=c++2a -stdlib=libstdc++ -Wall -Wextra -Wpedantic -Werror -ferror-limit=3 -static
-LINK = -lpthread -s
+CC = clang++ -std=c++2a -stdlib=libstdc++ -Wall -Wextra -Wpedantic -Werror -ferror-limit=3 -static 
+LINK = -s 
+#-lpthread -s
 CFLAGS = -DNDEBUG -O3
 #CFLAGS = -D_DEBUG -g
 

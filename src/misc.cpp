@@ -2,21 +2,21 @@
 #include "common.h"
 #include "OFM.h"
 
-std::string unparan(std::string str)
+std::string unparan(std::string_view str)
 {
 	auto sz = str.size();
 	assert( sz > 3 );
 	assert( str[1] == '(' );
 	assert( str.back() == ')' );
-	return str.substr(2, sz-3);
+	return str.substr(2, sz-3).to_string();
 }
 
-int getparam(std::string str, int def)
+int getparam(std::string_view str, int def)
 {
 	//[[expects: (def>=0)]]
 	str = str.substr(1);
 	if (str.empty()) return def;
-	return std::atoi(str.c_str());
+	return std::stoi(str.to_string());
 }
 
 std::vector<std::string> readfile(std::istream& in)
