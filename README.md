@@ -8,6 +8,7 @@
 |+(expr)|like file match above, but c++ only, removes line/block comments and string/character literals from search text|
 |d(expr)|directory matches expr using *? matching, case insensitive|
 |m(expr)|file modified at or after 'expr', formated as 'YYYY-MM-DD'|
+|x      |file is a text file. slow, uses mime-types|
 
 ### 1b. Text Operands (produce results, and populates match-lines)
 |operand|meaning|
