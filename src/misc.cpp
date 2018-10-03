@@ -57,6 +57,7 @@ void register_all()
 	REG(Range);
 	REG(Dup);
 	REG(Swap);
+	REG(Text);
 }
 
 #undef REG

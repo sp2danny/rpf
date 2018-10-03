@@ -88,6 +88,7 @@ MAKE_OPER_FILE( IdentCI )     std::string id;                  };
 MAKE_OPER_NORM( Dup     )                                      };
 MAKE_OPER_NORM( Swap    )     UL pos;                          };
 MAKE_OPER_NORM( Range   )     UL max;                          };
+MAKE_OPER_FILE( Text    )     bool res;                        };
 
 
 
