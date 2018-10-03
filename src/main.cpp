@@ -124,6 +124,7 @@ void Help(std::ostream& out) // print help to stdout
 	    << "\t+(expr)" "\t" "like file match above, but c" << bold << "++" << reset << " only, removes line/block\n\t\tcomments and string/character literals from search text\n"
 	    << "\td(expr)" "\t" << bold << "d" << reset << "irectory matches expr using *? matching, case insensitive\n"
 	    << "\tm(expr)" "\t" "file " << bold << "m" << reset << "odified at or after 'expr', formated as 'YYYY-MM-DD'\n"
+	    << "\tx      " "\t" "file is a te" << bold << "x" << reset << "t file. slow, uses mime-type\n"
 
 	    << "\n    1b. Text Operands (produce results, and populates match-lines)\n"
 	    << "\tl(expr)" "\t" "whole " << bold << "l" << reset << "ine matches expr using *? matching, case sensitive\n"
