@@ -45,7 +45,7 @@ void IniFile::LoadFile(std::istream& is)
 			{
 				header = line.substr(1, line.size()-2);
 				boost::trim(header);
-				std::cerr << "new header : " << header << std::endl;
+				//std::cerr << "new header : " << header << std::endl;
 			}
 			else
 				throw "ini parse error";
