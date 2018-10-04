@@ -1,6 +1,6 @@
 [general]
 stats=off
-trunc=160
+trunc=170
 [save]
 t=f(*.cpp) f(*.h) f(*.hpp) f(*.xml) f(*.proto) o o o o
 p=+(*.cpp) +(*.h) +(*.hpp) f(*.xml) f(*.proto) o o o o

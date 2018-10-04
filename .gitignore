@@ -4,6 +4,7 @@
 *.lastbuildstate
 *.ilk
 *.pdb
+magic.mgc
 obj
 
 # Prerequisites
