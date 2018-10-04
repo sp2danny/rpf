@@ -8,6 +8,8 @@ extern void MakeGreen();
 extern void MakeHighlight();
 extern void MakeNormal();
 
+extern std::string GetMimeType(const std::string&);
+
 struct RDE_Item
 {
 	std::string dir_name;

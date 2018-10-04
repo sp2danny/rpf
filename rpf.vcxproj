@@ -178,6 +178,7 @@
     <ClCompile Include="src\opers\range.cpp" />
     <ClCompile Include="src\opers\regex.cpp" />
     <ClCompile Include="src\opers\sub.cpp" />
+    <ClCompile Include="src\opers\text.cpp" />
     <ClCompile Include="src\opers\true.cpp" />
     <ClCompile Include="src\purgecomment.cpp" />
     <ClCompile Include="src\stringtools.cpp" />
@@ -200,7 +201,7 @@
     <ClInclude Include="src\clone_ptr.hpp" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\dirent.h" />
-    <ClCompile Include="src\iniparser.hpp" />
+    <ClInclude Include="src\iniparser.h" />
     <ClInclude Include="src\OFM.h" />
     <ClInclude Include="src\operators.h" />
     <ClInclude Include="src\platform.h" />

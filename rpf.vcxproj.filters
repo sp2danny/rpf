@@ -90,15 +90,15 @@
     <ClCompile Include="src\opers\range.cpp">
       <Filter>Source Files\opers</Filter>
     </ClCompile>
+    <ClCompile Include="src\opers\text.cpp">
+      <Filter>Source Files\opers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dirent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\iniparser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\operators.h">
@@ -120,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\OFM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\iniparser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

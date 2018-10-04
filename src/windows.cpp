@@ -171,3 +171,38 @@ void MakeHighlight()
 }
 
 void MakeNormal() { SetConsoleTextAttribute(hConsole, csbi.wAttributes); }
+
+
+
+
+
+std::string GetMimeType(const std::string &fileName)
+{
+	// return mime type for extension
+	HKEY hKey = NULL;
+	std::string szResult = "application/unknown";
+	
+	const std::string szExtension = fileName.substr( fileName.find_last_of(".") );
+	// open registry key
+	if (RegOpenKeyEx(HKEY_CLASSES_ROOT, szExtension.c_str(), 
+		0, KEY_READ, &hKey) == ERROR_SUCCESS)
+	{
+		// define buffer
+		char szBuffer[256] = {0};
+		DWORD dwBuffSize = sizeof(szBuffer);
+
+		// get content type
+		if (RegQueryValueEx(hKey, "Content Type", NULL, NULL, 
+			(LPBYTE)szBuffer, &dwBuffSize) == ERROR_SUCCESS)
+		{
+			// success
+			szResult = szBuffer;
+		}
+
+		// close key
+		RegCloseKey(hKey);
+	}
+
+	// return result
+	return szResult;
+}

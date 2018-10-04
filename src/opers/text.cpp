@@ -2,8 +2,7 @@
 #include "../operators.h"
 #include "../common.h"
 #include "../stringtools.h"
-
-#include <magic.h>
+#include "../platform.h"
 
 char TextOperator::MyChar()
 {
@@ -19,23 +18,7 @@ void TextOperator::Create ( [[maybe_unused]] std::string str )
 static bool test_file_text(File& f)
 {
 	std::string fn = f.path + "/" + f.name;
-	
-	const char *mime;
-	static magic_t magic;
-	static bool first = true;
-
-	if (first)
-	{
-		magic = magic_open(MAGIC_MIME_TYPE); 
-		magic_load(magic, NULL);
-		magic_compile(magic, NULL);
-		first = false;
-	}
-	mime = magic_file(magic, fn.c_str());
-	//magic_close(magic);
-
-	std::string mimestr = mime;
-	//std::cerr << "debug log, mime = " << mimestr << std::endl;
+	std::string mimestr = GetMimeType(fn);
 	return mimestr.find("text") != std::string::npos;
 }
 
