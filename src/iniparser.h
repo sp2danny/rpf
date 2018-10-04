@@ -21,6 +21,10 @@ struct IniFile
 
 	std::string Lookup(const std::string& header, const std::string& key) const;
 	std::string LookupWithDefault(const std::string& header, const std::string& key, const std::string& defaultvalue) const noexcept;
+
+	void AssignIfSet(const std::string& header, const std::string& key, bool& setting) const;
+	void AssignIfSet(const std::string& header, const std::string& key, int& setting) const;
+	void AssignIfSet(const std::string& header, const std::string& key, std::string& setting) const;
 };
 
 

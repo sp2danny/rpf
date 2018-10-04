@@ -114,6 +114,44 @@ std::string IniFile::LookupWithDefault(const std::string& header, const std::str
 }
 
 
+void IniFile::AssignIfSet(const std::string& header, const std::string& key, bool& setting) const
+{
+	auto i1 = all.find(header);
+	if (i1 == all.end()) return;
+	const Section& sec = i1->second;
+	auto i2 = sec.find(key);
+	if (i2 == sec.end()) return;
+	auto str = boost::to_lower_copy(i2->second);
+	/**/ if ( (str == "1") || (str == "on") || (str == "true") )
+		setting = true;
+	else if ( (str == "0") || (str == "off") || (str == "false") )
+		setting = false;
+}
+
+void IniFile::AssignIfSet(const std::string& header, const std::string& key, int& setting) const
+{
+	auto i1 = all.find(header);
+	if (i1 == all.end()) return;
+	const Section& sec = i1->second;
+	auto i2 = sec.find(key);
+	if (i2 == sec.end()) return;
+	auto& str = i2->second;
+	setting = std::stoi(str);
+}
+
+void IniFile::AssignIfSet(const std::string& header, const std::string& key, std::string& setting) const
+{
+	auto i1 = all.find(header);
+	if (i1 == all.end()) return;
+	const Section& sec = i1->second;
+	auto i2 = sec.find(key);
+	if (i2 == sec.end()) return;
+	setting = i2->second;
+}
+
+
+
+
 
 
 
