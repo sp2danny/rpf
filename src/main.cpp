@@ -5,6 +5,7 @@
 #include "purgecomment.h"
 #include "container_operations.hpp"
 #include "stringtools.h"
+#include "iniparser.h"
 
 std::map<char, OperatorMaker> Operator::createMap;
 
@@ -305,9 +306,25 @@ LineMatch do_all_prio(File& f)
 	return std::move(lm.front());
 }
 
-void add_op(OperatorStack& ops, std::string arg)
+void add_op(OperatorStack& ops, std::string arg, const IniFile& ini)
 {
-	ops.push_back( Operator::DispatchCreate(arg) );
+	if (arg.empty()) return;
+	if (arg.front() == '%')
+	{
+		auto name = arg.substr(1);
+		auto val = ini.LookupWithDefault("save", name, "");
+		std::istringstream iss;
+		iss.str(val);
+		std::string token;
+		while (iss >> token)
+		{
+			ops.push_back( Operator::DispatchCreate(token) );
+		}
+	}
+	else
+	{
+		ops.push_back( Operator::DispatchCreate(arg) );
+	}
 }
 
 int main(int argc, char** argv)
@@ -315,6 +332,9 @@ int main(int argc, char** argv)
 	register_all();
 
 	runstate::colorize = stdout_isatty();
+
+	IniFile ini;
+	ini.LoadFile(".rpf");
 
 	if (argc<=1)
 	{
@@ -326,7 +346,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find v1.07" << std::endl;
+		std::cout << "Reverse Polish Find v1.08" << std::endl;
 	}
 	else try
 	{
@@ -373,7 +393,7 @@ int main(int argc, char** argv)
 			{
 				if (have_path)
 				{
-					add_op(opStack, arg);
+					add_op(opStack, arg, ini);
 				} else {
 					have_path = true;
 					path = arg;

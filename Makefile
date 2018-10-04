@@ -17,7 +17,7 @@ src/OFM.h: src/common.h src/clone_ptr.hpp
 src/operators.h: src/common.h src/OFM.h
 	touch src/operators.h
 
-obj/main.o: src/main.cpp src/common.h src/purgecomment.h src/platform.h src/OFM.h src/container_operations.hpp
+obj/main.o: src/main.cpp src/common.h src/purgecomment.h src/platform.h src/OFM.h src/container_operations.hpp src/iniparser.h
 	$(CC) $(CFLAGS) -c src/main.cpp -o obj/main.o
 
 obj/linux.o: src/linux.cpp src/common.h src/platform.h
@@ -34,6 +34,9 @@ obj/stringtools.o: src/stringtools.cpp src/stringtools.h
 
 obj/purgecomment.o: src/purgecomment.cpp src/purgecomment.h
 	$(CC) $(CFLAGS) -c src/purgecomment.cpp -o obj/purgecomment.o
+
+obj/iniparser.o: src/iniparser.cpp src/iniparser.h
+	$(CC) $(CFLAGS) -c src/iniparser.cpp -o obj/iniparser.o
 
 OPERDEP = src/common.h src/operators.h src/OFM.h
 
@@ -73,7 +76,7 @@ obj/misc_oper.o: $(OPERDEP) src/opers/misc.cpp
 obj/text.o: $(OPERDEP) src/opers/text.cpp
 	$(CC) $(CFLAGS) -c src/opers/text.cpp -o obj/text.o
 
-OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o obj/match.o obj/misc.o \
+OBJS = obj/main.o obj/stringtools.o obj/purgecomment.o obj/linux.o obj/match.o obj/misc.o obj/iniparser.o \
 obj/and.o obj/file.o obj/line.o obj/or.o obj/not.o obj/dir.o obj/near.o obj/bm.o \
 obj/regex.o obj/sub.o obj/true.o obj/inv.o obj/mod.o obj/ident.o obj/misc_oper.o \
 obj/range.o obj/text.o
