@@ -159,6 +159,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="src\iniparser.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\match.cpp" />
     <ClCompile Include="src\misc.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="src\clone_ptr.hpp" />
     <ClInclude Include="src\common.h" />
     <ClInclude Include="src\dirent.h" />
+    <ClCompile Include="src\iniparser.hpp" />
     <ClInclude Include="src\OFM.h" />
     <ClInclude Include="src\operators.h" />
     <ClInclude Include="src\platform.h" />

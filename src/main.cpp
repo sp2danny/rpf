@@ -336,11 +336,12 @@ int main(int argc, char** argv)
 	IniFile ini;
 	ini.LoadFile(".rpf");
 
-	ini.AssignIfSet("general", "stats",  runstate::statistic);
-	ini.AssignIfSet("general", "trunc",  runstate::trunc);
-	ini.AssignIfSet("general", "tabs",   runstate::tab);
-	ini.AssignIfSet("general", "sparse", runstate::sparse);
-	ini.AssignIfSet("general", "color",  runstate::colorize);
+	ini.AssignIfSet("general", "stats",    runstate::statistic);
+	ini.AssignIfSet("general", "trunc",    runstate::trunc);
+	ini.AssignIfSet("general", "tabs",     runstate::tab);
+	ini.AssignIfSet("general", "sparse",   runstate::sparse);
+	ini.AssignIfSet("general", "color",    runstate::colorize);
+	ini.AssignIfSet("general", "warnings", runstate::warnings);
 
 	if (argc<=1)
 	{
