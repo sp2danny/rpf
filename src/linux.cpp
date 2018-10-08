@@ -149,7 +149,7 @@ std::unique_ptr<RDE_Item> RDE::PIMPL::getNext()
 
 #include <magic.h>
 
-std::string GetMimeType(const std::string& fileName)
+std::string GetMimeType(const std::string& fn)
 {
 	const char *mime;
 	static magic_t magic;
@@ -158,8 +158,8 @@ std::string GetMimeType(const std::string& fileName)
 	if (first)
 	{
 		magic = magic_open(MAGIC_MIME_TYPE); 
-		magic_load(magic, NULL);
-		magic_compile(magic, NULL);
+		magic_load(magic, nullptr);
+		magic_compile(magic, nullptr);
 		first = false;
 	}
 	mime = magic_file(magic, fn.c_str());
