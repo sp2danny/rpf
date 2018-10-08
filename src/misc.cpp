@@ -2,6 +2,25 @@
 #include "common.h"
 #include "OFM.h"
 
+#ifdef SUPPORT_NEW_SYNTAX
+std::string unparan(std::string str)
+{
+	auto sz = str.size();
+	assert( sz >= 2 );
+	if (str[1] == '(')
+	{
+		assert( sz > 3 );
+		assert( str.back() == ')' );
+		return str.substr(2, sz-3);
+	}
+	else if (str[1] == '=')
+	{
+		return str.substr(2);
+	}
+	else
+		throw "operator syntax error";
+}
+#else
 std::string unparan(std::string str)
 {
 	auto sz = str.size();
@@ -10,6 +29,7 @@ std::string unparan(std::string str)
 	assert( str.back() == ')' );
 	return str.substr(2, sz-3);
 }
+#endif
 
 int getparam(std::string str, int def)
 {

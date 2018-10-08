@@ -2,7 +2,7 @@
 CC = clang++ -std=c++2a -stdlib=libstdc++ -Wall -Wextra -Wpedantic -Werror -ferror-limit=3 -static 
 LINK = -s -lmagic -lz
 #-lpthread -s
-CFLAGS = -DNDEBUG -O3
+CFLAGS = -DNDEBUG -O3 -DSUPPORT_NEW_SYNTAX
 #CFLAGS = -D_DEBUG -g
 
 compile: rpf

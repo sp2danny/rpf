@@ -353,7 +353,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find v1.09" << std::endl;
+		std::cout << "Reverse Polish Find v1.10" << std::endl;
 	}
 	else try
 	{
