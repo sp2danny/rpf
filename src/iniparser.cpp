@@ -113,6 +113,15 @@ std::string IniFile::LookupWithDefault(const std::string& header, const std::str
 	return i2->second;
 }
 
+bool IniFile::HasKey(const std::string& header, const std::string& key) const noexcept
+{
+	auto i1 = all.find(header);
+	if (i1 == all.end()) return false;
+	const Section& sec = i1->second;
+	auto i2 = sec.find(key);
+	if (i2 == sec.end()) return false;
+	return true;
+}
 
 void IniFile::AssignIfSet(const std::string& header, const std::string& key, bool& setting) const
 {

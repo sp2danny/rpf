@@ -312,7 +312,11 @@ void add_op(OperatorStack& ops, std::string arg, const IniFile& ini)
 	if (arg.front() == '%')
 	{
 		auto name = arg.substr(1);
-		auto val = ini.LookupWithDefault("save", name, "");
+		if (!ini.HasKey("save", name))
+		{
+			throw "saved term not found";
+		}
+		auto val = ini.Lookup("save", name);
 		std::istringstream iss;
 		iss.str(val);
 		std::string token;
