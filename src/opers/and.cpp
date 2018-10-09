@@ -33,7 +33,7 @@ void AndOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 
 	if (cnt)
 	{
-		while (cnt--)
+		for (UL i = 0; i<cnt; ++i)
 		{
 			if (m.size() < 2)
 				throw "operator or: not enough operands";
@@ -74,7 +74,7 @@ void AndOperator::MatchLines ( [[maybe_unused]] File& f, LineMatchStack& m )
 
 	if (cnt)
 	{
-		while (cnt--)
+		for (UL i = 0; i<cnt; ++i)
 		{
 			if (m.size() < 2)
 				throw "operator or: not enough operands";

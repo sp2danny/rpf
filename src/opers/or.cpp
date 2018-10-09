@@ -17,6 +17,7 @@ void OrOperator::Create ( std::string str )
 		cnt = 0;
 	else
 		cnt = getparam(str, 1);
+	//std::cerr << "or using " << cnt << " cnt\n";
 }
 
 void OrOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
@@ -31,7 +32,7 @@ void OrOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 
 	if (cnt)
 	{
-		while (cnt--)
+		for (UL i = 0; i<cnt; ++i)
 		{
 			if (m.size() < 2)
 				throw "operator or: not enough operands";
@@ -72,7 +73,7 @@ void OrOperator::MatchLines ( [[maybe_unused]] File& f, LineMatchStack& m )
 
 	if (cnt)
 	{
-		while (cnt--)
+		for (UL i = 0; i<cnt; ++i)
 		{
 			if (m.size() < 2)
 				throw "operator or: not enough operands";
