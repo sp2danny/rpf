@@ -147,6 +147,7 @@ void Help(std::ostream& out) // print help to stdout
 
 	    << "\n    3. Misc\n"
 	    << "\tt"       "\t" "always " << bold << "t" << reset << "rue, does not populate match-lines\n"
+	    << "\t%X"      "\t" "loads saved pattern 'X' from .rpf\n"
 
 	    << "\n    4. Options (specify with --option-on or --option-off)\n"
 	    << "\tsparse"  "\tproduce output without separating blank lines.\n\t\tdefault on\n"

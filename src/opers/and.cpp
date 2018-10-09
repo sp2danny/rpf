@@ -14,66 +14,78 @@ void AndOperator::Create(std::string str)
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	if (str.size() == 1)
-		all = false;
+		cnt = 1;
 	else if (str=="a+")
-		all = true;
+		cnt = 0;
 	else
-		throw "operator syntax error";
+		cnt = getparam(str, 1);
 }
 
 void AndOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 {
-	if (!all)
+	auto do_a_and = [&]() -> void
 	{
-		if (m.size() < 2)
-		{
-			throw "operator and: not enough operands";
-		}
 		TriBool m1 = m.back(); m.pop_back();
 		TriBool m2 = m.back(); m.pop_back();
 		TriBool res = And(m1, m2);
 		m.push_back(res);
-	} else {
-		if (m.size() < 1)
-			throw "operator and: not enough operands";
-		TriBool res = m.back(); m.pop_back();
-		while (!m.empty())
+	};
+
+	if (cnt)
+	{
+		while (cnt--)
 		{
-			TriBool m1 = m.back(); m.pop_back();
-			res = And(res, m1);
+			if (m.size() < 2)
+				throw "operator or: not enough operands";
+			do_a_and();
 		}
-		m.push_back(res);
+	} else {
+		while (m.size() >= 2)
+		{
+			do_a_and();
+		}
 	}
 }
 
-void AndOperator::MatchLines ( File& f, LineMatchStack& m )
+void AndOperator::MatchLines ( [[maybe_unused]] File& f, LineMatchStack& m )
 {
-	auto sz = m.size();
-	if (all && (sz==0))
-		throw "operator and: not enough operands";
-	if (all && (sz==1))
-		return;
-	if (sz < 2)
-		throw "operator and: not enough operands";
-	auto m2 = std::move(m.back()); m.pop_back();
-	auto m1 = std::move(m.back()); m.pop_back();
-	if (m1.match() && m2.match())
+	auto do_a_and = [&]() -> void
 	{
-		LineMatch res;
-		res.match(true);
-		res.modifiable_lines() = std::move(m1.modifiable_lines());
-		for (auto&& l : m2.lines())
+		auto m2 = std::move(m.back()); m.pop_back();
+		auto m1 = std::move(m.back()); m.pop_back();
+		if (m1.match() && m2.match())
 		{
-			if (l.second.empty())
-				res.add_simple_match(l.first);
-			else
-				for (auto&& x : l.second)
-					res.add_full_match(l.first, x);
+			LineMatch res;
+			res.match(true);
+			res.modifiable_lines() = std::move(m1.modifiable_lines());
+			for (auto&& l : m2.lines())
+			{
+				if (l.second.empty())
+					res.add_simple_match(l.first);
+				else
+					for (auto&& x : l.second)
+						res.add_full_match(l.first, x);
+			}
+			m.push_back(std::move(res));
+		} else {
+			m.emplace_back( And(m1.tri(), m2.tri()) );
 		}
-		m.push_back(std::move(res));
+	};
+
+	if (cnt)
+	{
+		while (cnt--)
+		{
+			if (m.size() < 2)
+				throw "operator or: not enough operands";
+			do_a_and();
+		}
 	} else {
-		m.emplace_back( And(m1.tri(), m2.tri()) );
+		while (m.size() >= 2)
+		{
+			do_a_and();
+		}
 	}
-	if (all)
-		MatchLines(f, m);
 }
+
+
