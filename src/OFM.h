@@ -82,6 +82,9 @@ typedef std::vector<clone_ptr<Operator>> OperatorStack;
 extern TriBool ExecuteAllFile ( OperatorStack&, FileMatchStack& );
 extern bool    ExecuteAllLine ( OperatorStack&, LineMatchStack& );
 
+extern void print_stack(const FileMatchStack&);
+extern void print_stack(const LineMatchStack&);
+
 struct File
 {
 	std::string path;

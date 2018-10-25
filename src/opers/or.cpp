@@ -35,7 +35,10 @@ void OrOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 		for (UL i = 0; i<cnt; ++i)
 		{
 			if (m.size() < 2)
+			{
+				//print_stack(m);
 				throw "operator or: not enough operands";
+			}
 			do_a_or();
 		}
 	} else {
@@ -76,7 +79,10 @@ void OrOperator::MatchLines ( [[maybe_unused]] File& f, LineMatchStack& m )
 		for (UL i = 0; i<cnt; ++i)
 		{
 			if (m.size() < 2)
+			{
+				//print_stack(m);
 				throw "operator or: not enough operands";
+			}
 			do_a_or();
 		}
 	} else {

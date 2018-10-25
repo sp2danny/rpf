@@ -133,5 +133,35 @@ TriBool FromBool(bool b)
 }
 
 
+std::string to_string(TriBool tb)
+{
+	switch (tb)
+	{
+		case tb_false: return "false"s;
+		case tb_true:  return "true"s;
+		case tb_maybe: return "maybe"s;
+		default:       return "<error>"s;
+	}
+}
+
+void print_stack(const FileMatchStack& s)
+{
+	std::cout << "stack contains:" << std::endl;
+	for (auto&& x : s)
+	{
+		std::cout << to_string(x) << std::endl;
+	}
+}
+void print_stack(const LineMatchStack& s)
+{
+	std::cout << "stack contains:" << std::endl;
+	for (auto&& x : s)
+	{
+		std::cout << to_string(x.tri()) << std::endl;
+	}
+}
+
+
+
 
 
