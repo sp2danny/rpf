@@ -43,6 +43,6 @@
 |stats |summary statistic printed. default on|
 
 ### Notes
-    Only l, r and b (and uppercase variants) loads the file-content  
+    Only l, r, i and b (and uppercase variants) loads the file-content  
     Many operators and operands need to be escaped or quoted  
 
