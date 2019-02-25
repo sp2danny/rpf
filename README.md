@@ -36,6 +36,7 @@
 |operand|meaning|
 | ----- | ----- |
 |t      |always true, does not populate match-lines|
+|%X     |loads saved pattern 'X' from .rpf|
 
 ### 4. Options (specify with --option-on or --option-off)
 |option|meaning|
