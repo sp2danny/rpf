@@ -18,6 +18,8 @@
 |r(expr)|part of line matches expr using regex matching|
 |b(expr)|part of line matches expr using BoyerMoore matching, no *? matching|
 |B(expr)|part of line matches expr using BoyerMoore matching, no *? matching, case insesitive|
+|i(expr)|identifyer matching, case sensitive, no *? matching|
+|I(expr)|identifyer matching, case insensitive, no *? matching|
 
 ### 2. Operators (operators combine results)
 |operator|meaning|
