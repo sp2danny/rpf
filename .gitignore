@@ -6,6 +6,7 @@
 *.pdb
 magic.mgc
 obj
+.codelite
 
 # Prerequisites
 *.d
@@ -40,3 +41,6 @@ obj
 *.out
 *.app
 rpf
+/rpf.txt
+/rpf.mk
+/Makefile

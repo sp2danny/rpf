@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeLite_Project Name="rpf" InternalType="Console">
+  <Description/>
+  <Dependencies/>
+  <VirtualDirectory Name="src">
+    <File Name="src/iniparser.cpp"/>
+    <File Name="src/linux.cpp"/>
+    <File Name="src/main.cpp"/>
+    <File Name="src/match.cpp"/>
+    <File Name="src/misc.cpp"/>
+    <File Name="src/purgecomment.cpp"/>
+    <File Name="src/stringtools.cpp"/>
+    <VirtualDirectory Name="opers">
+      <File Name="src/opers/and.cpp"/>
+      <File Name="src/opers/bm.cpp"/>
+      <File Name="src/opers/dir.cpp"/>
+      <File Name="src/opers/file.cpp"/>
+      <File Name="src/opers/ident.cpp"/>
+      <File Name="src/opers/inv.cpp"/>
+      <File Name="src/opers/line.cpp"/>
+      <File Name="src/opers/misc.cpp"/>
+      <File Name="src/opers/mod.cpp"/>
+      <File Name="src/opers/near.cpp"/>
+      <File Name="src/opers/not.cpp"/>
+      <File Name="src/opers/or.cpp"/>
+      <File Name="src/opers/range.cpp"/>
+      <File Name="src/opers/regex.cpp"/>
+      <File Name="src/opers/sub.cpp"/>
+      <File Name="src/opers/text.cpp"/>
+      <File Name="src/opers/true.cpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="inc">
+    <File Name="src/clone_ptr.hpp"/>
+    <File Name="src/common.h"/>
+    <File Name="src/container_operations.hpp"/>
+    <File Name="src/dirent.h"/>
+    <File Name="src/iniparser.h"/>
+    <File Name="src/operators.h"/>
+    <File Name="src/platform.h"/>
+    <File Name="src/purgecomment.h"/>
+    <File Name="src/stringtools.h"/>
+  </VirtualDirectory>
+  <Settings Type="Executable">
+    <GlobalSettings>
+      <Compiler Options="-std=c++17 -Wall -Wextra -Werror -pedantic" C_Options="-Wall" Assembler="">
+        <Preprocessor Value="SUPPORT_NEW_SYNTAX"/>
+      </Compiler>
+      <Linker Options="">
+        <Library Value="magic"/>
+        <Library Value="z"/>
+      </Linker>
+      <ResourceCompiler Options=""/>
+    </GlobalSettings>
+    <Configuration Name="Debug" CompilerType="clang( tags/RELEASE_600/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-g;-O0" C_Options="-g;-O0" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0"/>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(ProjectName)_dbg.out" IntermediateDirectory="./obj/Debug" Command="$(ProjectName)_dbg.out" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+    <Configuration Name="Release" CompilerType="clang( tags/RELEASE_600/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+        <IncludePath Value="."/>
+        <Preprocessor Value="NDEBUG"/>
+      </Compiler>
+      <Linker Options="" Required="yes"/>
+      <ResourceCompiler Options="" Required="no"/>
+      <General OutputFile="$(ProjectName).out" IntermediateDirectory="./obj/Release" Command="$(ProjectName).out" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="." PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
+        <![CDATA[]]>
+      </Environment>
+      <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="" IsExtended="no">
+        <DebuggerSearchPaths/>
+        <PostConnectCommands/>
+        <StartupCommands/>
+      </Debugger>
+      <PreBuild/>
+      <PostBuild/>
+      <CustomBuild Enabled="no">
+        <RebuildCommand/>
+        <CleanCommand/>
+        <BuildCommand/>
+        <PreprocessFileCommand/>
+        <SingleFileCommand/>
+        <MakefileGenerationCommand/>
+        <ThirdPartyToolName>None</ThirdPartyToolName>
+        <WorkingDirectory/>
+      </CustomBuild>
+      <AdditionalRules>
+        <CustomPostBuild/>
+        <CustomPreBuild/>
+      </AdditionalRules>
+      <Completion EnableCpp11="no">
+        <ClangCmpFlagsC/>
+        <ClangCmpFlags/>
+        <ClangPP/>
+        <SearchPaths/>
+      </Completion>
+    </Configuration>
+  </Settings>
+</CodeLite_Project>
