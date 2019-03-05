@@ -35,6 +35,7 @@ namespace runstate
 	bool debug_searched = false;
 	bool debug_general = false;
 	bool want_clear = false;
+	bool implied_aplus = false;
 	int tab = 8, trunc = 999;
 	std::vector<std::string> debug_considered_list;
 	std::vector<std::string> debug_searched_list;
@@ -341,12 +342,13 @@ int main(int argc, char** argv)
 	IniFile ini;
 	ini.LoadFile(".rpf");
 
-	ini.AssignIfSet("general", "stats",    runstate::statistic);
-	ini.AssignIfSet("general", "trunc",    runstate::trunc);
-	ini.AssignIfSet("general", "tabs",     runstate::tab);
-	ini.AssignIfSet("general", "sparse",   runstate::sparse);
-	ini.AssignIfSet("general", "color",    runstate::colorize);
-	ini.AssignIfSet("general", "warnings", runstate::warnings);
+	ini.AssignIfSet("general", "stats",         runstate::statistic);
+	ini.AssignIfSet("general", "trunc",         runstate::trunc);
+	ini.AssignIfSet("general", "tabs",          runstate::tab);
+	ini.AssignIfSet("general", "sparse",        runstate::sparse);
+	ini.AssignIfSet("general", "color",         runstate::colorize);
+	ini.AssignIfSet("general", "warnings",      runstate::warnings);
+	ini.AssignIfSet("general", "implied_aplus", runstate::implied_aplus);
 
 	if (argc<=1)
 	{
@@ -416,6 +418,8 @@ int main(int argc, char** argv)
 			throw "nothing to do";
 		if (runstate::debug_general)
 			debug_listing();
+		if (runstate::implied_aplus)
+			add_op(opStack, "a+", ini);
 		doall(path);
 		if (runstate::statistic)
 		{
