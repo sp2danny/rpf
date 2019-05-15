@@ -174,7 +174,7 @@ LineMatch do_all_prio(File&);
 void doall(std::string path)
 {
 	RDE rde(path);
-	
+
 	if (runstate::want_clear)
 		clear_screen();
 

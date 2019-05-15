@@ -50,9 +50,11 @@ void MakeGreen() { std::cout << green; }
 struct RDE::PIMPL
 {
 	std::string path;
+	std::istream* in = nullptr;
 	DIR* dir = nullptr;
 	UPIMPL next;
 	PIMPL(std::string path) : path(path), dir(opendir(path.c_str())) {}
+	PIMPL(std::istream& in) : in(&in) {}
 	~PIMPL() { if (dir) closedir(dir); }
 	// immobile only type
 	PIMPL(const PIMPL&) = delete;
@@ -86,6 +88,13 @@ RDE::RDE(std::string dir)
 		throw "failed to open "s + dir;
 	if (!pimpl->dir)
 		throw "failed to open "s + dir;
+}
+
+RDE::RDE(std::istream& in)
+{
+	pimpl = std::make_unique<PIMPL>(in); // new PIMPL(dir);
+	if (!pimpl)
+		throw "failed to initialize "s;
 }
 
 RDE::~RDE() = default;

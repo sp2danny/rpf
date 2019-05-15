@@ -20,6 +20,7 @@ struct RDE
 {
 	RDE() = default;
 	RDE(std::string dir);
+	RDE(std::istream&);
 	~RDE();
 
 	RDE& operator=(RDE&&) noexcept = default;

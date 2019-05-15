@@ -2,10 +2,10 @@
 <CodeLite_Workspace Name="rpf" Database="/home/sp2danny/extra/rpf/.codelite/rpf.tags">
   <Project Name="rpf" Path="rpf.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Project Name="rpf" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Project Name="rpf" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
