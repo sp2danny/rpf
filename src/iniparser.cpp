@@ -1,28 +1,10 @@
 
 #include "iniparser.h"
 
-/*
-struct IniFile
-{
-
-	typedef std::map<std::string, std::string> Section;
-	typedef std::map<std::string, Section> Headers;
-
-	Headers all;
-
-	void LoadFile(const std::string&);
-	void LoadFile(std::istream&);
-
-	void SaveFile(const std::string&) const;
-	void SaveFile(std::ostream&) const;
-};
-*/
-
 #include <iostream>
 #include <fstream>
 
 #include <boost/algorithm/string.hpp>
-
 
 void IniFile::LoadFile(const std::string& fn)
 {
@@ -91,7 +73,6 @@ void IniFile::SaveFile(std::ostream& os) const
 	}
 }
 
-
 std::string IniFile::Lookup(const std::string& header, const std::string& key) const
 {
 	auto i1 = all.find(header);
@@ -101,7 +82,6 @@ std::string IniFile::Lookup(const std::string& header, const std::string& key) c
 	if (i2 == sec.end()) throw "no such key";
 	return i2->second;
 }
-
 
 std::string IniFile::LookupWithDefault(const std::string& header, const std::string& key, const std::string& defaultvalue) const noexcept
 {
@@ -157,11 +137,4 @@ void IniFile::AssignIfSet(const std::string& header, const std::string& key, std
 	if (i2 == sec.end()) return;
 	setting = i2->second;
 }
-
-
-
-
-
-
-
 
