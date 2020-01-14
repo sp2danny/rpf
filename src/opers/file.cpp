@@ -8,14 +8,14 @@ char FileOperator::MyChar()
 	return 'f';
 }
 
-void FileOperator::Create ( std::string str )
+void FileOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	name = to_lower_copy(unparan(str));
 }
 
-void FileOperator::MatchFile ( File& f, FileMatchStack& m )
+void FileOperator::MatchFile(File& f, FileMatchStack& m)
 {
 	if (str_pat_mat(to_lower_copy(f.name), name))
 		m.push_back(tb_true);
@@ -23,7 +23,7 @@ void FileOperator::MatchFile ( File& f, FileMatchStack& m )
 		m.push_back(tb_false);
 }
 
-void FileOperator::MatchLines ( File& f, LineMatchStack& m )
+void FileOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	if (str_pat_mat(to_lower_copy(f.name), name))
 		m.emplace_back(true, Lines{});
@@ -38,14 +38,14 @@ char CppOnlyOperator::MyChar()
 	return '+';
 }
 
-void CppOnlyOperator::Create ( std::string str )
+void CppOnlyOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	name = to_lower_copy(unparan(str));
 }
 
-void CppOnlyOperator::MatchFile ( File& f, FileMatchStack& m )
+void CppOnlyOperator::MatchFile(File& f, FileMatchStack& m)
 {
 	if (str_pat_mat(to_lower_copy(f.name), name))
 	{
@@ -56,7 +56,7 @@ void CppOnlyOperator::MatchFile ( File& f, FileMatchStack& m )
 	}
 }
 
-void CppOnlyOperator::MatchLines ( File& f, LineMatchStack& m )
+void CppOnlyOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	if (str_pat_mat(to_lower_copy(f.name), name))
 	{
