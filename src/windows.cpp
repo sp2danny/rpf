@@ -34,7 +34,12 @@ std::time_t get_modification_time_from_file(std::string fn)
 
 void clear_screen()
 {
-	std::system("cls");
+	if (runstate::color_like_linux) {
+		like_linux::clear_screen();
+	}
+	else {
+		std::system("cls");
+	}
 }
 
 struct RDE::PIMPL
@@ -154,24 +159,47 @@ void getinit()
 
 void MakeRed()
 {
-	getinit();
-	SetConsoleTextAttribute(hConsole, 12);
+	if (runstate::color_like_linux) {
+		like_linux::MakeRed();
+	}
+	else {
+		getinit();
+		SetConsoleTextAttribute(hConsole, 12);
+	}
 }
 
 void MakeGreen()
 {
-	getinit();
-	SetConsoleTextAttribute(hConsole, 10);
+	if (runstate::color_like_linux) {
+		like_linux::MakeGreen();
+	}
+	else {
+		getinit();
+		SetConsoleTextAttribute(hConsole, 10);
+	}
 }
 
 void MakeHighlight()
 {
-	getinit();
-	SetConsoleTextAttribute(hConsole, 15);
+	if (runstate::color_like_linux) {
+		like_linux::MakeHighlight();
+	}
+	else {
+		getinit();
+		SetConsoleTextAttribute(hConsole, 15);
+	}
 }
 
-void MakeNormal() { SetConsoleTextAttribute(hConsole, csbi.wAttributes); }
-
+void MakeNormal()
+{
+	if (runstate::color_like_linux) {
+		like_linux::MakeNormal();
+	}
+	else {
+		getinit();
+		SetConsoleTextAttribute(hConsole, csbi.wAttributes);
+	}
+}
 
 
 

@@ -42,3 +42,11 @@ extern std::time_t get_modification_time_from_file(std::string);
 extern bool        stdout_isatty();
 extern void        clear_screen();
 
+namespace like_linux {
+	extern void clear_screen();
+	extern void MakeHighlight();
+	extern void MakeNormal();
+	extern void MakeRed();
+	extern void MakeGreen();
+}
+

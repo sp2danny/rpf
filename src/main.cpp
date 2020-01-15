@@ -36,6 +36,7 @@ namespace runstate
 	bool debug_general = false;
 	bool want_clear = false;
 	bool implied_aplus = false;
+	bool color_like_linux = false;
 	int tab = 8, trunc = 999;
 	std::vector<std::string> debug_considered_list;
 	std::vector<std::string> debug_searched_list;
@@ -342,13 +343,14 @@ int main(int argc, char** argv)
 	IniFile ini;
 	ini.LoadFile(".rpf");
 
-	ini.AssignIfSet("general", "stats",         runstate::statistic);
-	ini.AssignIfSet("general", "trunc",         runstate::trunc);
-	ini.AssignIfSet("general", "tabs",          runstate::tab);
-	ini.AssignIfSet("general", "sparse",        runstate::sparse);
-	ini.AssignIfSet("general", "color",         runstate::colorize);
-	ini.AssignIfSet("general", "warnings",      runstate::warnings);
-	ini.AssignIfSet("general", "implied_aplus", runstate::implied_aplus);
+	ini.AssignIfSet("general", "stats",            runstate::statistic);
+	ini.AssignIfSet("general", "trunc",            runstate::trunc);
+	ini.AssignIfSet("general", "tabs",             runstate::tab);
+	ini.AssignIfSet("general", "sparse",           runstate::sparse);
+	ini.AssignIfSet("general", "color",            runstate::colorize);
+	ini.AssignIfSet("general", "warnings",         runstate::warnings);
+	ini.AssignIfSet("general", "implied_aplus",    runstate::implied_aplus);
+	ini.AssignIfSet("general", "color_like_linux", runstate::color_like_linux);
 
 	if (argc<=1)
 	{
@@ -388,6 +390,8 @@ int main(int argc, char** argv)
 					runstate::warnings = true;
 				else if (arg == "warnings-off")
 					runstate::warnings = false;
+				else if (arg == "color-like-linux-on")
+					runstate::color_like_linux = true;
 				else if (arg == "debug-considered")
 					runstate::debug_considered = true;
 				else if (arg == "debug-searched")

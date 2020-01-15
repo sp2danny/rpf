@@ -29,23 +29,12 @@ std::time_t get_modification_time_from_file(std::string fn)
 	return buff.st_mtime;
 }
 
-const std::string red   = "\033[0;91m";
-const std::string green = "\033[0;32m";
-const std::string reset = "\033[0m";
-const std::string bold  = "\033[1;37m";
 
-void clear_screen()
-{
-	std::cout << "\033[2J\033[1;1H";
-}
-
-void MakeHighlight() { std::cout << bold; }
-
-void MakeNormal() { std::cout << reset; }
-
-void MakeRed() { std::cout << red; }
-
-void MakeGreen() { std::cout << green; }
+void clear_screen()   { like_linux::clear_screen(); }
+void MakeHighlight()  { like_linux::MakeHighlight(); }
+void MakeNormal()     { like_linux::MakeNormal(); }
+void MakeRed()        { like_linux::MakeRed(); }
+void MakeGreen()      { like_linux::MakeGreen(); }
 
 struct RDE::PIMPL
 {

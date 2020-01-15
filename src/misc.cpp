@@ -161,7 +161,22 @@ void print_stack(const LineMatchStack& s)
 	}
 }
 
+#include "platform.h"
 
+namespace like_linux
+{
 
+	const std::string red = "\033[0;91m";
+	const std::string green = "\033[0;32m";
+	const std::string reset = "\033[0m";
+	const std::string bold = "\033[1;37m";
+	const std::string clear = "\033[2J\033[1;1H";
 
+	void clear_screen()   { std::cout << clear; }
+	void MakeHighlight()  { std::cout << bold; }
+	void MakeNormal()     { std::cout << reset; }
+	void MakeRed()        { std::cout << red; }
+	void MakeGreen()      { std::cout << green; }
+
+}
 
