@@ -117,8 +117,8 @@ void Usage(std::ostream& out)
 
 void Help(std::ostream& out) // print help to stdout
 {
-	#define bold  std::flush; MakeHighlight(); out
-	#define reset std::flush; MakeNormal(); out
+	#define bold  std::flush; platform::MakeHighlight(); out
+	#define reset std::flush; platform::MakeNormal(); out
 
 	out << "Reverse Polish Find : Summary Help\n"
 
@@ -174,6 +174,8 @@ LineMatch do_all_prio(File&);
 
 void doall(std::string path)
 {
+	using namespace platform;
+
 	RDE rde(path);
 
 	if (runstate::want_clear)
@@ -325,12 +327,10 @@ void add_op(OperatorStack& ops, std::string arg, const IniFile& ini)
 		std::string token;
 		while (iss >> token)
 		{
-			ops.push_back( Operator::DispatchCreate(token) );
+			ops.push_back(Operator::DispatchCreate(token));
 		}
-	}
-	else
-	{
-		ops.push_back( Operator::DispatchCreate(arg) );
+	} else {
+		ops.push_back(Operator::DispatchCreate(arg));
 	}
 }
 
@@ -338,7 +338,7 @@ int main(int argc, char** argv)
 {
 	register_all();
 
-	runstate::colorize = stdout_isatty();
+	runstate::colorize = platform::stdout_isatty();
 
 	IniFile ini;
 	ini.LoadFile(".rpf");

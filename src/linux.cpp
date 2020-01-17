@@ -6,9 +6,10 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
-bool stdout_isatty() { return isatty(fileno(stdout)); }
 
-std::time_t parse_date_from_string(std::string str)
+bool platform::stdout_isatty() { return isatty(fileno(stdout)); }
+
+std::time_t platform::parse_date_from_string(std::string str)
 {
 	struct tm t;
 	std::memset(&t, 0, sizeof(t));
@@ -22,7 +23,7 @@ std::time_t parse_date_from_string(std::string str)
 	return mktime(&t);
 }
 
-std::time_t get_modification_time_from_file(std::string fn)
+std::time_t platform::get_modification_time_from_file(std::string fn)
 {
 	struct stat buff;
 	stat(fn.c_str(), &buff);
@@ -36,7 +37,7 @@ void MakeNormal()     { like_linux::MakeNormal(); }
 void MakeRed()        { like_linux::MakeRed(); }
 void MakeGreen()      { like_linux::MakeGreen(); }
 
-struct RDE::PIMPL
+struct platform::RDE::PIMPL
 {
 	std::string path;
 	std::istream* in = nullptr;
@@ -56,7 +57,7 @@ private:
 	PIMPL() = default;
 };
 
-std::unique_ptr<RDE_Item> RDE::getNext()
+std::unique_ptr<platform::RDE_Item> platform::RDE::getNext()
 {
 	if (!pimpl)
 		return {};
@@ -64,13 +65,13 @@ std::unique_ptr<RDE_Item> RDE::getNext()
 		pimpl->getNext();
 }
 
-void RDE::skipDir()
+void platform::RDE::skipDir()
 {
 	if (pimpl)
 		pimpl->skipDir();
 }
 
-RDE::RDE(std::string dir)
+platform::RDE::RDE(std::string dir)
 {
 	pimpl = std::make_unique<PIMPL>(dir); // new PIMPL(dir);
 	if (!pimpl)
@@ -79,16 +80,16 @@ RDE::RDE(std::string dir)
 		throw "failed to open "s + dir;
 }
 
-RDE::RDE(std::istream& in)
+platform::RDE::RDE(std::istream& in)
 {
 	pimpl = std::make_unique<PIMPL>(in); // new PIMPL(dir);
 	if (!pimpl)
 		throw "failed to initialize "s;
 }
 
-RDE::~RDE() = default;
+platform::RDE::~RDE() = default;
 
-void RDE::PIMPL::skipDir()
+void platform::RDE::PIMPL::skipDir()
 {
 	PIMPL* lst = nullptr;
 	PIMPL* ptr = this;
@@ -115,7 +116,7 @@ void RDE::PIMPL::skipDir()
 	}
 }
 
-std::unique_ptr<RDE_Item> RDE::PIMPL::getNext()
+std::unique_ptr<platform::RDE_Item> platform::RDE::PIMPL::getNext()
 {
 	if (next)
 	{

@@ -15,13 +15,13 @@ void ModOperator::Create ( std::string str )
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	md = parse_date_from_string(unparan(str));
+	md = platform::parse_date_from_string(unparan(str));
 }
 
 static bool do_mod(File& f, std::time_t md)
 {
 	auto filename = f.path + "/" + f.name;
-	auto filetime = get_modification_time_from_file(filename);
+	auto filetime = platform::get_modification_time_from_file(filename);
 
 	return (filetime >= md);
 }

@@ -18,7 +18,7 @@ void TextOperator::Create ( [[maybe_unused]] std::string str )
 static bool test_file_text(File& f)
 {
 	std::string fn = f.path + "/" + f.name;
-	std::string mimestr = GetMimeType(fn);
+	std::string mimestr = platform::GetMimeType(fn);
 	return mimestr.find("text") != std::string::npos;
 }
 

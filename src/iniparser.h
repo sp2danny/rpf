@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include <string_view>
 #include <iosfwd>
 #include <map>
 
@@ -16,6 +17,7 @@ struct IniFile
 	void LoadFile(const std::string&);
 	void LoadFile(std::istream&);
 
+	void SaveFile(std::string_view) const;
 	void SaveFile(const std::string&) const;
 	void SaveFile(std::ostream&) const;
 

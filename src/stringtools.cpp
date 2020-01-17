@@ -356,10 +356,10 @@ void colorize_out(bool colorize, const std::string& str, std::ostream& out, UL t
 			} else {
 				if (colorize) switch (idx)
 				{
-					case 0: MakeHighlight(); break;
-					case 1: MakeGreen();     break;
-					case 2: MakeRed();       break;
-					case 3: MakeNormal();    break;
+					case 0: platform::MakeHighlight(); break;
+					case 1: platform::MakeGreen();     break;
+					case 2: platform::MakeRed();       break;
+					case 3: platform::MakeNormal();    break;
 				}
 				i += 3;
 			}
