@@ -70,12 +70,20 @@ struct Operator
 	virtual void UnCache    (                        ) { file = nullptr; }
 	virtual bool NeedFile   (                        ) { return false; }
 
+	virtual void Print(std::ostream&) const = 0;
+
 protected:
 	File* file = nullptr;
 
 private:
 	static std::map<char, OperatorMaker> createMap;
 };
+
+inline std::ostream& operator<<(std::ostream& out, const clone_ptr<Operator>& oper)
+{
+	oper->Print(out);
+	return out;
+}
 
 typedef std::vector<clone_ptr<Operator>> OperatorStack;
 

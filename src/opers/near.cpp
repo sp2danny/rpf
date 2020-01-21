@@ -5,6 +5,16 @@
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;
 
+void NearOperator::Print(std::ostream& out) const
+{
+	out << "n";
+	if (all)
+		out << "+";
+	else
+		if (n > 1)
+			out << n;
+}
+
 char NearOperator::MyChar()
 {
 	return 'n';

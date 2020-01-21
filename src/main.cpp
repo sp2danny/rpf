@@ -172,6 +172,42 @@ void out_err(std::string err)
 
 LineMatch do_all_prio(File&);
 
+/*
+	extern bool colorize, statistic, sparse, warnings;
+	extern bool debug_considered;
+	extern bool debug_searched;
+	extern bool debug_general;
+	extern bool implied_aplus;
+	extern bool color_like_linux;
+	extern int tab, trunc;
+*/
+void dumpConfig(bool havepath, const std::string& path)
+{
+	std::cout << " --- Config Dump --- \n";
+	if (havepath)
+		std::cout << "\thave path : " << path << std::endl;
+	else
+		std::cout << "\tno path" << std::endl;
+
+	using namespace runstate;
+	std::cout << std::boolalpha;
+	std::cout << "\tcolorize : "  << (colorize?(color_like_linux?"linux":"on"):"off") << std::endl;
+	std::cout << "\tstatistic : " << statistic << std::endl;
+	std::cout << "\tsparse : "    << sparse    << std::endl;
+	std::cout << "\twarnings : "  << warnings  << std::endl;
+	std::cout << "\ttabs : "      << tab       << std::endl;
+	std::cout << "\ttrunc : "     << runstate::trunc << std::endl;
+
+	std::cout << "\toperators : ";
+	for (auto&& op : opStack)
+	{
+		std::cout << op << " ";
+	}
+	std::cout << std::endl;
+
+	std::cout << " --- Config Dump --- \n";
+}
+
 void doall(std::string path)
 {
 	using namespace platform;
@@ -368,6 +404,7 @@ int main(int argc, char** argv)
 	{
 		std::string path;
 		bool have_path = false;
+		bool final_config_dump = false;
 		for (int i=1; i<argc; ++i)
 		{
 			std::string arg = argv[i];
@@ -402,10 +439,12 @@ int main(int argc, char** argv)
 					runstate::debug_general = runstate::debug_searched = runstate::debug_considered = true;
 				else if ((arg == "reset") || (arg == "clear"))
 					runstate::want_clear = true;
-				else if (arg.substr(0,5) == "tabs-")
+				else if (arg.substr(0, 5) == "tabs-")
 					runstate::tab = std::stoi(arg.substr(5));
-				else if (arg.substr(0,6) == "trunc-")
+				else if (arg.substr(0, 6) == "trunc-")
 					runstate::trunc = std::stoi(arg.substr(6));
+				else if (arg == "final-config-dump")
+					final_config_dump = true;
 				else
 					throw "Unknown argument "s + arg;
 			}
@@ -420,12 +459,14 @@ int main(int argc, char** argv)
 				}
 			}
 		}
-		if (!have_path)
-			throw "nothing to do";
 		if (runstate::debug_general)
 			debug_listing();
 		if (runstate::implied_aplus)
 			add_op(opStack, "a+", ini);
+		if (final_config_dump)
+			dumpConfig(have_path, path);
+		if (!have_path)
+			throw "nothing to do";
 		doall(path);
 		if (runstate::statistic)
 		{

@@ -3,15 +3,26 @@
 #include "../common.h"
 #include "../platform.h"
 
+#include <ctime>
+
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;
+
+void ModOperator::Print(std::ostream& out) const
+{
+	using namespace std;
+	char buff[1024];
+	struct tm _tm = *localtime(&md);
+	strftime(buff, 1024, "%Y-%m-%d %H:%M:%S", &_tm);
+	out << "m='" << buff << "'";
+}
 
 char ModOperator::MyChar()
 {
 	return 'm';
 }
 
-void ModOperator::Create ( std::string str )
+void ModOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -26,13 +37,13 @@ static bool do_mod(File& f, std::time_t md)
 	return (filetime >= md);
 }
 
-void ModOperator::MatchFile ( File& f, FileMatchStack& m )
+void ModOperator::MatchFile(File& f, FileMatchStack& m)
 {
 	TriBool res = FromBool(do_mod(f, md));
 	m.push_back(res);
 }
 
-void ModOperator::MatchLines ( File& f, LineMatchStack& m )
+void ModOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	m.emplace_back(do_mod(f, md), Lines{});
 }

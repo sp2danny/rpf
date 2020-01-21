@@ -3,6 +3,11 @@
 #include "../common.h"
 #include "../stringtools.h"
 
+void LineOperator::Print(std::ostream& out) const
+{
+	out << "l='" << expr << "'";
+}
+
 char LineOperator::MyChar()
 {
 	return 'l';
@@ -24,12 +29,12 @@ void LineOperator::Create(std::string str)
 		prio = 15;
 }
 
-void LineOperator::MatchFile (File&, FileMatchStack& m)
+void LineOperator::MatchFile(File&, FileMatchStack& m)
 {
 	m.push_back(tb_maybe);
 }
 
-void LineOperator::MatchLines (File& f, LineMatchStack& m)
+void LineOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	UnCache();
 	LinesCache(f);
@@ -92,6 +97,11 @@ void LineOperator::UnCache()
 }
 
 // ----------------------------------------------------------------------------
+
+void LineCIOperator::Print(std::ostream& out) const
+{
+	out << "L='" << expr << "'";
+}
 
 char LineCIOperator::MyChar()
 {

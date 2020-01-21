@@ -20,6 +20,7 @@ struct xx ## Operator final : Operator                                  \
 	  Operator::Register( MyChar() , +maker ); }                        \
 	virtual Operator* clone (                        ) override         \
 	{ return new xx ## Operator(*this); }                               \
+	virtual void Print(std::ostream&) const override;                   \
 private:                                                                \
 	xx ## Operator() = default;                                         \
 	friend void register_all();
@@ -47,6 +48,7 @@ struct xx ## Operator final : Operator                                  \
     virtual void UnCache    (                        ) override;        \
 	virtual bool NeedFile   (                        ) override         \
 	{ return true; }                                                    \
+	virtual void Print(std::ostream&) const override;                   \
 private:                                                                \
 	xx ## Operator() = default;                                         \
 	friend void register_all();                                         \
@@ -65,7 +67,12 @@ typedef boyer_moore_advanced<char, std::string, isEqualNoCase> boyer_moore_ci;
 
 typedef clone_ptr<boyer_moore_ci> pBMCI;
 
-typedef clone_ptr<std::regex> pRE;
+struct myRegex : std::regex {
+	std::string str;
+	myRegex(const std::string& expr) : std::regex(expr), str(expr) {}
+};
+
+typedef clone_ptr<myRegex> pRE;
 
 MAKE_OPER_NORM( File    )     std::string name;                };
 MAKE_OPER_NORM( CppOnly )     std::string name;                };

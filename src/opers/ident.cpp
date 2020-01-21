@@ -3,24 +3,29 @@
 #include "../common.h"
 #include "../stringtools.h"
 
+void IdentOperator::Print(std::ostream& out) const
+{
+	out << "i='" << id << "'";
+}
+
 char IdentOperator::MyChar()
 {
 	return 'i';
 }
 
-void IdentOperator::Create ( std::string str )
+void IdentOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	id = unparan(str);
 }
 
-void IdentOperator::MatchFile ( File& , FileMatchStack& m )
+void IdentOperator::MatchFile(File&, FileMatchStack& m)
 {
 	m.push_back(tb_maybe);
 }
 
-void IdentOperator::MatchLines ( File& f, LineMatchStack& m )
+void IdentOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	UnCache();
 	LinesCache(f);
@@ -66,6 +71,11 @@ void IdentOperator::UnCache()
 }
 
 // ----------------------------------------------------------------------------
+
+void IdentCIOperator::Print(std::ostream& out) const
+{
+	out << "I='" << id << "'";
+}
 
 char IdentCIOperator::MyChar()
 {

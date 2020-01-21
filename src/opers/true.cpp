@@ -2,6 +2,11 @@
 #include "../operators.h"
 #include "../common.h"
 
+void TrueOperator::Print(std::ostream& out) const
+{
+	out << "t";
+}
+
 char TrueOperator::MyChar()
 {
 	return 't';

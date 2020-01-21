@@ -2,6 +2,11 @@
 #include "../operators.h"
 #include "../common.h"
 
+void RegexOperator::Print(std::ostream& out) const
+{
+	out << "r='" << re->str << "'";
+}
+
 char RegexOperator::MyChar()
 {
 	return 'r';

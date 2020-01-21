@@ -3,6 +3,11 @@
 #include "../common.h"
 #include "../stringtools.h"
 
+void DirOperator::Print(std::ostream& out) const
+{
+	out << "b='" << name << "'";
+}
+
 char DirOperator::MyChar()
 {
 	return 'd';

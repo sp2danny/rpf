@@ -2,6 +2,11 @@
 #include "../operators.h"
 #include "../common.h"
 
+void RangeOperator::Print(std::ostream& out) const
+{
+	out << "=" << max;
+}
+
 char RangeOperator::MyChar()
 {
 	return '=';

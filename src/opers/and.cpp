@@ -4,6 +4,15 @@
 using boost::algorithm::to_lower_copy;
 using boost::algorithm::to_lower;
 
+void AndOperator::Print(std::ostream& out) const
+{
+	out << "a";
+	if (cnt == 0)
+		out << "+";
+	else if (cnt > 1)
+		out << cnt;
+}
+
 char AndOperator::MyChar()
 {
 	return 'a';

@@ -9,12 +9,17 @@ using boost::algorithm::to_lower;
 // *** Dup ***
 // ***********
 
+void DupOperator::Print(std::ostream& out) const
+{
+	out << "2";
+}
+
 char DupOperator::MyChar()
 {
 	return '2';
 }
 
-void DupOperator::Create ( [[maybe_unused]] std::string str )
+void DupOperator::Create([[maybe_unused]] std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -22,7 +27,7 @@ void DupOperator::Create ( [[maybe_unused]] std::string str )
 		throw "operator syntax error";
 }
 
-void DupOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void DupOperator::MatchFile ([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	if (m.size() < 1)
 	{
@@ -47,6 +52,11 @@ void DupOperator::MatchLines ( File& , LineMatchStack& m )
 // ************
 // *** Swap ***
 // ************
+
+void SwapOperator::Print(std::ostream& out) const
+{
+	out << "s";
+}
 
 char SwapOperator::MyChar()
 {

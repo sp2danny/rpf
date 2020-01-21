@@ -2,6 +2,15 @@
 #include "../operators.h"
 #include "../common.h"
 
+void OrOperator::Print(std::ostream& out) const
+{
+	out << "o";
+	if (cnt == 0)
+		out << "+";
+	else if (cnt > 1)
+		out << cnt;
+}
+
 char OrOperator::MyChar()
 {
 	return 'o';

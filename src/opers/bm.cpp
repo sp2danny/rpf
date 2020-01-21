@@ -3,12 +3,17 @@
 #include "../common.h"
 #include "../stringtools.h"
 
+void BMOperator::Print(std::ostream& out) const
+{
+	out << "b='" << bm->gettext() << "'";
+}
+
 char BMOperator::MyChar()
 {
 	return 'b';
 }
 
-void BMOperator::Create ( std::string str )
+void BMOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -17,7 +22,7 @@ void BMOperator::Create ( std::string str )
 	bm.emplace(str);
 }
 
-void BMOperator::MatchFile ( File& , FileMatchStack& m )
+void BMOperator::MatchFile(File& , FileMatchStack& m)
 {
 	m.push_back(tb_maybe);
 }
@@ -62,6 +67,11 @@ void BMOperator::UnCache()
 }
 
 // ----------------------------------------------------------------------------
+
+void BM_CIOperator::Print(std::ostream& out) const
+{
+	out << "B='" << bm->gettext() << "'";
+}
 
 char BM_CIOperator::MyChar()
 {

@@ -2,6 +2,11 @@
 #include "../operators.h"
 #include "../common.h"
 
+void NotOperator::Print(std::ostream& out) const
+{
+	out << "!";
+}
+
 char NotOperator::MyChar()
 {
 	return '!';

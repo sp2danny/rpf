@@ -30,6 +30,7 @@ struct boyer_moore
 	bool match(const std::string&);
 	std::vector<std::size_t> match_all(const std::string&);
 	std::pair<bool, std::size_t> match_next(const std::string&, std::size_t =0);
+	std::string gettext() const { return searching_for; }
 private:
 	std::size_t offsets[256];
 	std::string searching_for;
@@ -48,6 +49,7 @@ struct boyer_moore_advanced
 	std::vector<std::size_t> match_all(const Str&);
 	std::pair<bool, std::size_t> match_next(const Str&, std::size_t =0);
 	constexpr static std::size_t SZ = 1ul << (CHAR_BIT*sizeof(Ch));
+	std::string gettext() const { return searching_for; }
 private:
 	std::size_t offsets[SZ];
 	Str searching_for;

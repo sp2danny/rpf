@@ -2,6 +2,11 @@
 #include "../operators.h"
 #include "../common.h"
 
+void SubOperator::Print(std::ostream& out) const
+{
+	out << "-";
+}
+
 char SubOperator::MyChar()
 {
 	return '-';

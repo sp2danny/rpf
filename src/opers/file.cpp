@@ -3,6 +3,11 @@
 #include "../common.h"
 #include "../stringtools.h"
 
+void FileOperator::Print(std::ostream& out) const
+{
+	out << "f='" << name << "'";
+}
+
 char FileOperator::MyChar()
 {
 	return 'f';
@@ -32,6 +37,11 @@ void FileOperator::MatchLines(File& f, LineMatchStack& m)
 }
 
 // ----------------------------------------------------------------------------
+
+void CppOnlyOperator::Print(std::ostream& out) const
+{
+	out << "+='" << name << "'";
+}
 
 char CppOnlyOperator::MyChar()
 {

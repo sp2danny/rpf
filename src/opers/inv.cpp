@@ -2,12 +2,17 @@
 #include "../operators.h"
 #include "../common.h"
 
+void InvOperator::Print(std::ostream& out) const
+{
+	out << "~";
+}
+
 char InvOperator::MyChar()
 {
 	return '~';
 }
 
-void InvOperator::Create ( std::string str )
+void InvOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -15,7 +20,7 @@ void InvOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void InvOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void InvOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	if (m.size() < 1)
 	{

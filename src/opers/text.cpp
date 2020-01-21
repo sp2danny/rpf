@@ -4,6 +4,11 @@
 #include "../stringtools.h"
 #include "../platform.h"
 
+void TextOperator::Print(std::ostream& out) const
+{
+	out << "x";
+}
+
 char TextOperator::MyChar()
 {
 	return 'x';
