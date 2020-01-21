@@ -341,7 +341,7 @@ int main(int argc, char** argv)
 	runstate::colorize = platform::stdout_isatty();
 
 	IniFile ini;
-	ini.LoadFile(".rpf");
+	recursiveLoad(ini,".rpf");
 
 	ini.AssignIfSet("general", "stats",            runstate::statistic);
 	ini.AssignIfSet("general", "trunc",            runstate::trunc);
@@ -392,6 +392,8 @@ int main(int argc, char** argv)
 					runstate::warnings = false;
 				else if (arg == "color-like-linux-on")
 					runstate::color_like_linux = true;
+				else if (arg == "color-like-linux-off")
+					runstate::color_like_linux = false;
 				else if (arg == "debug-considered")
 					runstate::debug_considered = true;
 				else if (arg == "debug-searched")

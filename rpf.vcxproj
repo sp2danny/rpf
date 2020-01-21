@@ -183,6 +183,7 @@
     <ClCompile Include="src\opers\text.cpp" />
     <ClCompile Include="src\opers\true.cpp" />
     <ClCompile Include="src\purgecomment.cpp" />
+    <ClCompile Include="src\recursiveload.cpp" />
     <ClCompile Include="src\stringtools.cpp" />
     <ClCompile Include="src\windows.cpp">
       <DisableLanguageExtensions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</DisableLanguageExtensions>

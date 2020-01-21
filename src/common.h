@@ -54,4 +54,6 @@ extern std::vector<std::string> readfile(std::istream&);
 
 extern void register_all();
 
+struct IniFile;
+void recursiveLoad(IniFile&, const std::string&);
 

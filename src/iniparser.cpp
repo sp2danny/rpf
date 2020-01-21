@@ -138,3 +138,32 @@ void IniFile::AssignIfSet(const std::string& header, const std::string& key, std
 	setting = i2->second;
 }
 
+std::vector<std::string> IniFile::ListHeaders() const
+{
+	std::vector<std::string> out;
+	for (auto&& seg : all)
+	{
+		out.push_back(seg.first);
+	}
+	return out;
+}
+
+bool IniFile::HasHeader(const std::string& hdr) const
+{
+	auto iter = all.find(hdr);
+	if (iter == all.end()) return false;
+	return !iter->second.empty();
+}
+
+std::vector<std::string> IniFile::ListKeys(const std::string& hdr) const
+{
+	auto iter = all.find(hdr);
+	if (iter == all.end())
+		return {};
+	std::vector<std::string> out;
+	for (auto&& kvp : iter->second)
+	{
+		out.push_back(kvp.first);
+	}
+	return out;
+}

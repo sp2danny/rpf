@@ -29,7 +29,7 @@ namespace platform
 		RDE& operator=(RDE&&) noexcept = default;
 		RDE(RDE&&) noexcept = default;
 
-		void swap(RDE& other) noexcept { pimpl.swap(other.pimpl); }
+		//void swap(RDE& other) noexcept { pimpl.swap(other.pimpl); }
 
 		std::unique_ptr<RDE_Item> getNext();
 		void skipDir();
@@ -47,7 +47,8 @@ namespace platform
 
 }
 
-namespace like_linux {
+namespace like_linux
+{
 	extern void clear_screen();
 	extern void MakeHighlight();
 	extern void MakeNormal();

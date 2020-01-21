@@ -3,8 +3,10 @@
 
 #include <string>
 #include <string_view>
+#include <filesystem>
 #include <iosfwd>
 #include <map>
+#include <vector>
 
 struct IniFile
 {
@@ -28,6 +30,10 @@ struct IniFile
 	void AssignIfSet(const std::string& header, const std::string& key, bool& setting) const;
 	void AssignIfSet(const std::string& header, const std::string& key, int& setting) const;
 	void AssignIfSet(const std::string& header, const std::string& key, std::string& setting) const;
+
+	std::vector<std::string> ListHeaders() const;
+	bool HasHeader(const std::string&) const;
+	std::vector<std::string> ListKeys(const std::string&) const;
 };
 
 
