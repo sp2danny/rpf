@@ -27,7 +27,7 @@ void BMOperator::MatchFile(File& , FileMatchStack& m)
 	m.push_back(tb_maybe);
 }
 
-void BMOperator::MatchLines ( File& f, LineMatchStack& m )
+void BMOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	UnCache();
 	LinesCache(f);
@@ -78,7 +78,7 @@ char BM_CIOperator::MyChar()
 	return 'B';
 }
 
-void BM_CIOperator::Create ( std::string str )
+void BM_CIOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -87,12 +87,12 @@ void BM_CIOperator::Create ( std::string str )
 	bm.emplace(str);
 }
 
-void BM_CIOperator::MatchFile ( File& , FileMatchStack& m )
+void BM_CIOperator::MatchFile(File&, FileMatchStack& m)
 {
 	m.push_back(tb_maybe);
 }
 
-void BM_CIOperator::MatchLines ( File& f, LineMatchStack& m )
+void BM_CIOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	UnCache();
 	LinesCache(f);
@@ -128,6 +128,6 @@ void BM_CIOperator::ExeCached(LineMatchStack& lms)
 void BM_CIOperator::UnCache()
 {
 	have_cache = false;
-	lm_cache = LineMatch{false,{}};
+	lm_cache = LineMatch{false, {}};
 }
 

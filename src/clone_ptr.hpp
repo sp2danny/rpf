@@ -24,7 +24,7 @@ struct cloner
 	}
 };
 
-template<typename T, typename A = std::allocator<T> >
+template<typename T, typename A = std::allocator<T>>
 cloner<T> make_special_member_cloner()
 {
 	cloner<T> ret;
@@ -73,8 +73,8 @@ cloner<T> make_clone_destroy_member_cloner()
 template<typename T>
 struct have_clone_member
 {
-	template<typename U=T>
-	static auto test(U* u) -> decltype( u = u->clone(), char() );
+	template<typename U = T>
+	static auto test(U* u) -> decltype(u = u->clone(), char());
 	static long test(...);
 
 	static const bool value = (sizeof(test((T*)0)) == 1);
@@ -87,18 +87,17 @@ template<typename T>
 struct have_destroy_member
 {
 	template<typename U=T>
-	static auto test(U* u) -> decltype( u->destroy(), char() );
+	static auto test(U* u) -> decltype(u->destroy(), char());
 	static long test(...);
 
 	static const bool value = (sizeof(test((T*)0)) == 1);
 };
 
 template<typename T>
-constexpr bool  have_destroy_member_v = have_destroy_member<T>::value;
+constexpr bool have_destroy_member_v = have_destroy_member<T>::value;
 
 namespace detail
 {
-
 	struct pick_3 {};
 	struct pick_2 : pick_3 {};
 	struct pick_1 : pick_2 {};
@@ -130,7 +129,6 @@ cloner<T> make_cloner()
 {
 	return detail::make_cloner<T>(detail::pick_1{});
 }
-
 
 template<typename T>
 struct clone_ptr
@@ -318,7 +316,7 @@ template<typename T>
 template<typename U>
 auto clone_ptr<T>::operator=(const clone_ptr<U>& other) -> clone_ptr&
 {
-	static_assert( std::is_base_of<T, U>::value );
+	static_assert(std::is_base_of<T, U>::value);
 
 	if (ptr)
 		cl.destroy(ptr);
@@ -342,7 +340,7 @@ template<typename U>
 clone_ptr<T>::clone_ptr(const clone_ptr<U>& other)
 	: clone_ptr()
 {
-	static_assert( std::is_base_of<T, U>::value );
+	static_assert(std::is_base_of<T, U>::value);
 
 	if (other.ptr)
 	{
@@ -358,7 +356,7 @@ template<typename U>
 clone_ptr<T>::clone_ptr(clone_ptr<U>&& other)
 	: clone_ptr()
 {
-	static_assert( std::is_base_of<T, U>::value );
+	static_assert(std::is_base_of<T, U>::value);
 
 	if (other.ptr)
 	{
@@ -374,7 +372,7 @@ template<typename T>
 template<typename U>
 auto clone_ptr<T>::operator=(const U& other) -> clone_ptr&
 {
-	static_assert( std::is_base_of<T, U>::value );
+	static_assert(std::is_base_of<T, U>::value);
 
 	if (ptr)
 		cl.destroy(ptr);
@@ -392,8 +390,8 @@ template<typename T>
 template<typename U>
 clone_ptr<T>::clone_ptr(const U& other) 
 {
-	static_assert( std::is_base_of<T, U>::value );
-	assert( typeid(other) == typeid(U) );
+	static_assert(std::is_base_of<T, U>::value);
+	assert(typeid(other) == typeid(U));
 
 	auto oth_cl = make_cloner<U>();
 	cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };

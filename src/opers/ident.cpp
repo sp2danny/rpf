@@ -82,19 +82,19 @@ char IdentCIOperator::MyChar()
 	return 'I';
 }
 
-void IdentCIOperator::Create ( std::string str )
+void IdentCIOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	id = to_lower_copy(unparan(str));
 }
 
-void IdentCIOperator::MatchFile ( File& , FileMatchStack& m )
+void IdentCIOperator::MatchFile(File&, FileMatchStack& m)
 {
 	m.push_back(tb_maybe);
 }
 
-void IdentCIOperator::MatchLines ( File& f, LineMatchStack& m )
+void IdentCIOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	UnCache();
 	LinesCache(f);

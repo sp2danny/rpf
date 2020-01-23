@@ -12,7 +12,7 @@ char NotOperator::MyChar()
 	return '!';
 }
 
-void NotOperator::Create ( std::string str )
+void NotOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -20,7 +20,7 @@ void NotOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void NotOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void NotOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	if (m.size() < 1)
 	{
@@ -31,7 +31,7 @@ void NotOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 	m.push_back(res);
 }
 
-void NotOperator::MatchLines ( File& , LineMatchStack& m )
+void NotOperator::MatchLines(File&, LineMatchStack& m)
 {
 	if (m.size() < 1)
 	{

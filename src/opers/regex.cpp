@@ -12,7 +12,7 @@ char RegexOperator::MyChar()
 	return 'r';
 }
 
-void RegexOperator::Create ( std::string str )
+void RegexOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -20,12 +20,12 @@ void RegexOperator::Create ( std::string str )
 	re.emplace(str);
 }
 
-void RegexOperator::MatchFile ( File& , FileMatchStack& m )
+void RegexOperator::MatchFile(File&, FileMatchStack& m)
 {
 	m.push_back(tb_maybe);
 }
 
-void RegexOperator::MatchLines ( File& f, LineMatchStack& m )
+void RegexOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	UnCache();
 	LinesCache(f);

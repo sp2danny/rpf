@@ -6,7 +6,7 @@
 
 #include <boost/algorithm/string.hpp>
 
-void IniFile::LoadFile(const std::string& fn)
+void IniFile::LoadFile(std::string_view fn)
 {
 	std::ifstream ifs(fn);
 	LoadFile(ifs);
@@ -43,7 +43,7 @@ void IniFile::LoadFile(std::istream& is)
 	}
 }
 
-void IniFile::SaveFile(const std::string& fn) const
+void IniFile::SaveFile(std::string_view fn) const
 {
 	std::ofstream ofs(fn);
 	SaveFile(ofs);

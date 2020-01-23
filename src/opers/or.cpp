@@ -16,7 +16,7 @@ char OrOperator::MyChar()
 	return 'o';
 }
 
-void OrOperator::Create ( std::string str )
+void OrOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -29,7 +29,7 @@ void OrOperator::Create ( std::string str )
 	//std::cerr << "or using " << cnt << " cnt\n";
 }
 
-void OrOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void OrOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	auto do_a_or = [&]() -> void
 	{
@@ -58,7 +58,7 @@ void OrOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 	}
 }
 
-void OrOperator::MatchLines ( [[maybe_unused]] File& f, LineMatchStack& m )
+void OrOperator::MatchLines([[maybe_unused]] File& f, LineMatchStack& m)
 {
 	auto do_a_or = [&]() -> void
 	{

@@ -20,7 +20,7 @@ char NearOperator::MyChar()
 	return 'n';
 }
 
-void NearOperator::Create ( std::string str )
+void NearOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -32,7 +32,7 @@ void NearOperator::Create ( std::string str )
 		n = getparam(str, 5);
 }
 
-void NearOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void NearOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	UL sz = m.size();
 
@@ -58,7 +58,7 @@ void NearOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 	}
 }
 
-void NearOperator::MatchLines ( File& , LineMatchStack& m )
+void NearOperator::MatchLines(File&, LineMatchStack& m)
 {
 
 	auto near = [](const LineMatch& m1, const LineMatch& m2, UL n) -> LineMatch

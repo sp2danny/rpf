@@ -29,7 +29,7 @@ void InvOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 	/* noop */
 }
 
-void InvOperator::MatchLines ( File& f, LineMatchStack& m )
+void InvOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	if (m.size() < 1)
 	{

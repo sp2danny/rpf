@@ -14,7 +14,7 @@ char TextOperator::MyChar()
 	return 'x';
 }
 
-void TextOperator::Create ( [[maybe_unused]] std::string str )
+void TextOperator::Create([[maybe_unused]] std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -27,7 +27,7 @@ static bool test_file_text(File& f)
 	return mimestr.find("text") != std::string::npos;
 }
 
-void TextOperator::MatchFile ( File& f, FileMatchStack& m )
+void TextOperator::MatchFile(File& f, FileMatchStack& m)
 {
 	UnCache();
 	LinesCache(f);
@@ -37,7 +37,7 @@ void TextOperator::MatchFile ( File& f, FileMatchStack& m )
 		m.push_back(tb_false);
 }
 
-void TextOperator::MatchLines ( File& f, LineMatchStack& m )
+void TextOperator::MatchLines(File& f, LineMatchStack& m)
 {
 	LinesCache(f);
 	if (res)

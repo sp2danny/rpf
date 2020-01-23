@@ -12,14 +12,14 @@ char RangeOperator::MyChar()
 	return '=';
 }
 
-void RangeOperator::Create ( [[maybe_unused]] std::string str )
+void RangeOperator::Create([[maybe_unused]] std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
 	max = getparam(str, 5);
 }
 
-void RangeOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void RangeOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	UL sz = m.size();
 
@@ -30,7 +30,7 @@ void RangeOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 	m.push_back(res);
 }
 
-void RangeOperator::MatchLines ( File& , LineMatchStack& m )
+void RangeOperator::MatchLines(File&, LineMatchStack& m)
 {
 	UL sz = m.size();
 	if (sz < 2) throw "operator range: not enough operands";

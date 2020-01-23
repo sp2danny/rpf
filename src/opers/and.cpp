@@ -30,7 +30,7 @@ void AndOperator::Create(std::string str)
 		cnt = getparam(str, 1);
 }
 
-void AndOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void AndOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	auto do_a_and = [&]() -> void
 	{
@@ -56,7 +56,7 @@ void AndOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 	}
 }
 
-void AndOperator::MatchLines ( [[maybe_unused]] File& f, LineMatchStack& m )
+void AndOperator::MatchLines([[maybe_unused]] File& f, LineMatchStack& m)
 {
 	auto do_a_and = [&]() -> void
 	{

@@ -12,7 +12,7 @@ char SubOperator::MyChar()
 	return '-';
 }
 
-void SubOperator::Create ( std::string str )
+void SubOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
@@ -20,7 +20,7 @@ void SubOperator::Create ( std::string str )
 		throw "operator syntax error";
 }
 
-void SubOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
+void SubOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
 	if (m.size() < 2)
 	{
@@ -29,7 +29,7 @@ void SubOperator::MatchFile ( [[maybe_unused]] File& f, FileMatchStack& m )
 	m.pop_back();
 }
 
-void SubOperator::MatchLines ( File&, LineMatchStack& m )
+void SubOperator::MatchLines(File&, LineMatchStack& m)
 {
 	if (m.size() < 2)
 	{

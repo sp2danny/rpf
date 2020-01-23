@@ -16,11 +16,10 @@ struct IniFile
 
 	Headers all;
 
-	void LoadFile(const std::string&);
+	void LoadFile(std::string_view);
 	void LoadFile(std::istream&);
 
 	void SaveFile(std::string_view) const;
-	void SaveFile(const std::string&) const;
 	void SaveFile(std::ostream&) const;
 
 	std::string Lookup(const std::string& header, const std::string& key) const;
