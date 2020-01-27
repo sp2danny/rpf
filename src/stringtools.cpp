@@ -204,7 +204,7 @@ std::vector<StrPos> tokenify(const std::string& str)
 	std::size_t sz = str.size();
 	for (std::size_t p=0; p<sz; ++p)
 	{
-		char c = str[p];
+		int c = (unsigned char)str[p];
 		bool is_ws = isspace(c);
 		if (is_ws)
 		{
@@ -217,7 +217,7 @@ std::vector<StrPos> tokenify(const std::string& str)
 		if (is_alp && !last_ident)
 		{
 			if (!id.first.empty()) res.push_back(id);
-			id.first = ""s + c;
+			id.first = ""s + (char)c;
 			id.second = p;
 			last_ident = true;
 			continue;
@@ -230,7 +230,7 @@ std::vector<StrPos> tokenify(const std::string& str)
 			continue;
 		}
 		if (!id.first.empty()) res.push_back(id);
-		res.push_back({""s + c, p});
+		res.push_back({""s + (char)c, p});
 		last_ident = false;
 		id.first.clear();
 	}

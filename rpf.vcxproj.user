@@ -9,7 +9,7 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>. "f(*.cpp)" "b=std::cout" --color-like-linux-off --final-config-dump</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>. "f(*.h)" "f(*.hpp)" o "i=Clamp" --color-like-linux-off --final-config-dump</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>C:\repos\candycrushsaga</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
