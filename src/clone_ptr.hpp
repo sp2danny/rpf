@@ -150,7 +150,7 @@ struct clone_ptr
 	const T* operator->() const;
 	explicit operator bool() const;
 
-	template<typename... Args>
+	template<typename U=T, typename... Args>
 	clone_ptr& emplace(Args&&... args);
 
 	template<typename U>
@@ -208,6 +208,8 @@ clone_ptr<T>::clone_ptr(clone_ptr&& other) noexcept
 template<typename T>
 auto clone_ptr<T>::operator=(const clone_ptr& other) -> clone_ptr&
 {
+	if (this == &other) return *this;
+
 	if (ptr)
 		cl.destroy(ptr);
 	cl = other.cl;
@@ -305,10 +307,11 @@ clone_ptr<T>::operator bool() const
 }
 
 template<typename T>
-template<typename... Args>
+template<typename U, typename... Args>
 auto clone_ptr<T>::emplace(Args&&... args) -> clone_ptr&
 {
-	(*this) = T{std::forward<Args>(args)...};
+	static_assert(std::is_base_of<T, U>::value);
+	(*this) = U{std::forward<Args>(args)...};
 	return *this;
 }
 
@@ -322,9 +325,8 @@ auto clone_ptr<T>::operator=(const clone_ptr<U>& other) -> clone_ptr&
 		cl.destroy(ptr);
 	if (other.ptr)
 	{
-		auto oth_cl = other.cl;
-		cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };
-		cl.destroy = [oth_cl](T* t) -> void { oth_cl.destroy((U*)t); };
+		cl.clone = [oth_cl = other.cl.clone](const T* t) -> T* { return (T*)oth_cl((U*)t); };
+		cl.destroy = [oth_ds = other.cl.destroy](T* t) -> void { oth_ds((U*)t); };
 		ptr = cl.clone(other.ptr);
 	}
 	else
@@ -344,9 +346,8 @@ clone_ptr<T>::clone_ptr(const clone_ptr<U>& other)
 
 	if (other.ptr)
 	{
-		auto oth_cl = other.cl;
-		cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };
-		cl.destroy = [oth_cl](T* t) -> void { oth_cl.destroy((U*)t); };
+		cl.clone = [oth_cl = other.cl.clone](const T* t)->T* { return (T*)oth_cl((U*)t); };
+		cl.destroy = [oth_ds = other.cl.destroy](T* t) -> void { oth_ds((U*)t); };
 		ptr = cl.clone(other.ptr);
 	}
 }
@@ -360,9 +361,8 @@ clone_ptr<T>::clone_ptr(clone_ptr<U>&& other)
 
 	if (other.ptr)
 	{
-		auto oth_cl = other.cl;
-		cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };
-		cl.destroy = [oth_cl](T* t) -> void { oth_cl.destroy((U*)t); };
+		cl.clone = [oth_cl = other.cl.clone](const T* t)->T* { return (T*)oth_cl((U*)t); };
+		cl.destroy = [oth_ds = other.cl.destroy](T* t) -> void { oth_ds((U*)t); };
 		ptr = other.ptr;
 		other.ptr = nullptr;
 	}
@@ -377,9 +377,9 @@ auto clone_ptr<T>::operator=(const U& other) -> clone_ptr&
 	if (ptr)
 		cl.destroy(ptr);
 
-	auto oth_cl = make_cloner<U>();
-	cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };
-	cl.destroy = [oth_cl](T* t) -> void { oth_cl.destroy((U*)t); };
+	auto oth_cloner = make_cloner<U>();
+	cl.clone = [oth_cl = oth_cloner.clone](const T* t) -> T* { return (T*)oth_cl((U*)t); };
+	cl.destroy = [oth_ds = oth_cloner.destroy](T* t) -> void { oth_ds((U*)t); };
 
 	ptr = cl.clone(&other);
 
@@ -394,8 +394,8 @@ clone_ptr<T>::clone_ptr(const U& other)
 	assert(typeid(other) == typeid(U));
 
 	auto oth_cl = make_cloner<U>();
-	cl.clone = [oth_cl](const T* t) -> T* { return (T*)oth_cl.clone((U*)t); };
-	cl.destroy = [oth_cl](T* t) -> void { oth_cl.destroy((U*)t); };
+	cl.clone = [oth_cl = oth_cloner.clone](const T* t) -> T* { return (T*)oth_cl((U*)t); };
+	cl.destroy = [oth_ds = oth_cloner.destroy](T* t) -> void { oth_ds((U*)t); };
 
 	ptr = cl.clone(&other);
 }
