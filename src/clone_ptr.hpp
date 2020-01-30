@@ -6,6 +6,7 @@
 #include <memory>
 #include <cassert>
 #include <type_traits>
+#include <compare>
 
 template<typename T>
 struct cloner
@@ -175,6 +176,14 @@ struct clone_ptr
 
 	template<typename U>
 	friend struct clone_ptr;
+
+	template<typename R = decltype(std::declval<T>() <=> std::declval<T>())>
+	auto operator<=>(const clone_ptr& other) const -> R
+	{
+		if (!ptr) return (other.ptr ? std::strong_ordering::less : std::strong_ordering::equal);
+		if (!other.ptr) return std::strong_ordering::greater;
+		return (*ptr) <=> (*other.ptr);
+	}
 
 	/*
 	int operator<=>(const clone_ptr& other) const
@@ -394,8 +403,8 @@ clone_ptr<T>::clone_ptr(const U& other)
 	assert(typeid(other) == typeid(U));
 
 	auto oth_cl = make_cloner<U>();
-	cl.clone = [oth_cl = oth_cloner.clone](const T* t) -> T* { return (T*)oth_cl((U*)t); };
-	cl.destroy = [oth_ds = oth_cloner.destroy](T* t) -> void { oth_ds((U*)t); };
+	cl.clone = [oth_cl = oth_cl.clone](const T* t) -> T* { return (T*)oth_cl((U*)t); };
+	cl.destroy = [oth_ds = oth_cl.destroy](T* t) -> void { oth_ds((U*)t); };
 
 	ptr = cl.clone(&other);
 }
