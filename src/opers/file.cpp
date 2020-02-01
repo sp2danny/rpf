@@ -23,9 +23,9 @@ void FileOperator::Create(std::string str)
 void FileOperator::MatchFile(File& f, FileMatchStack& m)
 {
 	if (str_pat_mat(to_lower_copy(f.name), name))
-		m.push_back(tb_true);
+		m.push_back(TriBool::True);
 	else
-		m.push_back(tb_false);
+		m.push_back(TriBool::False);
 }
 
 void FileOperator::MatchLines(File& f, LineMatchStack& m)
@@ -59,10 +59,10 @@ void CppOnlyOperator::MatchFile(File& f, FileMatchStack& m)
 {
 	if (str_pat_mat(to_lower_copy(f.name), name))
 	{
-		m.push_back(tb_true);
+		m.push_back(TriBool::True);
 		f.cpponly = true;
 	} else {
-		m.push_back(tb_false);
+		m.push_back(TriBool::False);
 	}
 }
 

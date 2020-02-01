@@ -23,7 +23,7 @@ struct xx ## Operator final : Operator                                  \
 	virtual void Print(std::ostream&) const override;                   \
 private:                                                                \
 	xx ## Operator() = default;                                         \
-	friend void register_all();
+	friend void registerAll();
 
 
 #define MAKE_OPER_FILE( xx )                                            \
@@ -51,9 +51,9 @@ struct xx ## Operator final : Operator                                  \
 	virtual void Print(std::ostream&) const override;                   \
 private:                                                                \
 	xx ## Operator() = default;                                         \
-	friend void register_all();                                         \
+	friend void registerAll();                                          \
 	LineMatch lm_cache;                                                 \
-    bool have_cache = false;                                            \
+    bool have_cache = false;
 
 struct boyer_moore;
 typedef clone_ptr<boyer_moore> pBM;

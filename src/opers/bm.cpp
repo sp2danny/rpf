@@ -24,7 +24,7 @@ void BMOperator::Create(std::string str)
 
 void BMOperator::MatchFile(File& , FileMatchStack& m)
 {
-	m.push_back(tb_maybe);
+	m.push_back(TriBool::Maybe);
 }
 
 void BMOperator::MatchLines(File& f, LineMatchStack& m)
@@ -42,7 +42,7 @@ void BMOperator::LinesCache(File& f)
 	{
 		auto lst = bm->match_all(l);
 		for (auto&& p : lst)
-			lm_cache.add_full_match(ln, p, p+sz);
+			lm_cache.addFullMatch(ln, p, p+sz);
 		++ln;
 	}
 	have_cache = true;
@@ -57,7 +57,7 @@ void BMOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back(lm_cache);
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void BMOperator::UnCache()
@@ -89,7 +89,7 @@ void BM_CIOperator::Create(std::string str)
 
 void BM_CIOperator::MatchFile(File&, FileMatchStack& m)
 {
-	m.push_back(tb_maybe);
+	m.push_back(TriBool::Maybe);
 }
 
 void BM_CIOperator::MatchLines(File& f, LineMatchStack& m)
@@ -107,7 +107,7 @@ void BM_CIOperator::LinesCache(File& f)
 	{
 		auto lst = bm->match_all(l);
 		for (auto&& p : lst)
-			lm_cache.add_full_match(ln, p, p+sz);
+			lm_cache.addFullMatch(ln, p, p+sz);
 		++ln;
 	}
 	have_cache = true;
@@ -122,7 +122,7 @@ void BM_CIOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back(lm_cache);
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void BM_CIOperator::UnCache()

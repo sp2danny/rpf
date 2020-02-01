@@ -30,7 +30,6 @@ std::time_t platform::get_modification_time_from_file(std::string fn)
 	return buff.st_mtime;
 }
 
-
 void clear_screen()   { like_linux::clear_screen(); }
 void MakeHighlight()  { like_linux::MakeHighlight(); }
 void MakeNormal()     { like_linux::MakeNormal(); }

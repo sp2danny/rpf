@@ -66,14 +66,14 @@ void AndOperator::MatchLines([[maybe_unused]] File& f, LineMatchStack& m)
 		{
 			LineMatch res;
 			res.match(true);
-			res.modifiable_lines() = std::move(m1.modifiable_lines());
+			res.modifiableLines() = std::move(m1.modifiableLines());
 			for (auto&& l : m2.lines())
 			{
 				if (l.second.empty())
-					res.add_simple_match(l.first);
+					res.addSimpleMatch(l.first);
 				else
 					for (auto&& x : l.second)
-						res.add_full_match(l.first, x);
+						res.addFullMatch(l.first, x);
 			}
 			m.push_back(std::move(res));
 		} else {

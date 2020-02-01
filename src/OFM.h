@@ -22,18 +22,18 @@ struct LineMatch
 	TriBool tri() const { return m_match; }
 	void match(bool);
 	const Lines& lines() const;
-	Lines& modifiable_lines();
-	void add_simple_match(UL l);
-	void add_full_match(UL l, UL b, UL e);
-	void add_full_match(UL l, MIP mip);
-	void add_full_match(LIter li, UL b, UL e);
-	void add_full_match(LIter li, MIP mip);
-	void add_all_matches(UL l, const MMIP&);
-	bool have_line(UL) const;
-	bool have_char(UL,UL) const;
-	bool have_char(LCIter,UL) const;
+	Lines& modifiableLines();
+	void addSimpleMatch(UL l);
+	void addFullMatch(UL l, UL b, UL e);
+	void addFullMatch(UL l, MIP mip);
+	void addFullMatch(LIter li, UL b, UL e);
+	void addFullMatch(LIter li, MIP mip);
+	void addAllMatches(UL l, const MMIP&);
+	bool haveLine(UL) const;
+	bool haveChar(UL, UL) const;
+	bool haveChar(LCIter, UL) const;
 private:
-	TriBool m_match = tb_false;
+	TriBool m_match = TriBool::False;
 	Lines m_lines;
 };
 

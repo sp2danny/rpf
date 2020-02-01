@@ -25,12 +25,16 @@
 
 using namespace std::string_literals;
 
-enum TriBool { tb_false, tb_true, tb_maybe };
+struct IniFile;
+
+enum class TriBool { False, True, Maybe };
 
 extern TriBool And(TriBool, TriBool);
 extern TriBool Or(TriBool, TriBool);
 extern TriBool Not(TriBool);
 extern TriBool FromBool(bool);
+
+extern std::string to_string(TriBool);
 
 typedef std::size_t UL;
 
@@ -38,22 +42,23 @@ namespace runstate
 {
 	extern unsigned long long ml, mf, cf, sf, sl;
 	extern bool colorize, statistic, sparse, warnings;
-	extern bool debug_considered;
-	extern bool debug_searched;
-	extern bool debug_general;
-	extern bool implied_aplus;
-	extern bool color_like_linux;
+	extern bool debugConsidered;
+	extern bool debugSearched;
+	extern bool debugGeneral;
+	extern bool wantClear;
+	extern bool impliedAplus;
+	extern bool colorLikeLinux;
 	extern int tab, trunc;
-	extern std::vector<std::string> debug_considered_list;
-	extern std::vector<std::string> debug_searched_list;
+	extern std::vector<std::string> debugConsideredList;
+	extern std::vector<std::string> debugSearchedList;
 }
 
 extern std::string unparan(std::string str);
 extern int getparam(std::string str, int def);
 extern std::vector<std::string> readfile(std::istream&);
 
-extern void register_all();
+extern void registerAll();
 
-struct IniFile;
 void recursiveLoad(IniFile&, const std::string&);
+
 

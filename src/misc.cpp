@@ -54,7 +54,7 @@ std::vector<std::string> readfile(std::istream& in)
 
 #define REG( xx ) xx ## Operator{}.Register()
 
-void register_all()
+void registerAll()
 {
 	REG(And);
 	REG(Dir);
@@ -82,65 +82,64 @@ void register_all()
 
 #undef REG
 
-TriBool And(TriBool lhs, TriBool rhs)
+auto And(TriBool lhs, TriBool rhs) -> TriBool
 {
 	switch (lhs)
 	{
-	case tb_false:
-		return tb_false;
-	case tb_maybe:
-		return (rhs==tb_false) ? tb_false : tb_maybe;
-	case tb_true:
+	case TriBool::False:
+		return TriBool::False;
+	case TriBool::Maybe:
+		return (rhs == TriBool::False) ? TriBool::False : TriBool::Maybe;
+	case TriBool::True:
 		return rhs;
 	default:
 		throw "internal engine error";
 	}
 }
 
-TriBool Or(TriBool lhs, TriBool rhs)
+auto Or(TriBool lhs, TriBool rhs) -> TriBool
 {
 	switch (lhs)
 	{
-	case tb_true:
-		return tb_true;
-	case tb_maybe:
-		return (rhs==tb_true) ? tb_true : tb_maybe;
-	case tb_false:
+	case TriBool::True:
+		return TriBool::True;
+	case TriBool::Maybe:
+		return (rhs == TriBool::True) ? TriBool::True : TriBool::Maybe;
+	case TriBool::False:
 		return rhs;
 	default:
 		throw "internal engine error";
 	}
 }
 
-TriBool Not(TriBool arg)
+auto Not(TriBool arg) -> TriBool
 {
 	switch (arg)
 	{
-	case tb_true:
-		return tb_false;
-	case tb_maybe:
-		return tb_maybe;
-	case tb_false:
-		return tb_true;
+	case TriBool::True:
+		return TriBool::False;
+	case TriBool::Maybe:
+		return TriBool::Maybe;
+	case TriBool::False:
+		return TriBool::True;
 	default:
 		throw "internal engine error";
 	}
 }
 
-TriBool FromBool(bool b)
+auto FromBool(bool b) -> TriBool
 {
-	return b ? tb_true : tb_false;
+	return b ? TriBool::True : TriBool::False;
 }
-
 
 std::string to_string(TriBool tb)
 {
 	switch (tb)
 	{
-		case tb_false: return "false"s;
-		case tb_true:  return "true"s;
-		case tb_maybe: return "maybe"s;
-		default:       return "<error>"s;
+	case TriBool::False: return "false"s;
+	case TriBool::True:  return "true"s;
+	case TriBool::Maybe: return "maybe"s;
+	default:             return "<error>"s;
 	}
 }
 

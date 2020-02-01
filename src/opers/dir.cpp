@@ -23,9 +23,9 @@ void DirOperator::Create(std::string str)
 void DirOperator::MatchFile(File& f, FileMatchStack& m)
 {
 	if (str_pat_mat(to_lower_copy(f.path), name))
-		m.push_back(tb_true);
+		m.push_back(TriBool::True);
 	else
-		m.push_back(tb_false);
+		m.push_back(TriBool::False);
 }
 
 void DirOperator::MatchLines(File& f, LineMatchStack& m)

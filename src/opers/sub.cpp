@@ -45,10 +45,10 @@ void SubOperator::MatchLines(File&, LineMatchStack& m)
 	}
 
 	LineMatch res{true, {}};
-	res.modifiable_lines() = move(m1.lines());
+	res.modifiableLines() = move(m1.lines());
 	for (auto&& l : m2.lines())
 	{
-		res.modifiable_lines().erase(l.first);
+		res.modifiableLines().erase(l.first);
 	}
 	res.match(!res.lines().empty());
 	m.push_back(std::move(res));

@@ -31,7 +31,7 @@ void LineOperator::Create(std::string str)
 
 void LineOperator::MatchFile(File&, FileMatchStack& m)
 {
-	m.push_back(tb_maybe);
+	m.push_back(TriBool::Maybe);
 }
 
 void LineOperator::MatchLines(File& f, LineMatchStack& m)
@@ -52,7 +52,7 @@ void LineOperator::LinesCache(File& f)
 		for (auto li = b; li!=e; ++li,++ln)
 		{
 			if (li->empty())
-				lm_cache.add_simple_match(ln);
+				lm_cache.addSimpleMatch(ln);
 		}
 	}
 	else
@@ -68,10 +68,10 @@ void LineOperator::LinesCache(File& f)
 			{
 				auto vzzp = str_pat_mat_special(*li, expr);
 				if (vzzp.empty())
-					lm_cache.add_simple_match(ln);
+					lm_cache.addSimpleMatch(ln);
 				else
 					for(auto&& zzp : vzzp)
-						lm_cache.add_full_match(ln, zzp.first, zzp.second);
+						lm_cache.addFullMatch(ln, zzp.first, zzp.second);
 			}
 		}
 	}
@@ -87,7 +87,7 @@ void LineOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back(lm_cache);
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void LineOperator::UnCache()
@@ -121,7 +121,7 @@ void LineCIOperator::Create(std::string str)
 
 void LineCIOperator::MatchFile(File&, FileMatchStack& m)
 {
-	m.push_back(tb_maybe);
+	m.push_back(TriBool::Maybe);
 }
 
 void LineCIOperator::LinesCache(File& f)
@@ -135,7 +135,7 @@ void LineCIOperator::LinesCache(File& f)
 		for (auto li = b; li!=e; ++li,++ln)
 		{
 			if (li->empty())
-				lm_cache.add_simple_match(ln);
+				lm_cache.addSimpleMatch(ln);
 		}
 	}
 	else
@@ -152,10 +152,10 @@ void LineCIOperator::LinesCache(File& f)
 			{
 				auto vzzp = str_pat_mat_special(lci, expr);
 				if (vzzp.empty())
-					lm_cache.add_simple_match(ln);
+					lm_cache.addSimpleMatch(ln);
 				else
 					for(auto&& zzp : vzzp)
-						lm_cache.add_full_match(ln, zzp.first, zzp.second);
+						lm_cache.addFullMatch(ln, zzp.first, zzp.second);
 			}
 		}
 	}
@@ -178,7 +178,7 @@ void LineCIOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back(lm_cache);
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void LineCIOperator::UnCache()

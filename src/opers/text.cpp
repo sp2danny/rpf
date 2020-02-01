@@ -32,9 +32,9 @@ void TextOperator::MatchFile(File& f, FileMatchStack& m)
 	UnCache();
 	LinesCache(f);
 	if (res)
-		m.push_back(tb_true);
+		m.push_back(TriBool::True);
 	else
-		m.push_back(tb_false);
+		m.push_back(TriBool::False);
 }
 
 void TextOperator::MatchLines(File& f, LineMatchStack& m)
@@ -62,7 +62,7 @@ void TextOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back({res, {}});
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void TextOperator::UnCache()

@@ -22,7 +22,7 @@ void RegexOperator::Create(std::string str)
 
 void RegexOperator::MatchFile(File&, FileMatchStack& m)
 {
-	m.push_back(tb_maybe);
+	m.push_back(TriBool::Maybe);
 }
 
 void RegexOperator::MatchLines(File& f, LineMatchStack& m)
@@ -49,7 +49,7 @@ void RegexOperator::LinesCache(File& f)
 			{
 				SCI beg = sm[0].first;
 				SCI end = sm[0].second;
-				lm_cache.add_full_match(ln, beg-lb, end-lb);
+				lm_cache.addFullMatch(ln, beg-lb, end-lb);
 				iter = std::next(beg);
 			}
 			else
@@ -69,7 +69,7 @@ void RegexOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back(lm_cache);
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void RegexOperator::UnCache()

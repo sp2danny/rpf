@@ -31,15 +31,15 @@ namespace runstate
 {
 	unsigned long long ml = 0, mf = 0, cf=0, sf=0, sl=0;
 	bool colorize, statistic = true, sparse = true, warnings = true;
-	bool debug_considered = false;
-	bool debug_searched = false;
-	bool debug_general = false;
-	bool want_clear = false;
-	bool implied_aplus = false;
-	bool color_like_linux = false;
+	bool debugConsidered = false;
+	bool debugSearched = false;
+	bool debugGeneral = false;
+	bool wantClear = false;
+	bool impliedAplus = false;
+	bool colorLikeLinux = false;
 	int tab = 8, trunc = 999;
-	std::vector<std::string> debug_considered_list;
-	std::vector<std::string> debug_searched_list;
+	std::vector<std::string> debugConsideredList;
+	std::vector<std::string> debugSearchedList;
 }
 
 OperatorStack opStack;
@@ -54,7 +54,7 @@ bool do_all_file(File& f)
 	if (m.size() != 1)
 		throw "operator / operand count error";
 	auto res = m.front();
-	return res != tb_false;
+	return res != TriBool::False;
 }
 
 LineMatch do_all_line(File& f)
@@ -75,7 +75,7 @@ LineMatch do_all_line(File& f)
 		}
 		if (fm.size() != 1)
 			throw "operator / operand count error";
-		if (fm.front() == tb_false)
+		if (fm.front() == TriBool::False)
 			return {false, {}};
 	}
 	if (lm.size() != 1)
@@ -172,15 +172,6 @@ void out_err(std::string err)
 
 LineMatch do_all_prio(File&);
 
-/*
-	extern bool colorize, statistic, sparse, warnings;
-	extern bool debug_considered;
-	extern bool debug_searched;
-	extern bool debug_general;
-	extern bool implied_aplus;
-	extern bool color_like_linux;
-	extern int tab, trunc;
-*/
 void dumpConfig(bool havepath, const std::string& path)
 {
 	std::cout << " --- Config Dump --- \n";
@@ -191,7 +182,7 @@ void dumpConfig(bool havepath, const std::string& path)
 
 	using namespace runstate;
 	std::cout << std::boolalpha;
-	std::cout << "\tcolorize : "  << (colorize?(color_like_linux?"linux":"on"):"off") << std::endl;
+	std::cout << "\tcolorize : "  << (colorize?(colorLikeLinux?"linux":"on"):"off") << std::endl;
 	std::cout << "\tstatistic : " << statistic << std::endl;
 	std::cout << "\tsparse : "    << sparse    << std::endl;
 	std::cout << "\twarnings : "  << warnings  << std::endl;
@@ -214,7 +205,7 @@ void doall(std::string path)
 
 	RDE rde(path);
 
-	if (runstate::want_clear)
+	if (runstate::wantClear)
 		clear_screen();
 
 	while (auto de = rde.getNext())
@@ -225,14 +216,14 @@ void doall(std::string path)
 		ff.cpponly = false;
 
 		runstate::cf += 1;
-		if (runstate::debug_considered)
-			runstate::debug_considered_list.push_back(ff.path + "/"s + ff.name);
+		if (runstate::debugConsidered)
+			runstate::debugConsideredList.push_back(ff.path + "/"s + ff.name);
 		if (!do_all_file(ff))
 		{
 			continue;
 		}
-		if (runstate::debug_searched)
-			runstate::debug_searched_list.push_back(ff.path + "/"s + ff.name);
+		if (runstate::debugSearched)
+			runstate::debugSearchedList.push_back(ff.path + "/"s + ff.name);
 		auto mm = do_all_prio(ff); // do_all_line(ff);
 		if (mm.match())
 		{
@@ -268,7 +259,7 @@ void doall(std::string path)
 					bool ingr = false;
 					for (i=0; i<n; ++i)
 					{
-						bool hc = mm.have_char(ln.first, i);
+						bool hc = mm.haveChar(ln.first, i);
 						if (hc)
 						{
 							if (!ingr)
@@ -339,10 +330,10 @@ LineMatch do_all_prio(File& f)
 		}
 		if (lm.size() != 1)
 			throw "operator / operand count error";
-		if (lm.front().tri() == tb_false)
+		if (lm.front().tri() == TriBool::False)
 			return {false, {}};
 	}
-	if (lm.front().tri() == tb_maybe)
+	if (lm.front().tri() == TriBool::Maybe)
 		throw "internal engine error";
 	return std::move(lm.front());
 }
@@ -372,7 +363,7 @@ void add_op(OperatorStack& ops, std::string arg, const IniFile& ini)
 
 int main(int argc, char** argv)
 {
-	register_all();
+	registerAll();
 
 	runstate::colorize = platform::stdout_isatty();
 
@@ -385,8 +376,8 @@ int main(int argc, char** argv)
 	ini.AssignIfSet("general", "sparse",           runstate::sparse);
 	ini.AssignIfSet("general", "color",            runstate::colorize);
 	ini.AssignIfSet("general", "warnings",         runstate::warnings);
-	ini.AssignIfSet("general", "implied_aplus",    runstate::implied_aplus);
-	ini.AssignIfSet("general", "color_like_linux", runstate::color_like_linux);
+	ini.AssignIfSet("general", "implied_aplus",    runstate::impliedAplus);
+	ini.AssignIfSet("general", "color_like_linux", runstate::colorLikeLinux);
 
 	if (argc<=1)
 	{
@@ -428,17 +419,17 @@ int main(int argc, char** argv)
 				else if (arg == "warnings-off")
 					runstate::warnings = false;
 				else if (arg == "color-like-linux-on")
-					runstate::color_like_linux = true;
+					runstate::colorLikeLinux = true;
 				else if (arg == "color-like-linux-off")
-					runstate::color_like_linux = false;
+					runstate::colorLikeLinux = false;
 				else if (arg == "debug-considered")
-					runstate::debug_considered = true;
+					runstate::debugConsidered = true;
 				else if (arg == "debug-searched")
-					runstate::debug_searched = true;
+					runstate::debugSearched = true;
 				else if (arg == "debug")
-					runstate::debug_general = runstate::debug_searched = runstate::debug_considered = true;
+					runstate::debugGeneral = runstate::debugSearched = runstate::debugConsidered = true;
 				else if ((arg == "reset") || (arg == "clear"))
-					runstate::want_clear = true;
+					runstate::wantClear = true;
 				else if (arg.substr(0, 5) == "tabs-")
 					runstate::tab = std::stoi(arg.substr(5));
 				else if (arg.substr(0, 6) == "trunc-")
@@ -459,9 +450,9 @@ int main(int argc, char** argv)
 				}
 			}
 		}
-		if (runstate::debug_general)
+		if (runstate::debugGeneral)
 			debug_listing();
-		if (runstate::implied_aplus)
+		if (runstate::impliedAplus)
 			add_op(opStack, "a+", ini);
 		if (final_config_dump)
 			dumpConfig(have_path, path);
@@ -478,17 +469,17 @@ int main(int argc, char** argv)
 			std::cout << "Searched Lines   : " << runstate::sl << std::endl;
 		}
 
-		if (runstate::debug_considered)
+		if (runstate::debugConsidered)
 		{
 			std::cout << "*** DEBUG *** CONSIDERED ***" << std::endl;
-			for (auto&& str : runstate::debug_considered_list)
+			for (auto&& str : runstate::debugConsideredList)
 				std::cout << str << std::endl;
 		}
 
-		if (runstate::debug_searched)
+		if (runstate::debugSearched)
 		{
 			std::cout << "*** DEBUG *** SEARCHED ***" << std::endl;
-			for (auto&& str : runstate::debug_searched_list)
+			for (auto&& str : runstate::debugSearchedList)
 				std::cout << str << std::endl;
 		}
 

@@ -47,8 +47,8 @@ void InvOperator::MatchLines(File& f, LineMatchStack& m)
 	UL i, n = f.lines().size();
 	for (i=0; i<n; ++i)
 	{
-		if (!m1.have_line(i))
-			res.add_simple_match(i);
+		if (!m1.haveLine(i))
+			res.addSimpleMatch(i);
 	}
 	res.match(!res.lines().empty());
 	m.push_back(std::move(res));

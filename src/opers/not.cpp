@@ -39,5 +39,5 @@ void NotOperator::MatchLines(File&, LineMatchStack& m)
 	}
 	auto& m1 = m.back();
 	m1 = LineMatch{Not(m1.tri())};
-	m1.modifiable_lines().clear();
+	m1.modifiableLines().clear();
 }

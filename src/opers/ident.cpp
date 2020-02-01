@@ -22,7 +22,7 @@ void IdentOperator::Create(std::string str)
 
 void IdentOperator::MatchFile(File&, FileMatchStack& m)
 {
-	m.push_back(tb_maybe);
+	m.push_back(TriBool::Maybe);
 }
 
 void IdentOperator::MatchLines(File& f, LineMatchStack& m)
@@ -44,7 +44,7 @@ void IdentOperator::LinesCache(File& f)
 		{
 			if (t.first == id)
 			{
-				lm_cache.add_full_match(ln, t.second, t.second+sz);
+				lm_cache.addFullMatch(ln, t.second, t.second+sz);
 			}
 		}
 		++ln;
@@ -61,7 +61,7 @@ void IdentOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back(lm_cache);
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void IdentOperator::UnCache()
@@ -91,7 +91,7 @@ void IdentCIOperator::Create(std::string str)
 
 void IdentCIOperator::MatchFile(File&, FileMatchStack& m)
 {
-	m.push_back(tb_maybe);
+	m.push_back(TriBool::Maybe);
 }
 
 void IdentCIOperator::MatchLines(File& f, LineMatchStack& m)
@@ -113,7 +113,7 @@ void IdentCIOperator::LinesCache(File& f)
 		{
 			if (to_lower_copy(t.first) == id)
 			{
-				lm_cache.add_full_match(ln, t.second, t.second+sz);
+				lm_cache.addFullMatch(ln, t.second, t.second+sz);
 			}
 		}
 		++ln;
@@ -130,7 +130,7 @@ void IdentCIOperator::ExeCached(LineMatchStack& lms)
 	if (have_cache)
 		lms.push_back(lm_cache);
 	else
-		lms.push_back({tb_maybe});
+		lms.push_back({TriBool::Maybe});
 }
 
 void IdentCIOperator::UnCache()

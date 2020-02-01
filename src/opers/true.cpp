@@ -22,7 +22,7 @@ void TrueOperator::Create([[maybe_unused]] std::string str)
 
 void TrueOperator::MatchFile(File& , FileMatchStack& m)
 {
-	m.push_back(tb_true);
+	m.push_back(TriBool::True);
 }
 
 void TrueOperator::MatchLines(File& , LineMatchStack& m)

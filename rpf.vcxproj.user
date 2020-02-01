@@ -9,9 +9,9 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>. "f(*.h)" "f(*.hpp)" o "i=Clamp" --color-like-linux-off --final-config-dump</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>. "f(*.h)" "f(*.hpp)" o "i=case" a+ --color-like-linux-off --final-config-dump</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerWorkingDirectory>C:\repos\candycrushsaga</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>D:\GitHub</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>. "d(*debug*)" ! "+(*.cpp)" "B(case)" t "~" n3 a+ --sparse-off</LocalDebuggerCommandArguments>

@@ -73,12 +73,12 @@ void NearOperator::MatchLines(File&, LineMatchStack& m)
 					auto diff = (l2.first>l1.first) ? l2.first-l1.first : l1.first-l2.first;
 					if (diff <= n)
 					{
-						res.add_simple_match(l1.first);
-						res.add_simple_match(l2.first);
+						res.addSimpleMatch(l1.first);
+						res.addSimpleMatch(l2.first);
 						for (auto&& x : l1.second)
-							res.add_full_match(l1.first, x);
+							res.addFullMatch(l1.first, x);
 						for (auto&& x : l2.second)
-							res.add_full_match(l2.first, x);
+							res.addFullMatch(l2.first, x);
 					}
 				}
 			}
@@ -101,10 +101,10 @@ void NearOperator::MatchLines(File&, LineMatchStack& m)
 			auto m1 = std::move(m.back()); m.pop_back();
 			auto tb1 = m1.tri();
 			auto tb2 = m2.tri();
-			/**/ if ((tb1==tb_false) || (tb2==tb_false))
-				m.push_back({tb_false});
-			else if ((tb1==tb_maybe) || (tb2==tb_maybe))
-				m.push_back({tb_maybe});
+			/**/ if ((tb1==TriBool::False) || (tb2==TriBool::False))
+				m.push_back({TriBool::False});
+			else if ((tb1==TriBool::Maybe) || (tb2==TriBool::Maybe))
+				m.push_back({TriBool::Maybe});
 			else if (m1.lines().empty())
 				m.push_back(std::move(m2));
 			else if (m2.lines().empty())

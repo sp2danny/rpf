@@ -70,10 +70,10 @@ void RangeOperator::MatchLines(File&, LineMatchStack& m)
 					}
 					if ((ln2 - ln1) <= max)
 					{
-						res.add_all_matches(ln1, i1->second);
-						res.add_all_matches(ln2, i2->second);
+						res.addAllMatches(ln1, i1->second);
+						res.addAllMatches(ln2, i2->second);
 						for (auto ln = ln1; ln <= ln2; ++ln)
-							res.add_simple_match(ln);
+							res.addSimpleMatch(ln);
 					}
 					break;
 				}

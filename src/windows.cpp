@@ -34,7 +34,7 @@ bool platform::stdout_isatty()
 
 void platform::clear_screen()
 {
-	if (runstate::color_like_linux) {
+	if (runstate::colorLikeLinux) {
 		like_linux::clear_screen();
 	}
 	else {
@@ -160,7 +160,7 @@ namespace {
 
 void platform::MakeRed()
 {
-	if (runstate::color_like_linux) {
+	if (runstate::colorLikeLinux) {
 		like_linux::MakeRed();
 	} else {
 		getinit();
@@ -170,7 +170,7 @@ void platform::MakeRed()
 
 void platform::MakeGreen()
 {
-	if (runstate::color_like_linux) {
+	if (runstate::colorLikeLinux) {
 		like_linux::MakeGreen();
 	} else {
 		getinit();
@@ -180,7 +180,7 @@ void platform::MakeGreen()
 
 void platform::MakeHighlight()
 {
-	if (runstate::color_like_linux) {
+	if (runstate::colorLikeLinux) {
 		like_linux::MakeHighlight();
 	} else {
 		getinit();
@@ -190,7 +190,7 @@ void platform::MakeHighlight()
 
 void platform::MakeNormal()
 {
-	if (runstate::color_like_linux) {
+	if (runstate::colorLikeLinux) {
 		like_linux::MakeNormal();
 	} else {
 		getinit();
