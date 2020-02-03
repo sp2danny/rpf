@@ -3,7 +3,7 @@
 
 #include "common.h"
 #include "OFM.h"
-
+#include "stringtools.h"
 
 #define MAKE_OPER_NORM( xx )                                            \
 struct xx ## Operator final : Operator                                  \
@@ -55,19 +55,18 @@ private:                                                                \
 	LineMatch lm_cache;                                                 \
     bool have_cache = false;
 
-struct boyer_moore;
-typedef clone_ptr<boyer_moore> pBM;
+struct BoyerBoore;
+typedef clone_ptr<BoyerBoore> pBM;
 
 template<typename Ch>
 using ChEqP = bool (*)(Ch, Ch);
 template<typename Ch, typename Str, ChEqP<Ch> >
-struct boyer_moore_advanced;
+struct boyerMooreAdvanced;
 extern bool isEqualNoCase(char, char);
-typedef boyer_moore_advanced<char, std::string, isEqualNoCase> boyer_moore_ci;
+typedef clone_ptr<boyerMooreCI> pBMCI;
 
-typedef clone_ptr<boyer_moore_ci> pBMCI;
-
-struct myRegex : std::regex {
+struct myRegex : std::regex
+{
 	std::string str;
 	myRegex(const std::string& expr) : std::regex(expr), str(expr) {}
 };

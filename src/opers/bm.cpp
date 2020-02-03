@@ -5,7 +5,7 @@
 
 void BMOperator::Print(std::ostream& out) const
 {
-	out << "b='" << bm->gettext() << "'";
+	out << "b='" << bm->getText() << "'";
 }
 
 char BMOperator::MyChar()
@@ -40,7 +40,7 @@ void BMOperator::LinesCache(File& f)
 	UL ln = 0;
 	for (auto&& l : f.lines())
 	{
-		auto lst = bm->match_all(l);
+		auto lst = bm->matchAll(l);
 		for (auto&& p : lst)
 			lm_cache.addFullMatch(ln, p, p+sz);
 		++ln;
@@ -70,7 +70,7 @@ void BMOperator::UnCache()
 
 void BM_CIOperator::Print(std::ostream& out) const
 {
-	out << "B='" << bm->gettext() << "'";
+	out << "B='" << bm->getText() << "'";
 }
 
 char BM_CIOperator::MyChar()
@@ -105,7 +105,7 @@ void BM_CIOperator::LinesCache(File& f)
 	UL ln = 0;
 	for (auto&& l : f.lines())
 	{
-		auto lst = bm->match_all(l);
+		auto lst = bm->matchAll(l);
 		for (auto&& p : lst)
 			lm_cache.addFullMatch(ln, p, p+sz);
 		++ln;

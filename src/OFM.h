@@ -1,7 +1,7 @@
 
-// Operator File Match
-
 #pragma once
+
+// Operator File Match
 
 #include "common.h"
 #include "clone_ptr.hpp"

@@ -22,7 +22,7 @@ void FileOperator::Create(std::string str)
 
 void FileOperator::MatchFile(File& f, FileMatchStack& m)
 {
-	if (str_pat_mat(to_lower_copy(f.name), name))
+	if (strPatMat(to_lower_copy(f.name), name))
 		m.push_back(TriBool::True);
 	else
 		m.push_back(TriBool::False);
@@ -30,7 +30,7 @@ void FileOperator::MatchFile(File& f, FileMatchStack& m)
 
 void FileOperator::MatchLines(File& f, LineMatchStack& m)
 {
-	if (str_pat_mat(to_lower_copy(f.name), name))
+	if (strPatMat(to_lower_copy(f.name), name))
 		m.emplace_back(true, Lines{});
 	else
 		m.emplace_back(false, Lines{});
@@ -57,7 +57,7 @@ void CppOnlyOperator::Create(std::string str)
 
 void CppOnlyOperator::MatchFile(File& f, FileMatchStack& m)
 {
-	if (str_pat_mat(to_lower_copy(f.name), name))
+	if (strPatMat(to_lower_copy(f.name), name))
 	{
 		m.push_back(TriBool::True);
 		f.cpponly = true;
@@ -68,7 +68,7 @@ void CppOnlyOperator::MatchFile(File& f, FileMatchStack& m)
 
 void CppOnlyOperator::MatchLines(File& f, LineMatchStack& m)
 {
-	if (str_pat_mat(to_lower_copy(f.name), name))
+	if (strPatMat(to_lower_copy(f.name), name))
 	{
 		m.emplace_back(true, Lines{});
 		f.cpponly = true;

@@ -211,8 +211,8 @@ void doall(std::string path)
 	while (auto de = rde.getNext())
 	{
 		File ff;
-		ff.path = de->dir_name;
-		ff.name = de->file_name;
+		ff.path = de->dirName;
+		ff.name = de->fileName;
 		ff.cpponly = false;
 
 		runstate::cf += 1;

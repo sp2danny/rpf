@@ -15,8 +15,8 @@ namespace platform
 
 	struct RDE_Item
 	{
-		std::string dir_name;
-		std::string file_name;
+		std::string dirName;
+		std::string fileName;
 	};
 
 	struct RDE

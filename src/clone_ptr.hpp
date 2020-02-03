@@ -167,7 +167,7 @@ struct clone_ptr
 	template<typename U>
 	clone_ptr(const U&);
 
-	clone_ptr& operator=(std::nullptr_t) {clear();}
+	clone_ptr& operator=(std::nullptr_t) { clear(); }
 
 	void clear();
 
@@ -184,15 +184,6 @@ struct clone_ptr
 		if (!other.ptr) return std::strong_ordering::greater;
 		return (*ptr) <=> (*other.ptr);
 	}
-
-	/*
-	int operator<=>(const clone_ptr& other) const
-	{
-		if (!ptr) return (other.ptr ? -1 : 0);
-		if (!other.ptr) return +1;
-		return (*ptr) <=> (*other.ptr);
-	}
-	*/
 
 private:
 	cloner<T> cl;

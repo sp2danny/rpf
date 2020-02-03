@@ -13,7 +13,7 @@ bool isEqualNoCase(char c1, char c2)
 	return std::tolower(c1) == std::tolower(c2);
 }
 
-bool str_pat_mat(const char* str, const char* pat)
+bool strPatMat(const char* str, const char* pat)
 {
 	bool se = (str[0] == 0);
 	bool pe = (pat[0] == 0);
@@ -28,18 +28,18 @@ bool str_pat_mat(const char* str, const char* pat)
 	switch (pat[0])
 	{
 	case '?':
-		return str_pat_mat(str+1, pat+1);
+		return strPatMat(str+1, pat+1);
 	case '*':
-		return str_pat_mat(str, pat+1) || str_pat_mat(str+1, pat);
+		return strPatMat(str, pat+1) || strPatMat(str+1, pat);
 	default:
-		return (str[0]==pat[0]) && str_pat_mat(str+1, pat+1);
+		return (str[0]==pat[0]) && strPatMat(str+1, pat+1);
 	}
 }
 
-bool str_pat_mat(const std::string& str, const std::string& pat)
+bool strPatMat(const std::string& str, const std::string& pat)
 {
 	return
-		str_pat_mat(str.c_str(), pat.c_str());
+		strPatMat(str.c_str(), pat.c_str());
 }
 
 //typedef std::pair<std::size_t, std::size_t> ZZP;
@@ -92,7 +92,7 @@ PMS str_pat_mat_special_impl(const char* str, const char* pat, PMS in)
 	return in.set(false);
 }
 
-std::vector<ZZP> str_pat_mat_special(const std::string& str, const std::string& pat)
+std::vector<ZZP> strPatMatSpecial(const std::string& str, const std::string& pat)
 {
 	std::size_t i, n = str.size();
 	
@@ -165,7 +165,7 @@ bool str_pat_mat_special_impl(const char* str, const char* pat, char* mat)
 	return false;
 }
 
-std::vector<ZZP> str_pat_mat_special(const std::string& str, const std::string& pat)
+std::vector<ZZP> strPatMatSpecial(const std::string& str, const std::string& pat)
 {
 	std::vector<char> match;
 	std::size_t i, n = str.size();
@@ -238,34 +238,34 @@ std::vector<StrPos> tokenify(const std::string& str)
 	return res;
 }
 
-boyer_moore::boyer_moore(std::string str)
-	: searching_for(std::move(str))
+BoyerBoore::BoyerBoore(std::string str)
+	: mSearchingFor(std::move(str))
 {
-	size_t i, n = searching_for.size();
+	size_t i, n = mSearchingFor.size();
 	for (i=0; i<256; ++i)
-		offsets[i] = n;
+		mOffsets[i] = n;
 	for (i=n; i>0;)
 	{
-		unsigned char uc = (unsigned char)searching_for[--i];
-		if (offsets[uc] == n)
-			offsets[uc] = (n-i)-1;
+		unsigned char uc = (unsigned char)mSearchingFor[--i];
+		if (mOffsets[uc] == n)
+			mOffsets[uc] = (n-i)-1;
 	}
 }
 
-bool boyer_moore::match(const std::string& searching_in)
+bool BoyerBoore::match(const std::string& searching_in)
 {
-	return match_next(searching_in, 0).first;
+	return matchNext(searching_in, 0).first;
 }
 
-std::pair<bool, std::size_t> boyer_moore::match_next(const std::string& searching_in, std::size_t pos)
+std::pair<bool, std::size_t> BoyerBoore::matchNext(const std::string& searching_in, std::size_t pos)
 {
 	std::size_t ls = searching_in.size();
-	std::size_t n = searching_for.size();
+	std::size_t n = mSearchingFor.size();
 	std::size_t i = pos + n - 1;
 	while (i<ls)
 	{
 		unsigned char uc = (unsigned char)searching_in[i];
-		auto ofs = offsets[uc];
+		auto ofs = mOffsets[uc];
 		if (ofs)
 		{
 			i += ofs;
@@ -274,7 +274,7 @@ std::pair<bool, std::size_t> boyer_moore::match_next(const std::string& searchin
 		bool found = true;
 		for (size_t j=0; (j<n) && found; ++j)
 		{
-			if (searching_for[j] != searching_in[i+1-n+j])
+			if (mSearchingFor[j] != searching_in[i+1-n+j])
 				found = false;
 		}
 		if (found) return {true, i+1-n};
@@ -283,13 +283,13 @@ std::pair<bool, std::size_t> boyer_moore::match_next(const std::string& searchin
 	return {false, 0};
 }
 
-std::vector<std::size_t> boyer_moore::match_all(const std::string& searching_in)
+std::vector<std::size_t> BoyerBoore::matchAll(const std::string& searching_in)
 {
 	std::vector<std::size_t> res;
 	std::size_t pos = 0;
 	while (true)
 	{
-		auto m = match_next(searching_in, pos);
+		auto m = matchNext(searching_in, pos);
 		if (!m.first) break;
 		res.push_back(m.second);
 		pos = m.second+1;

@@ -22,7 +22,7 @@ void DirOperator::Create(std::string str)
 
 void DirOperator::MatchFile(File& f, FileMatchStack& m)
 {
-	if (str_pat_mat(to_lower_copy(f.path), name))
+	if (strPatMat(to_lower_copy(f.path), name))
 		m.push_back(TriBool::True);
 	else
 		m.push_back(TriBool::False);
@@ -30,7 +30,7 @@ void DirOperator::MatchFile(File& f, FileMatchStack& m)
 
 void DirOperator::MatchLines(File& f, LineMatchStack& m)
 {
-	if (str_pat_mat(to_lower_copy(f.path), name))
+	if (strPatMat(to_lower_copy(f.path), name))
 		m.emplace_back(true, Lines{});
 	else
 		m.emplace_back(false, Lines{});

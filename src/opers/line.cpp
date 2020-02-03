@@ -64,9 +64,9 @@ void LineOperator::LinesCache(File& f)
 			if (backtest)
 				if (expr.back() != li->back())
 					continue;
-			if (str_pat_mat(*li, expr))
+			if (strPatMat(*li, expr))
 			{
-				auto vzzp = str_pat_mat_special(*li, expr);
+				auto vzzp = strPatMatSpecial(*li, expr);
 				if (vzzp.empty())
 					lm_cache.addSimpleMatch(ln);
 				else
@@ -148,9 +148,9 @@ void LineCIOperator::LinesCache(File& f)
 				if (expr.back() != std::tolower(li->back()))
 					continue;
 			auto lci = to_lower_copy(*li);
-			if (str_pat_mat(lci, expr))
+			if (strPatMat(lci, expr))
 			{
-				auto vzzp = str_pat_mat_special(lci, expr);
+				auto vzzp = strPatMatSpecial(lci, expr);
 				if (vzzp.empty())
 					lm_cache.addSimpleMatch(ln);
 				else
