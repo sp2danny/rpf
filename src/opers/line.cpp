@@ -22,7 +22,7 @@ void LineOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	expr = unparan(str);
+	expr = unParan(str);
 	if (expr.empty() || !is_wild(expr.front()) || !is_wild(expr.back()))
 		prio = 2;
 	else
@@ -43,7 +43,7 @@ void LineOperator::MatchLines(File& f, LineMatchStack& m)
 
 void LineOperator::LinesCache(File& f)
 {
-	if (have_cache) return;
+	if (mHaveCache) return;
 	UL ln = 0;
 	auto b = f.lines().begin();
 	auto e = f.lines().end();
@@ -52,7 +52,7 @@ void LineOperator::LinesCache(File& f)
 		for (auto li = b; li!=e; ++li,++ln)
 		{
 			if (li->empty())
-				lm_cache.addSimpleMatch(ln);
+				mLmCache.addSimpleMatch(ln);
 		}
 	}
 	else
@@ -68,32 +68,32 @@ void LineOperator::LinesCache(File& f)
 			{
 				auto vzzp = strPatMatSpecial(*li, expr);
 				if (vzzp.empty())
-					lm_cache.addSimpleMatch(ln);
+					mLmCache.addSimpleMatch(ln);
 				else
 					for(auto&& zzp : vzzp)
-						lm_cache.addFullMatch(ln, zzp.first, zzp.second);
+						mLmCache.addFullMatch(ln, zzp.first, zzp.second);
 			}
 		}
 	}
-	have_cache = true;
+	mHaveCache = true;
 }
 
-bool LineOperator::IsCached() { return have_cache; }
+bool LineOperator::IsCached() { return mHaveCache; }
 
 int LineOperator::MyPrio() { return prio; }
 
 void LineOperator::ExeCached(LineMatchStack& lms)
 {
-	if (have_cache)
-		lms.push_back(lm_cache);
+	if (mHaveCache)
+		lms.push_back(mLmCache);
 	else
 		lms.push_back({TriBool::Maybe});
 }
 
 void LineOperator::UnCache()
 {
-	have_cache = false;
-	lm_cache = LineMatch{false,{}};
+	mHaveCache = false;
+	mLmCache = LineMatch{false,{}};
 }
 
 // ----------------------------------------------------------------------------
@@ -112,7 +112,7 @@ void LineCIOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	expr = to_lower_copy(unparan(str));
+	expr = to_lower_copy(unParan(str));
 	if (expr.empty() || !is_wild(expr.front()) || !is_wild(expr.back()))
 		prio = 3;
 	else
@@ -126,7 +126,7 @@ void LineCIOperator::MatchFile(File&, FileMatchStack& m)
 
 void LineCIOperator::LinesCache(File& f)
 {
-	if (have_cache) return;
+	if (mHaveCache) return;
 	UL ln = 0;
 	auto b = f.lines().begin();
 	auto e = f.lines().end();
@@ -135,7 +135,7 @@ void LineCIOperator::LinesCache(File& f)
 		for (auto li = b; li!=e; ++li,++ln)
 		{
 			if (li->empty())
-				lm_cache.addSimpleMatch(ln);
+				mLmCache.addSimpleMatch(ln);
 		}
 	}
 	else
@@ -152,14 +152,14 @@ void LineCIOperator::LinesCache(File& f)
 			{
 				auto vzzp = strPatMatSpecial(lci, expr);
 				if (vzzp.empty())
-					lm_cache.addSimpleMatch(ln);
+					mLmCache.addSimpleMatch(ln);
 				else
 					for(auto&& zzp : vzzp)
-						lm_cache.addFullMatch(ln, zzp.first, zzp.second);
+						mLmCache.addFullMatch(ln, zzp.first, zzp.second);
 			}
 		}
 	}
-	have_cache = true;
+	mHaveCache = true;
 }
 
 void LineCIOperator::MatchLines(File& f, LineMatchStack& m)
@@ -169,21 +169,21 @@ void LineCIOperator::MatchLines(File& f, LineMatchStack& m)
 	ExeCached(m);
 }
 
-bool LineCIOperator::IsCached() { return have_cache; }
+bool LineCIOperator::IsCached() { return mHaveCache; }
 
 int LineCIOperator::MyPrio() { return prio; }
 
 void LineCIOperator::ExeCached(LineMatchStack& lms)
 {
-	if (have_cache)
-		lms.push_back(lm_cache);
+	if (mHaveCache)
+		lms.push_back(mLmCache);
 	else
 		lms.push_back({TriBool::Maybe});
 }
 
 void LineCIOperator::UnCache()
 {
-	have_cache = false;
-	lm_cache = LineMatch{false,{}};
+	mHaveCache = false;
+	mLmCache = LineMatch{false,{}};
 }
 

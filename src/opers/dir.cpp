@@ -17,7 +17,7 @@ void DirOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	name = to_lower_copy(unparan(str));
+	name = to_lower_copy(unParan(str));
 }
 
 void DirOperator::MatchFile(File& f, FileMatchStack& m)

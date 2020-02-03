@@ -52,14 +52,14 @@ struct xx ## Operator final : Operator                                  \
 private:                                                                \
 	xx ## Operator() = default;                                         \
 	friend void registerAll();                                          \
-	LineMatch lm_cache;                                                 \
-    bool have_cache = false;
+	LineMatch mLmCache;                                                 \
+    bool mHaveCache = false;
 
 struct BoyerBoore;
 typedef clone_ptr<BoyerBoore> pBM;
 
 template<typename Ch>
-using ChEqP = bool (*)(Ch, Ch);
+using ChEqP = auto (*)(Ch, Ch) -> bool;
 template<typename Ch, typename Str, ChEqP<Ch> >
 struct boyerMooreAdvanced;
 extern bool isEqualNoCase(char, char);
@@ -67,8 +67,8 @@ typedef clone_ptr<boyerMooreCI> pBMCI;
 
 struct myRegex : std::regex
 {
-	std::string str;
-	myRegex(const std::string& expr) : std::regex(expr), str(expr) {}
+	std::string mStr;
+	myRegex(const std::string& expr) : std::regex(expr), mStr(expr) {}
 };
 
 typedef clone_ptr<myRegex> pRE;

@@ -57,7 +57,7 @@ struct PMS
 	PMS operator+(bool b) { PMS res = *this; res+=b; return res; }
 };
 
-PMS str_pat_mat_special_impl(const char* str, const char* pat, PMS in)
+PMS strPatMatSpecialImpl(const char* str, const char* pat, PMS in)
 {
 
 	bool se = (str[0] == 0);
@@ -74,18 +74,18 @@ PMS str_pat_mat_special_impl(const char* str, const char* pat, PMS in)
 	{
 	case '?':
 		in += false;
-		return str_pat_mat_special_impl(str+1, pat+1, in+false);
+		return strPatMatSpecialImpl(str+1, pat+1, in+false);
 	case '*':
 		{
-			PMS pms = str_pat_mat_special_impl(str, pat+1, in);
+			PMS pms = strPatMatSpecialImpl(str, pat+1, in);
 			if (pms) return pms;
-			return str_pat_mat_special_impl(str+1, pat, in+false) ;
+			return strPatMatSpecialImpl(str+1, pat, in+false) ;
 		}
 	default:
 		{
 			if (str[0]!=pat[0])
 				return in.set(false);
-			return str_pat_mat_special_impl(str+1, pat+1, in+true);
+			return strPatMatSpecialImpl(str+1, pat+1, in+true);
 		}
 	}
 
@@ -98,7 +98,7 @@ std::vector<ZZP> strPatMatSpecial(const std::string& str, const std::string& pat
 	
 	std::vector<ZZP> res;
 	PMS pms;
-	pms = str_pat_mat_special_impl(str.c_str(), pat.c_str(), pms);
+	pms = strPatMatSpecialImpl(str.c_str(), pat.c_str(), pms);
 	if (pms)
 	{
 		while (pms.inout.size()<n) pms+=false;
@@ -125,7 +125,7 @@ std::vector<ZZP> strPatMatSpecial(const std::string& str, const std::string& pat
 }
 */
 
-bool str_pat_mat_special_impl(const char* str, const char* pat, char* mat)
+static bool strPatMatSpecialImpl(const char* str, const char* pat, char* mat)
 {
 	bool se = (str[0] == 0);
 	bool pe = (pat[0] == 0);
@@ -145,20 +145,20 @@ bool str_pat_mat_special_impl(const char* str, const char* pat, char* mat)
 	{
 	case '?':
 		*mat = 0;
-		return str_pat_mat_special_impl(str+1, pat+1, mat+1);
+		return strPatMatSpecialImpl(str+1, pat+1, mat+1);
 	case '*':
 		{
-			bool ok = str_pat_mat_special_impl(str, pat+1, mat);
+			bool ok = strPatMatSpecialImpl(str, pat+1, mat);
 			if (ok || (pat[1]=='*')) return ok;
 			*mat = 0;
-			return str_pat_mat_special_impl(str+1, pat, mat+1) ;
+			return strPatMatSpecialImpl(str+1, pat, mat+1) ;
 		}
 	default:
 		{
 			if (str[0]!=pat[0])
 				return false;
 			*mat = 1;
-			return str_pat_mat_special_impl(str+1, pat+1, mat+1);
+			return strPatMatSpecialImpl(str+1, pat+1, mat+1);
 		}
 	}
 
@@ -171,7 +171,7 @@ std::vector<ZZP> strPatMatSpecial(const std::string& str, const std::string& pat
 	std::size_t i, n = str.size();
 	match.assign(n, 0);
 	std::vector<ZZP> res;
-	bool ok = str_pat_mat_special_impl(str.c_str(), pat.c_str(), match.data());
+	bool ok = strPatMatSpecialImpl(str.c_str(), pat.c_str(), match.data());
 	if (ok)
 	{
 		bool wasin = false;

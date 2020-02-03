@@ -27,7 +27,7 @@ void AndOperator::Create(std::string str)
 	else if (str=="a+")
 		cnt = 0;
 	else
-		cnt = getparam(str, 1);
+		cnt = getParam(str, 1);
 }
 
 void AndOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
@@ -77,7 +77,7 @@ void AndOperator::MatchLines([[maybe_unused]] File& f, LineMatchStack& m)
 			}
 			m.push_back(std::move(res));
 		} else {
-			m.emplace_back( And(m1.tri(), m2.tri()) );
+			m.emplace_back(And(m1.tri(), m2.tri()));
 		}
 	};
 

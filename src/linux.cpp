@@ -7,9 +7,9 @@
 #include <dirent.h>
 
 
-bool platform::stdout_isatty() { return isatty(fileno(stdout)); }
+bool platform::stdoutIsatty() { return isatty(fileno(stdout)); }
 
-std::time_t platform::parse_date_from_string(std::string str)
+std::time_t platform::parseDateFromString(std::string str)
 {
 	struct tm t;
 	std::memset(&t, 0, sizeof(t));
@@ -23,14 +23,14 @@ std::time_t platform::parse_date_from_string(std::string str)
 	return mktime(&t);
 }
 
-std::time_t platform::get_modification_time_from_file(std::string fn)
+std::time_t platform::getModificationTimeFromFile(std::string fn)
 {
 	struct stat buff;
 	stat(fn.c_str(), &buff);
 	return buff.st_mtime;
 }
 
-void clear_screen()   { like_linux::clear_screen(); }
+void clearScreen()    { like_linux::clearScreen(); }
 void MakeHighlight()  { like_linux::MakeHighlight(); }
 void MakeNormal()     { like_linux::MakeNormal(); }
 void MakeRed()        { like_linux::MakeRed(); }

@@ -3,7 +3,7 @@
 #include "OFM.h"
 
 #ifdef SUPPORT_NEW_SYNTAX
-std::string unparan(std::string str)
+std::string unParan(std::string str)
 {
 	auto sz = str.size();
 	assert( sz >= 2 );
@@ -21,7 +21,7 @@ std::string unparan(std::string str)
 		throw "operator syntax error";
 }
 #else
-std::string unparan(std::string str)
+std::string unParan(std::string str)
 {
 	auto sz = str.size();
 	assert( sz > 3 );
@@ -31,7 +31,7 @@ std::string unparan(std::string str)
 }
 #endif
 
-int getparam(std::string str, int def)
+int getParam(std::string str, int def)
 {
 	//[[expects: (def>=0)]]
 	str = str.substr(1);
@@ -39,7 +39,7 @@ int getparam(std::string str, int def)
 	return std::stoi(str);
 }
 
-std::vector<std::string> readfile(std::istream& in)
+std::vector<std::string> readFile(std::istream& in)
 {
 	std::vector<std::string> lines;
 	std::string line;
@@ -143,7 +143,7 @@ std::string to_string(TriBool tb)
 	}
 }
 
-void print_stack(const FileMatchStack& s)
+void printStack(const FileMatchStack& s)
 {
 	std::cout << "stack contains:" << std::endl;
 	for (auto&& x : s)
@@ -151,7 +151,7 @@ void print_stack(const FileMatchStack& s)
 		std::cout << to_string(x) << std::endl;
 	}
 }
-void print_stack(const LineMatchStack& s)
+void printStack(const LineMatchStack& s)
 {
 	std::cout << "stack contains:" << std::endl;
 	for (auto&& x : s)
@@ -171,7 +171,7 @@ namespace like_linux
 	const std::string bold  = "\033[1;37m";
 	const std::string clear = "\033[2J\033[1;1H";
 
-	void clear_screen()   { std::cout << clear; }
+	void clearScreen()   { std::cout << clear; }
 	void MakeHighlight()  { std::cout << bold;  }
 	void MakeNormal()     { std::cout << reset; }
 	void MakeRed()        { std::cout << red;   }

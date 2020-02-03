@@ -16,7 +16,7 @@ void RangeOperator::Create([[maybe_unused]] std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	max = getparam(str, 5);
+	max = getParam(str, 5);
 }
 
 void RangeOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)

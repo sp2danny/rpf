@@ -4,7 +4,7 @@
 
 void RegexOperator::Print(std::ostream& out) const
 {
-	out << "r='" << re->str << "'";
+	out << "r='" << re->mStr << "'";
 }
 
 char RegexOperator::MyChar()
@@ -16,7 +16,7 @@ void RegexOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	str = unparan(str);
+	str = unParan(str);
 	re.emplace(str);
 }
 
@@ -34,7 +34,7 @@ void RegexOperator::MatchLines(File& f, LineMatchStack& m)
 
 void RegexOperator::LinesCache(File& f)
 {
-	if (have_cache) return;
+	if (mHaveCache) return;
 	UL ln = 0;
 	typedef std::string::const_iterator SCI;
 	for (auto&& l : f.lines())
@@ -49,7 +49,7 @@ void RegexOperator::LinesCache(File& f)
 			{
 				SCI beg = sm[0].first;
 				SCI end = sm[0].second;
-				lm_cache.addFullMatch(ln, beg-lb, end-lb);
+				mLmCache.addFullMatch(ln, beg-lb, end-lb);
 				iter = std::next(beg);
 			}
 			else
@@ -57,24 +57,24 @@ void RegexOperator::LinesCache(File& f)
 		}
 		++ln;
 	}
-	have_cache = true;
+	mHaveCache = true;
 }
 
-bool RegexOperator::IsCached() { return have_cache; }
+bool RegexOperator::IsCached() { return mHaveCache; }
 
 int RegexOperator::MyPrio() { return 5; }
 
 void RegexOperator::ExeCached(LineMatchStack& lms)
 {
-	if (have_cache)
-		lms.push_back(lm_cache);
+	if (mHaveCache)
+		lms.push_back(mLmCache);
 	else
 		lms.push_back({TriBool::Maybe});
 }
 
 void RegexOperator::UnCache()
 {
-	have_cache = false;
-	lm_cache = LineMatch{false,{}};
+	mHaveCache = false;
+	mLmCache = LineMatch{false,{}};
 }
 

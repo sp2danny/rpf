@@ -15,11 +15,11 @@ typedef Lines::const_iterator LCIter;
 struct LineMatch
 {
 	LineMatch() = default;
-	LineMatch(bool m, const Lines& l) : m_match(FromBool(m)), m_lines(l) {}
-	LineMatch(bool m, Lines&& l) : m_match(FromBool(m)), m_lines(std::move(l)) {}
-	LineMatch(TriBool m) : m_match(m) {}
+	LineMatch(bool m, const Lines& l) : mMatch(FromBool(m)), mLines(l) {}
+	LineMatch(bool m, Lines&& l) : mMatch(FromBool(m)), mLines(std::move(l)) {}
+	LineMatch(TriBool m) : mMatch(m) {}
 	bool match() const;
-	TriBool tri() const { return m_match; }
+	TriBool tri() const { return mMatch; }
 	void match(bool);
 	const Lines& lines() const;
 	Lines& modifiableLines();
@@ -33,8 +33,8 @@ struct LineMatch
 	bool haveChar(UL, UL) const;
 	bool haveChar(LCIter, UL) const;
 private:
-	TriBool m_match = TriBool::False;
-	Lines m_lines;
+	TriBool mMatch = TriBool::False;
+	Lines mLines;
 };
 
 typedef std::vector<LineMatch> LineMatchStack;
@@ -87,11 +87,11 @@ inline std::ostream& operator<<(std::ostream& out, const clone_ptr<Operator>& op
 
 typedef std::vector<clone_ptr<Operator>> OperatorStack;
 
-extern TriBool ExecuteAllFile ( OperatorStack&, FileMatchStack& );
-extern bool    ExecuteAllLine ( OperatorStack&, LineMatchStack& );
+extern TriBool ExecuteAllFile(OperatorStack&, FileMatchStack&);
+extern bool    ExecuteAllLine(OperatorStack&, LineMatchStack&);
 
-extern void print_stack(const FileMatchStack&);
-extern void print_stack(const LineMatchStack&);
+extern void printStack(const FileMatchStack&);
+extern void printStack(const LineMatchStack&);
 
 struct File
 {
@@ -100,7 +100,7 @@ struct File
 	std::vector<std::string>& lines();
 	bool cpponly;
 private:
-	std::vector<std::string> m_lines;
-	std::vector<std::string> m_stripped;
-	bool m_loaded = false;
+	std::vector<std::string> mLines;
+	std::vector<std::string> mStripped;
+	bool mLoaded = false;
 };

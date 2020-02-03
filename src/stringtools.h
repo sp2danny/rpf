@@ -146,6 +146,7 @@ private:
 	std::vector<std::vector<std::string>> lines;
 };
 
+namespace details {
 inline void app(std::vector<std::string>&) {}
 template<typename T, typename... Args>
 void app(std::vector<std::string>& ret, T&& t, Args&&... args)
@@ -153,11 +154,13 @@ void app(std::vector<std::string>& ret, T&& t, Args&&... args)
 	ret.push_back( std::forward<T>(t) );
 	app(ret, std::forward<Args>(args)...);
 }
+}
 
 template<typename... Args>
 void OutputFormatter::ColumnsOut(Args&&... args)
 {
 	std::vector<std::string> ret;
+	using namespace details;
 	app(ret, std::forward<Args>(args)...);
 	ColumnsOut(ret);
 }

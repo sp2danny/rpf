@@ -37,7 +37,7 @@ void DupOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 	m.push_back(res);
 }
 
-void DupOperator::MatchLines ( File& , LineMatchStack& m )
+void DupOperator::MatchLines(File&, LineMatchStack& m)
 {
 	if (m.size() < 1)
 	{
@@ -69,7 +69,7 @@ void SwapOperator::Create([[maybe_unused]] std::string str)
 	assert(str[0] == MyChar());
 	if (str.size() != 1)
 		throw "operator syntax error";
-	pos = getparam(str, 2);
+	pos = getParam(str, 2);
 }
 
 void SwapOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)

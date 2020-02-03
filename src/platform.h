@@ -40,16 +40,16 @@ namespace platform
 		UPIMPL pimpl;
 	};
 
-	extern std::time_t parse_date_from_string(std::string);
-	extern std::time_t get_modification_time_from_file(std::string);
-	extern bool        stdout_isatty();
-	extern void        clear_screen();
+	extern std::time_t parseDateFromString(std::string);
+	extern std::time_t getModificationTimeFromFile(std::string);
+	extern bool        stdoutIsatty();
+	extern void        clearScreen();
 
 }
 
 namespace like_linux
 {
-	extern void clear_screen();
+	extern void clearScreen();
 	extern void MakeHighlight();
 	extern void MakeNormal();
 	extern void MakeRed();

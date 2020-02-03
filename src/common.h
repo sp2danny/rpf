@@ -53,9 +53,9 @@ namespace runstate
 	extern std::vector<std::string> debugSearchedList;
 }
 
-extern std::string unparan(std::string str);
-extern int getparam(std::string str, int def);
-extern std::vector<std::string> readfile(std::istream&);
+extern std::string unParan(std::string str);
+extern int getParam(std::string str, int def);
+extern std::vector<std::string> readFile(std::istream&);
 
 extern void registerAll();
 

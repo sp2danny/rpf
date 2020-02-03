@@ -4,5 +4,5 @@
 #include <vector>
 #include <string>
 
-extern void purge_comment(std::string, std::vector<std::string>&);
+extern void purgeComment(std::string, std::vector<std::string>&);
 

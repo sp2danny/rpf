@@ -25,13 +25,13 @@ void OrOperator::Create(std::string str)
 	else if (str=="o+")
 		cnt = 0;
 	else
-		cnt = getparam(str, 1);
+		cnt = getParam(str, 1);
 	//std::cerr << "or using " << cnt << " cnt\n";
 }
 
 void OrOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 {
-	auto do_a_or = [&]() -> void
+	auto doAnOr = [&]() -> void
 	{
 		TriBool m1 = m.back(); m.pop_back();
 		TriBool m2 = m.back(); m.pop_back();
@@ -45,22 +45,22 @@ void OrOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 		{
 			if (m.size() < 2)
 			{
-				//print_stack(m);
+				//printStack(m);
 				throw "operator or: not enough operands";
 			}
-			do_a_or();
+			doAnOr();
 		}
 	} else {
 		while (m.size() >= 2)
 		{
-			do_a_or();
+			doAnOr();
 		}
 	}
 }
 
 void OrOperator::MatchLines([[maybe_unused]] File& f, LineMatchStack& m)
 {
-	auto do_a_or = [&]() -> void
+	auto doAnOr = [&]() -> void
 	{
 		auto m2 = std::move(m.back()); m.pop_back();
 		auto m1 = std::move(m.back()); m.pop_back();
@@ -89,15 +89,15 @@ void OrOperator::MatchLines([[maybe_unused]] File& f, LineMatchStack& m)
 		{
 			if (m.size() < 2)
 			{
-				//print_stack(m);
+				//printStack(m);
 				throw "operator or: not enough operands";
 			}
-			do_a_or();
+			doAnOr();
 		}
 	} else {
 		while (m.size() >= 2)
 		{
-			do_a_or();
+			doAnOr();
 		}
 	}
 }

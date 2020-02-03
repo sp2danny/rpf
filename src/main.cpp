@@ -44,7 +44,7 @@ namespace runstate
 
 OperatorStack opStack;
 
-bool do_all_file(File& f)
+static bool doAllFile(File& f)
 {
 	FileMatchStack m;
 	for (auto&& op : opStack)
@@ -57,7 +57,7 @@ bool do_all_file(File& f)
 	return res != TriBool::False;
 }
 
-LineMatch do_all_line(File& f)
+static LineMatch doAllLine(File& f)
 {
 	LineMatchStack lm;
 	UL i, j, n = opStack.size();
@@ -85,24 +85,24 @@ LineMatch do_all_line(File& f)
 
 std::vector<std::string>& File::lines()
 {
-	if (!m_loaded)
+	if (!mLoaded)
 	{
 		std::ifstream ifs{path + "/" + name};
-		m_lines = readfile(ifs);
-		m_loaded = true;
+		mLines = readFile(ifs);
+		mLoaded = true;
 		runstate::sf += 1;
-		runstate::sl += m_lines.size();
+		runstate::sl += mLines.size();
 	}
 	if (cpponly)
 	{
-		if (m_stripped.empty())
+		if (mStripped.empty())
 		{
-			m_stripped = m_lines;
-			purge_comment(path + "/" + name, m_stripped);
+			mStripped = mLines;
+			purgeComment(path + "/" + name, mStripped);
 		}
-		return m_stripped;
+		return mStripped;
 	}
-	return m_lines;
+	return mLines;
 }
 
 void Usage(std::ostream& out)
@@ -165,7 +165,7 @@ void Help(std::ostream& out) // print help to stdout
 	#undef reset
 }
 
-void out_err(std::string err)
+static void outErr(std::string err)
 {
 	std::cerr << "error: " << err << std::endl;
 }
@@ -206,7 +206,7 @@ void doall(std::string path)
 	RDE rde(path);
 
 	if (runstate::wantClear)
-		clear_screen();
+		clearScreen();
 
 	while (auto de = rde.getNext())
 	{
@@ -218,13 +218,13 @@ void doall(std::string path)
 		runstate::cf += 1;
 		if (runstate::debugConsidered)
 			runstate::debugConsideredList.push_back(ff.path + "/"s + ff.name);
-		if (!do_all_file(ff))
+		if (!doAllFile(ff))
 		{
 			continue;
 		}
 		if (runstate::debugSearched)
 			runstate::debugSearchedList.push_back(ff.path + "/"s + ff.name);
-		auto mm = do_all_prio(ff); // do_all_line(ff);
+		auto mm = do_all_prio(ff); // doAllLine(ff);
 		if (mm.match())
 		{
 			OutputFormatter of(2, runstate::tab, runstate::trunc);
@@ -365,7 +365,7 @@ int main(int argc, char** argv)
 {
 	registerAll();
 
-	runstate::colorize = platform::stdout_isatty();
+	runstate::colorize = platform::stdoutIsatty();
 
 	IniFile ini;
 	recursiveLoad(ini,".rpf");
@@ -486,22 +486,22 @@ int main(int argc, char** argv)
 	}
 	catch (const std::string& err)
 	{
-		out_err(err);
+		outErr(err);
 		return -1;
 	}
 	catch (const char* err)
 	{
-		out_err(err);
+		outErr(err);
 		return -1;
 	}
 	catch (const std::exception& err)
 	{
-		out_err(err.what());
+		outErr(err.what());
 		return -1;
 	}
 	catch (...)
 	{
-		out_err("unknown exception");
+		outErr("unknown exception");
 		return -1;
 	}
 }

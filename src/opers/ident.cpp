@@ -17,7 +17,7 @@ void IdentOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	id = unparan(str);
+	id = unParan(str);
 }
 
 void IdentOperator::MatchFile(File&, FileMatchStack& m)
@@ -34,7 +34,7 @@ void IdentOperator::MatchLines(File& f, LineMatchStack& m)
 
 void IdentOperator::LinesCache(File& f)
 {
-	if (have_cache) return;
+	if (mHaveCache) return;
 	UL ln = 0;
 	UL sz = id.size();
 	for (auto&& l : f.lines())
@@ -44,30 +44,30 @@ void IdentOperator::LinesCache(File& f)
 		{
 			if (t.first == id)
 			{
-				lm_cache.addFullMatch(ln, t.second, t.second+sz);
+				mLmCache.addFullMatch(ln, t.second, t.second+sz);
 			}
 		}
 		++ln;
 	}
-	have_cache = true;
+	mHaveCache = true;
 }
 
-bool IdentOperator::IsCached() { return have_cache; }
+bool IdentOperator::IsCached() { return mHaveCache; }
 
 int IdentOperator::MyPrio() { return 20; }
 
 void IdentOperator::ExeCached(LineMatchStack& lms)
 {
-	if (have_cache)
-		lms.push_back(lm_cache);
+	if (mHaveCache)
+		lms.push_back(mLmCache);
 	else
 		lms.push_back({TriBool::Maybe});
 }
 
 void IdentOperator::UnCache()
 {
-	have_cache = false;
-	lm_cache = LineMatch{false,{}};
+	mHaveCache = false;
+	mLmCache = LineMatch{false,{}};
 }
 
 // ----------------------------------------------------------------------------
@@ -86,7 +86,7 @@ void IdentCIOperator::Create(std::string str)
 {
 	assert(!str.empty());
 	assert(str[0] == MyChar());
-	id = to_lower_copy(unparan(str));
+	id = to_lower_copy(unParan(str));
 }
 
 void IdentCIOperator::MatchFile(File&, FileMatchStack& m)
@@ -103,7 +103,7 @@ void IdentCIOperator::MatchLines(File& f, LineMatchStack& m)
 
 void IdentCIOperator::LinesCache(File& f)
 {
-	if (have_cache) return;
+	if (mHaveCache) return;
 	UL ln = 0;
 	UL sz = id.size();
 	for (auto&& l : f.lines())
@@ -113,30 +113,30 @@ void IdentCIOperator::LinesCache(File& f)
 		{
 			if (to_lower_copy(t.first) == id)
 			{
-				lm_cache.addFullMatch(ln, t.second, t.second+sz);
+				mLmCache.addFullMatch(ln, t.second, t.second+sz);
 			}
 		}
 		++ln;
 	}
-	have_cache = true;
+	mHaveCache = true;
 }
 
-bool IdentCIOperator::IsCached() { return have_cache; }
+bool IdentCIOperator::IsCached() { return mHaveCache; }
 
 int IdentCIOperator::MyPrio() { return 25; }
 
 void IdentCIOperator::ExeCached(LineMatchStack& lms)
 {
-	if (have_cache)
-		lms.push_back(lm_cache);
+	if (mHaveCache)
+		lms.push_back(mLmCache);
 	else
 		lms.push_back({TriBool::Maybe});
 }
 
 void IdentCIOperator::UnCache()
 {
-	have_cache = false;
-	lm_cache = LineMatch{false,{}};
+	mHaveCache = false;
+	mLmCache = LineMatch{false,{}};
 }
 
 

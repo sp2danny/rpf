@@ -29,7 +29,7 @@ void NearOperator::Create(std::string str)
 		n = 0; all = true;
 	}
 	else
-		n = getparam(str, 5);
+		n = getParam(str, 5);
 }
 
 void NearOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
@@ -60,7 +60,6 @@ void NearOperator::MatchFile([[maybe_unused]] File& f, FileMatchStack& m)
 
 void NearOperator::MatchLines(File&, LineMatchStack& m)
 {
-
 	auto near = [](const LineMatch& m1, const LineMatch& m2, UL n) -> LineMatch
 	{
 		LineMatch res;

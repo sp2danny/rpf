@@ -20,7 +20,7 @@ void TextOperator::Create([[maybe_unused]] std::string str)
 	assert(str[0] == MyChar());
 }
 
-static bool test_file_text(File& f)
+static bool testFileText(File& f)
 {
 	std::string fn = f.path + "/" + f.name;
 	std::string mimestr = platform::GetMimeType(fn);
@@ -48,18 +48,18 @@ void TextOperator::MatchLines(File& f, LineMatchStack& m)
 
 void TextOperator::LinesCache(File& f)
 {
-	if (have_cache) return;
-	res = test_file_text(f);
-	have_cache = true;
+	if (mHaveCache) return;
+	res = testFileText(f);
+	mHaveCache = true;
 }
 
-bool TextOperator::IsCached() { return have_cache; }
+bool TextOperator::IsCached() { return mHaveCache; }
 
 int TextOperator::MyPrio() { return 2; }
 
 void TextOperator::ExeCached(LineMatchStack& lms)
 {
-	if (have_cache)
+	if (mHaveCache)
 		lms.push_back({res, {}});
 	else
 		lms.push_back({TriBool::Maybe});
@@ -67,7 +67,7 @@ void TextOperator::ExeCached(LineMatchStack& lms)
 
 void TextOperator::UnCache()
 {
-	have_cache = false;
-	lm_cache = LineMatch{false,{}};
+	mHaveCache = false;
+	mLmCache = LineMatch{false,{}};
 }
 

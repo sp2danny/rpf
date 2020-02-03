@@ -21,7 +21,7 @@ static char get(const std::string& str, int idx)
 	return str[idx];
 }
 
-void purge_comment(std::string fn, std::vector<std::string>& vs)
+void purgeComment(std::string fn, std::vector<std::string>& vs)
 {
 	bool in_block_comment = false;
 	bool in_line_comment  = false;
