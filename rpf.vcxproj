@@ -201,6 +201,7 @@
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
     </ClCompile>
     <ClCompile Include="vivaldi.cpp" />
+    <ClCompile Include="Vivaldi2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\clone_ptr.hpp" />
@@ -212,6 +213,7 @@
     <ClInclude Include="src\platform.h" />
     <ClInclude Include="src\purgecomment.h" />
     <ClInclude Include="src\stringtools.h" />
+    <ClInclude Include="Vivaldi2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

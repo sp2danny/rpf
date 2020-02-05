@@ -190,15 +190,17 @@ std::pair<bool, myInt> Vivaldi::candidateN(int n) const
 
 // ------------------------------------------------------------------------------------
 
+#include "Vivaldi2.h"
+
 int main()
 {
 	Vivaldi viv;
-
+	
 	viv.generatePass(0);
-
+	
 	int i = 1;
 	int pass = 1;
-
+	
 	while (i <= 10'000)
 	{
 		while (true)
@@ -207,13 +209,24 @@ int main()
 			auto cand = viv.candidateN(i);
 			if (cand.first && (cand.second < ll))
 			{
-				std::cout << i << " : " << cand.second << " (" << pass << ") (" << viv.pers() << "%)\n";
+				//std::cout << i << " : " << cand.second << " (" << pass << ") (" << viv.pers() << "%)\n";
 				break;
 			}
 			viv.generatePass(pass++);
 		}
 		++i;
 	}
+
+	std::cout << viv.candidateN(10'000).second << "\n";
+
+	Vivaldi2 viv2;
+	for (int i=1; i<10'000; ++i)
+	{
+		viv2.getNext();
+		//std::cout << i << " : " << viv2.getNext() << "\n";
+	}
+
+	std::cout << viv2.getNext() << "\n";
 
 	fgetc(stdin);
 	std::cout << "\ndone." << std::endl;

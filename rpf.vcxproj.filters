@@ -99,6 +99,9 @@
     <ClCompile Include="vivaldi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Vivaldi2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\iniparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vivaldi2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
