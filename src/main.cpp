@@ -361,7 +361,7 @@ void add_op(OperatorStack& ops, std::string arg, const IniFile& ini)
 	}
 }
 
-int main(int argc, char** argv)
+int old_main(int argc, char** argv)
 {
 	registerAll();
 
@@ -504,4 +504,6 @@ int main(int argc, char** argv)
 		outErr("unknown exception");
 		return -1;
 	}
+
+	return 0;
 }
