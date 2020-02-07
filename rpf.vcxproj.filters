@@ -96,12 +96,6 @@
     <ClCompile Include="src\recursiveload.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vivaldi.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vivaldi2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\common.h">

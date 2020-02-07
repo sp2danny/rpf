@@ -361,7 +361,7 @@ void add_op(OperatorStack& ops, std::string arg, const IniFile& ini)
 	}
 }
 
-int old_main(int argc, char** argv)
+int main(int argc, char** argv)
 {
 	registerAll();
 

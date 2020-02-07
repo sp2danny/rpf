@@ -200,8 +200,6 @@
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level1</WarningLevel>
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Level1</WarningLevel>
     </ClCompile>
-    <ClCompile Include="vivaldi.cpp" />
-    <ClCompile Include="Vivaldi2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\clone_ptr.hpp" />
