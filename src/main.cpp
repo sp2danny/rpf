@@ -3,7 +3,6 @@
 #include "platform.h"
 #include "OFM.h"
 #include "purgecomment.h"
-#include "container_operations.hpp"
 #include "stringtools.h"
 #include "iniparser.h"
 
@@ -312,7 +311,9 @@ LineMatch do_all_prio(File& f)
 		op->UnCache();
 		opsp.push_back(op->MyPrio());
 	}
-	sort(opsp); unique(opsp);
+	std::sort(opsp.begin(), opsp.end());
+	auto iter = std::unique(opsp.begin(), opsp.end());
+	opsp.erase(iter, opsp.end());
 	if (opsp.empty())
 		throw "nothing to do";
 	LineMatchStack lm;
