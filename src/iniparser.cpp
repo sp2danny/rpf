@@ -8,7 +8,7 @@
 
 void IniFile::LoadFile(std::string_view fn)
 {
-	std::ifstream ifs(fn);
+	std::ifstream ifs(std::string{fn});
 	LoadFile(ifs);
 }
 
@@ -45,7 +45,7 @@ void IniFile::LoadFile(std::istream& is)
 
 void IniFile::SaveFile(std::string_view fn) const
 {
-	std::ofstream ofs(fn);
+	std::ofstream ofs(std::string{fn});
 	SaveFile(ofs);
 }
 

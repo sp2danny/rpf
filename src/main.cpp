@@ -56,7 +56,7 @@ static bool doAllFile(File& f)
 	return res != TriBool::False;
 }
 
-static LineMatch doAllLine(File& f)
+/*static LineMatch doAllLine(File& f)
 {
 	LineMatchStack lm;
 	UL i, j, n = opStack.size();
@@ -80,7 +80,7 @@ static LineMatch doAllLine(File& f)
 	if (lm.size() != 1)
 		throw "operator / operand count error";
 	return lm.front();
-}
+}*/
 
 std::vector<std::string>& File::lines()
 {

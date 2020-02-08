@@ -3,10 +3,16 @@
 
 #include <string>
 #include <string_view>
-#include <filesystem>
 #include <iosfwd>
 #include <map>
 #include <vector>
+
+
+#if __has_include(<filesystem>)
+#include <filesystem>
+#else
+#include <experimental/filesystem>
+#endif
 
 struct IniFile
 {

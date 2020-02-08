@@ -30,11 +30,11 @@ std::time_t platform::getModificationTimeFromFile(std::string fn)
 	return buff.st_mtime;
 }
 
-void clearScreen()    { like_linux::clearScreen(); }
-void MakeHighlight()  { like_linux::MakeHighlight(); }
-void MakeNormal()     { like_linux::MakeNormal(); }
-void MakeRed()        { like_linux::MakeRed(); }
-void MakeGreen()      { like_linux::MakeGreen(); }
+void platform::clearScreen()    { like_linux::clearScreen(); }
+void platform::MakeHighlight()  { like_linux::MakeHighlight(); }
+void platform::MakeNormal()     { like_linux::MakeNormal(); }
+void platform::MakeRed()        { like_linux::MakeRed(); }
+void platform::MakeGreen()      { like_linux::MakeGreen(); }
 
 struct platform::RDE::PIMPL
 {
@@ -147,7 +147,7 @@ std::unique_ptr<platform::RDE_Item> platform::RDE::PIMPL::getNext()
 
 #include <magic.h>
 
-std::string GetMimeType(const std::string& fn)
+std::string platform::GetMimeType(const std::string& fn)
 {
 	const char *mime;
 	static magic_t magic;

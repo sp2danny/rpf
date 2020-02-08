@@ -1,11 +1,16 @@
 
 #include <string>
-#include <filesystem>
 
+#if __has_include(<filesystem>)
+#include <filesystem>
+namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+namespace fs = std::experimental::filesystem;
+#endif
+	
 #include "common.h"
 #include "iniparser.h"
-
-namespace fs = std::filesystem;
 
 void recursiveLoad(IniFile& ini, const std::string& fn)
 {
