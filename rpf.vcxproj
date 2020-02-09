@@ -94,6 +94,7 @@
       <ConformanceMode>true</ConformanceMode>
       <ObjectFileName>$(IntDir)\%(RelativeDir)\%(Filename).obj</ObjectFileName>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -113,6 +114,7 @@
       <ConformanceMode>true</ConformanceMode>
       <ObjectFileName>$(IntDir)\%(RelativeDir)\%(Filename).obj</ObjectFileName>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -150,6 +152,7 @@
       <ObjectFileName>$(IntDir)\%(RelativeDir)\%(Filename).obj</ObjectFileName>
       <RuntimeTypeInfo>false</RuntimeTypeInfo>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SUPPORT_NEW_SYNTAX;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
     </ClCompile>
     <PostBuildEvent>
       <Command>copy "$(OutDir)$(TargetName)$(TargetExt)" "$(SolutionDir)"</Command>
