@@ -211,7 +211,6 @@
     <ClInclude Include="src\platform.h" />
     <ClInclude Include="src\purgecomment.h" />
     <ClInclude Include="src\stringtools.h" />
-    <ClInclude Include="Vivaldi2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

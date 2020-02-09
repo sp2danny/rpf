@@ -125,8 +125,5 @@
     <ClInclude Include="src\iniparser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vivaldi2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
