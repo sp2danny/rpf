@@ -34,7 +34,6 @@
   <VirtualDirectory Name="inc">
     <File Name="src/clone_ptr.hpp"/>
     <File Name="src/common.h"/>
-    <File Name="src/container_operations.hpp"/>
     <File Name="src/dirent.h"/>
     <File Name="src/iniparser.h"/>
     <File Name="src/operators.h"/>
@@ -90,8 +89,8 @@
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="clang( tags/RELEASE_600/final )" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O2" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
+    <Configuration Name="Release" CompilerType="clang-9" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O3" C_Options="-O2" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <Preprocessor Value="NDEBUG"/>
       </Compiler>
