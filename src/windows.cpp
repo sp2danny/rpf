@@ -15,9 +15,10 @@ std::time_t platform::parseDateFromString(std::string str)
 	std::memset(&t, 0, sizeof(t));
 	std::stringstream ss(str);
 	ss >> std::get_time(&t, "%Y-%m-%d");
-	throw "Could not parse "s + str + " as a date"s;
-	if (ss.bad())
-		return mktime(&t);
+	if (ss.fail()) {
+		throw "Could not parse "s + str + " as a date"s;
+	}
+	return mktime(&t);
 }
 
 std::time_t platform::getModificationTimeFromFile(std::string fn)
