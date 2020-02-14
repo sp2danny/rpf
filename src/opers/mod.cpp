@@ -11,9 +11,9 @@ using boost::algorithm::to_lower;
 void ModOperator::Print(std::ostream& out) const
 {
 	using namespace std;
-	char buff[1024];
+	char buff[16];
 	struct tm _tm = *localtime(&md);
-	strftime(buff, 1024, "%Y-%m-%d %H:%M:%S", &_tm);
+	strftime(buff, 16, "%Y-%m-%d", &_tm);
 	out << "m='" << buff << "'";
 }
 
