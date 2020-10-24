@@ -10,6 +10,8 @@ namespace fs = std::experimental::filesystem;
 #else
 #include <boost/filesystem.hpp>
 namespace fs = boost::filesystem;
+#pragma comment(lib, "boost_filesystem")
+#pragma comment(lib, "boost_system")
 #endif
 
 #include "common.h"

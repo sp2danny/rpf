@@ -2,7 +2,6 @@
 #include "common.h"
 #include "OFM.h"
 
-#ifdef SUPPORT_NEW_SYNTAX
 std::string unParan(std::string str)
 {
 	auto sz = str.size();
@@ -20,16 +19,6 @@ std::string unParan(std::string str)
 	else
 		throw "operator syntax error";
 }
-#else
-std::string unParan(std::string str)
-{
-	auto sz = str.size();
-	assert( sz > 3 );
-	assert( str[1] == '(' );
-	assert( str.back() == ')' );
-	return str.substr(2, sz-3);
-}
-#endif
 
 int getParam(std::string str, int def)
 {
@@ -171,11 +160,12 @@ namespace like_linux
 	const std::string bold  = "\033[1;37m";
 	const std::string clear = "\033[2J\033[1;1H";
 
-	void clearScreen()   { std::cout << clear; }
+	void clearScreen()    { std::cout << clear; }
 	void MakeHighlight()  { std::cout << bold;  }
 	void MakeNormal()     { std::cout << reset; }
 	void MakeRed()        { std::cout << red;   }
 	void MakeGreen()      { std::cout << green; }
 
 }
+
 
