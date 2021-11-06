@@ -17,7 +17,9 @@ std::string unParan(std::string str)
 		return str.substr(2);
 	}
 	else
+	{
 		throw "operator syntax error";
+	}
 }
 
 int getParam(std::string str, int def)
@@ -153,7 +155,6 @@ void printStack(const LineMatchStack& s)
 
 namespace like_linux
 {
-
 	const std::string red   = "\033[0;91m";
 	const std::string green = "\033[0;32m";
 	const std::string reset = "\033[0m";
@@ -165,7 +166,5 @@ namespace like_linux
 	void MakeNormal()     { std::cout << reset; }
 	void MakeRed()        { std::cout << red;   }
 	void MakeGreen()      { std::cout << green; }
-
 }
-
 
