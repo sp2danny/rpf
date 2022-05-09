@@ -1,6 +1,7 @@
 [general]
 stats=off
 trunc=170
+implied_aplus=true
 [save]
 t=f(*.cpp) f(*.h) f(*.hpp) f(*.xml) f(*.proto) o4
 p=+(*.cpp) +(*.h) +(*.hpp) f(*.xml) f(*.proto) o4
