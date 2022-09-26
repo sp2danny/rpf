@@ -36,6 +36,7 @@ namespace runstate
 	bool wantClear = false;
 	bool impliedAplus = false;
 	bool colorLikeLinux = false;
+	bool quoteFileNames = false;
 	int tab = 8, trunc = 999;
 	std::vector<std::string> debugConsideredList;
 	std::vector<std::string> debugSearchedList;
@@ -55,32 +56,6 @@ static bool doAllFile(File& f)
 	auto res = m.front();
 	return res != TriBool::False;
 }
-
-/*static LineMatch doAllLine(File& f)
-{
-	LineMatchStack lm;
-	UL i, j, n = opStack.size();
-	for (i=0; i<n; ++i)
-	{
-		auto&& opi = opStack[i];
-		opi->MatchLines(f, lm);
-		FileMatchStack fm;
-		for (auto&& lmi : lm)
-			fm.push_back(FromBool(lmi.match()));
-		for(j=i+1; j<n; ++j)
-		{
-			auto&& opj = opStack[j];
-			opj->MatchFile(f, fm);
-		}
-		if (fm.size() != 1)
-			throw "operator / operand count error";
-		if (fm.front() == TriBool::False)
-			return {false, {}};
-	}
-	if (lm.size() != 1)
-		throw "operator / operand count error";
-	return lm.front();
-}*/
 
 std::vector<std::string>& File::lines()
 {
@@ -230,8 +205,10 @@ void doall(std::string path)
 			runstate::mf += 1;
 			runstate::ml += mm.lines().size();
 			if (!runstate::sparse) std::cout << std::endl;
-			of.LineOut(ff.path + "/" + ff.name);
-			//std::cout << ff.path + "/" + ff.name << std::endl;
+			std::string fn = ff.path + "/" + ff.name;
+			if (runstate::quoteFileNames)
+				fn = "'"s + fn + "'"s;
+			of.LineOut(fn);
 			ff.cpponly = false;
 			UL lastline;
 			bool first = true;
@@ -365,7 +342,7 @@ void add_op(OperatorStack& ops, std::string arg, const IniFile& ini)
 int main(int argc, char** argv)
 {
 	registerAll();
-
+	
 	runstate::colorize = platform::stdoutIsatty();
 
 	IniFile ini;
@@ -390,7 +367,7 @@ int main(int argc, char** argv)
 	}
 	else if ((argc==2) && (argv[1]=="--version"s))
 	{
-		std::cout << "Reverse Polish Find v1.0.12" << std::endl;
+		std::cout << "Reverse Polish Find v1.0.13" << std::endl;
 	}
 	else try
 	{
@@ -423,6 +400,10 @@ int main(int argc, char** argv)
 					runstate::colorLikeLinux = true;
 				else if (arg == "color-like-linux-off")
 					runstate::colorLikeLinux = false;
+				else if (arg == "quote-file-names-on")
+					runstate::quoteFileNames = true;
+				else if (arg == "quote-file-names-off")
+					runstate::quoteFileNames = false;
 				else if (arg == "debug-considered")
 					runstate::debugConsidered = true;
 				else if (arg == "debug-searched")

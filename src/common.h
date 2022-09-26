@@ -48,6 +48,7 @@ namespace runstate
 	extern bool wantClear;
 	extern bool impliedAplus;
 	extern bool colorLikeLinux;
+	extern bool quoteFileNames;
 	extern int tab, trunc;
 	extern std::vector<std::string> debugConsideredList;
 	extern std::vector<std::string> debugSearchedList;
