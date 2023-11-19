@@ -207,7 +207,7 @@ void doall(std::string path)
 			if (!runstate::sparse) std::cout << std::endl;
 			std::string fn = ff.path + "/" + ff.name;
 			if (runstate::quoteFileNames)
-				fn = "'"s + fn + "'"s;
+				fn = "'"s + fn + "'"s; 
 			of.LineOut(fn);
 			ff.cpponly = false;
 			UL lastline;
