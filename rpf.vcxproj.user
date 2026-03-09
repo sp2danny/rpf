@@ -16,5 +16,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommandArguments>. "d(*debug*)" ! "+(*.cpp)" "B(case)" t "~" n3 a+ --sparse-off</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArgumentsHistory>. "d(*debug*)" ! "+(*.cpp)" "B(case)" t "~" n3 a+ --sparse-off|</LocalDebuggerCommandArgumentsHistory>
   </PropertyGroup>
 </Project>

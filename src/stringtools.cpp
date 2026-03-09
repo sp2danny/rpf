@@ -196,7 +196,7 @@ std::vector<ZZP> strPatMatSpecial(const std::string& str, const std::string& pat
 	return res;
 }
 
-std::vector<StrPos> tokenify(const std::string& str)
+std::vector<StrPos> tokenify_old(const std::string& str)
 {
 	std::vector<StrPos> res;
 	StrPos id{"",0};
@@ -237,6 +237,72 @@ std::vector<StrPos> tokenify(const std::string& str)
 	if (!id.first.empty()) res.push_back(id);
 	return res;
 }
+
+std::vector<StrPos> tokenify(const std::string& str)
+{
+	std::vector<StrPos> res;
+	// StrPos id{ "",0 };
+
+	int pos = 0;
+	int sz = std::ssize(str);
+
+	while (true)
+	{
+		if (pos >= sz) break;
+
+		// part 1, find non ws
+
+		int c = (unsigned char)str[pos];
+		bool is_ws = isspace(c);
+		if (is_ws) {
+			++pos;
+			continue;
+		}
+
+		bool is_alp = isalpha(c) || (c == '_');
+		bool is_num = isdigit(c);
+
+		if (is_alp || is_num)
+		{
+			// found something, make alph-num id
+			int e = pos + 1;
+			while (true)
+			{
+				if (e >= sz) break;
+				int c2 = (unsigned char)str[e];
+				bool is_alpnum = isalpha(c2) || (c2 == '_') || isdigit(c2);
+				if (!is_alpnum) break;
+				++e;
+			}
+			StrPos id{ str.substr(pos, e - pos) ,pos };
+			res.push_back(id);
+			pos = e;
+			continue;
+		}
+		else
+		{
+			// found something, make sequence of symbols
+			int e = pos + 1;
+			while (true)
+			{
+				if (e >= sz) break;
+				int c2 = (unsigned char)str[e];
+				bool is_alpnum = isalpha(c2) || (c2 == '_') || isdigit(c2);
+				bool is_ws = isspace(c2);
+				if (is_alpnum) break;
+				if (is_ws) break;
+				++e;
+			}
+			StrPos id{ str.substr(pos, e - pos) ,pos };
+			res.push_back(id);
+			pos = e;
+			continue;
+		}
+	}
+
+	return res;
+}
+
 
 BoyerBoore::BoyerBoore(std::string str)
 	: mSearchingFor(std::move(str))
